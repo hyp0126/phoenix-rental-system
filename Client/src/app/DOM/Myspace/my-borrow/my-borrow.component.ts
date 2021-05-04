@@ -10,6 +10,8 @@ import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confir
 import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-dialog.component';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { ReviewDialogComponent } from '../../Shared/review-dialog/review-dialog.component';
+import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
+import { Review } from 'src/app/Models/review';
 
 @Component({
   selector: 'app-my-borrow',
@@ -53,7 +55,7 @@ export class MyBorrowComponent implements OnInit {
     isRead: false,
   };
 
-  review: any = {
+  review: Review = {
     id: 0,
     itemId: 0,
     rate: 1,
@@ -338,7 +340,7 @@ export class MyBorrowComponent implements OnInit {
   }
 
   onSubmitReview(compledtedItemPkg) {
-    this.service.getItemReview(compledtedItemPkg.item.id).subscribe((data: any) => {
+    this.service.getItemReview(compledtedItemPkg.item.id).subscribe((data: ItemReviewPkgDTO[]) => {
       this.review.id = 0;
       for (var i = 0; i < data.length; i++) {
         if (data[i].review.itemId == compledtedItemPkg.item.id && data[i].review.userId == this.userId) {
@@ -377,9 +379,9 @@ export class MyBorrowComponent implements OnInit {
             this.review.title = data.reviewTitle;
             this.review.review1 = data.review;
             if (this.review.id == 0) {
-              this.service.insertItemReview(this.review).subscribe((data: any) => {});
+              this.service.insertItemReview(this.review).subscribe((data: ItemReviewPkgDTO) => {});
             } else {
-              this.service.updateItemReview(this.review).subscribe((data: any) => {});
+              this.service.updateItemReview(this.review).subscribe((data: ItemReviewPkgDTO) => {});
             }
           }
         }

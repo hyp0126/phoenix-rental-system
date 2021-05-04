@@ -102,11 +102,10 @@ export class HeaderComponent implements OnInit {
 
   getCityList() {
     this.cityList = [HeaderComponent.ALL_CITIES];
-    this.service.getCityOfAddress().subscribe((data) => {
-      for (var i = 0; i < data.length; i++) {
-        this.cityList.push(data[i]);
+    this.service.getCityOfAddress().subscribe((cities: string[]) => {
+      for (var i = 0; i < cities.length; i++) {
+        this.cityList.push(cities[i]);
       }
-      //this.cityList.push(HeaderComponent.ALL_CITIES);
     });
   }
 

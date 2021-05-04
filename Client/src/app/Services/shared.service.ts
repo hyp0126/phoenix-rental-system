@@ -7,6 +7,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { map, catchError } from 'rxjs/operators';
 // import { User } from '../Models/user';
 
+import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
+import { Review } from 'src/app/Models/review';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -211,31 +214,31 @@ export class SharedService {
     });
   }
 
-  getItemReview(itemId) {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemReview/${itemId}`);
+  getItemReview(itemId: number): Observable<ItemReviewPkgDTO[]> {
+    return this.http.get<ItemReviewPkgDTO[]>(`${environment.apiUrl}/Item/GetItemReview/${itemId}`);
   }
 
-  getItemReviewAvg(itemId) {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemReviewAvg/${itemId}`);
+  getItemReviewAvg(itemId: number): Observable<number> {
+    return this.http.get<number>(`${environment.apiUrl}/Item/GetItemReviewAvg/${itemId}`);
   }
 
-  getOwnerRateAndItems(userId) {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetOwnerRateAndItems/${userId}`);
+  getOwnerRateAndItems(userId: string): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiUrl}/Item/GetOwnerRateAndItems/${userId}`);
   }
 
-  insertItemReview(review) {
-    return this.http.post<any>(`${environment.apiUrl}/Item/InsertReview`, review);
+  insertItemReview(review: Review): Observable<ItemReviewPkgDTO> {
+    return this.http.post<ItemReviewPkgDTO>(`${environment.apiUrl}/Item/InsertReview`, review);
   }
 
-  updateItemReview(review) {
-    return this.http.put<any>(`${environment.apiUrl}/Item/UpdateReview`, review);
+  updateItemReview(review: Review): Observable<ItemReviewPkgDTO> {
+    return this.http.put<ItemReviewPkgDTO>(`${environment.apiUrl}/Item/UpdateReview`, review);
   }
 
-  deleteItemReview(reviewId) {
+  deleteItemReview(reviewId: number): Observable<any> {
     return this.http.delete<any>(`${environment.apiUrl}/Item/DeleteReview/${reviewId}`);
   }
 
-  getCityOfAddress() {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetCityOfAddress`);
+  getCityOfAddress(): Observable<string[]> {
+    return this.http.get<string[]>(`${environment.apiUrl}/Item/GetCityOfAddress`);
   }
 }

@@ -13,6 +13,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
+import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
+
 @Component({
   selector: 'app-add-edit-post',
   templateUrl: './add-edit-post.component.html',
@@ -261,11 +263,11 @@ export class AddEditPostComponent implements OnInit {
   }
 
   loadReviews(itemId) {
-    this.service.getItemReview(itemId).subscribe((data: any) => {
+    this.service.getItemReview(itemId).subscribe((data: ItemReviewPkgDTO[]) => {
       this.reviewPkgs = data;
       this.reviewsCount = this.reviewPkgs.length;
     });
-    this.service.getItemReviewAvg(itemId).subscribe((data: any) => {
+    this.service.getItemReviewAvg(itemId).subscribe((data: number) => {
       this.avgRate = data;
     });
   }

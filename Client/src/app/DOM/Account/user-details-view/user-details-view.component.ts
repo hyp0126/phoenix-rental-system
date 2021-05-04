@@ -50,9 +50,9 @@ export class UserDetailsViewComponent implements OnInit {
       }
     );
     if (this.isLender == true) {
-      this.service.getOwnerRateAndItems(this.data.dataKey).subscribe((data: any) => {
-        this.historyCount = data[0];
-        this.currentRate = data[1];
+      this.service.getOwnerRateAndItems(this.data.dataKey).subscribe((data: string[]) => {
+        this.historyCount = parseInt(data[0]);
+        this.currentRate = parseInt(data[1]);
         this.isLoading = false;
       });
     }
