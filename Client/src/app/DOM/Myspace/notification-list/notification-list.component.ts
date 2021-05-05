@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/Services/shared.service';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
 
 @Component({
   selector: 'app-notification-list',
@@ -23,7 +24,7 @@ export class NotificationListComponent implements OnInit {
   loadNotification() {
     var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     var startDateStr = startDate.toUTCString();
-    this.service.getNotification(this.userId, startDateStr).subscribe((notifications: any) => {
+    this.service.getNotification(this.userId, startDateStr).subscribe((notifications: NotificationDTO[]) => {
       var filterdNotification = notifications.filter((el) => {
         return el.toUserId == this.userId;
       });

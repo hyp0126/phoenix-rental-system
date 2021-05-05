@@ -12,6 +12,8 @@ import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { ReviewDialogComponent } from '../../Shared/review-dialog/review-dialog.component';
 import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
 import { Review } from 'src/app/Models/review';
+import { Notification } from 'src/app/Models/notification';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
 
 @Component({
   selector: 'app-my-borrow',
@@ -44,7 +46,7 @@ export class MyBorrowComponent implements OnInit {
     date: new Date(),
   };
 
-  notification: any = {
+  notification: Notification = {
     id: 0,
     fromUserId: '',
     toUserId: '',
@@ -307,7 +309,7 @@ export class MyBorrowComponent implements OnInit {
           this.notification.toUserId = this.borrowingItemPkgs.find((el) => {
             return el.trans.id == this.tranDetails.transactionId;
           }).item.userId;
-          this.service.insertNotification(this.notification).subscribe((data: any) => {
+          this.service.insertNotification(this.notification).subscribe((data: NotificationDTO) => {
             console.log(data);
           });
 

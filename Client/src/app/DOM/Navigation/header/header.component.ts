@@ -9,6 +9,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from '../../Account/login/login.component';
 import { Subscription } from 'rxjs';
+import { Category } from 'src/app/Models/category';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
 
 @Component({
   selector: 'app-header',
@@ -50,7 +52,7 @@ export class HeaderComponent implements OnInit {
     });
 
     // subscribe Notification Message Count
-    this.subscription = this.service.getNotificationCount().subscribe((count) => {
+    this.subscription = this.service.getNotificationCount().subscribe((count: number) => {
       if (count) {
         this.notificationCount = count;
       } else {
@@ -111,9 +113,9 @@ export class HeaderComponent implements OnInit {
 
   getCategoryList() {
     this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
-    this.service.getCategories().subscribe((data: any) => {
-      for (var i = 0; i < data.length; i++) {
-        this.categoryList.push(data[i]);
+    this.service.getCategories().subscribe((categories: Category[]) => {
+      for (var i = 0; i < categories.length; i++) {
+        this.categoryList.push(categories[i]);
       }
     });
     //this.categoryList.push({ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] });
@@ -155,7 +157,7 @@ export class HeaderComponent implements OnInit {
   getNotificationCount() {
     var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     var startDateStr = startDate.toUTCString();
-    this.service.getNotification(this.userAccount.id, startDateStr).subscribe((notifications: any) => {
+    this.service.getNotification(this.userAccount.id, startDateStr).subscribe((notifications: NotificationDTO[]) => {
       var filterdNotification = notifications.filter((el) => {
         return el.toUserId == this.userAccount.id;
       });

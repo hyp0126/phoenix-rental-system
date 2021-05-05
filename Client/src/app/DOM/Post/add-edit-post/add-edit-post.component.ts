@@ -14,6 +14,7 @@ import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
+import { Category } from 'src/app/Models/category';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -323,8 +324,8 @@ export class AddEditPostComponent implements OnInit {
   }
 
   loadCategoryList() {
-    this.service.getCategories().subscribe((data: any) => {
-      this.categoryList = data;
+    this.service.getCategories().subscribe((categories: Category[]) => {
+      this.categoryList = categories;
     });
   }
 

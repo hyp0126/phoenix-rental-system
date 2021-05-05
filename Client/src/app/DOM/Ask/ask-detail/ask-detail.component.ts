@@ -11,6 +11,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { EditDialogComponent } from '../../Shared/edit-dialog/edit-dialog.component';
 import { NotificationTypeEnum } from 'src/app/Helpers/enum';
+import { Notification } from 'src/app/Models/notification';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
 
 @Component({
   selector: 'app-ask-detail',
@@ -51,7 +53,7 @@ export class AskDetailComponent implements OnInit {
     parentId: 0,
   };
 
-  notification: any = {
+  notification: Notification = {
     id: 0,
     fromUserId: '',
     toUserId: '',
@@ -109,7 +111,7 @@ export class AskDetailComponent implements OnInit {
     this.notification.itemId = 10; // dummy itemId for backend API
     this.notification.toUserId = this.articles[0].userId; //parent userId
     this.notification.message = this.askReplyPkg.title;
-    this.service.insertNotification(this.notification).subscribe((data: any) => {
+    this.service.insertNotification(this.notification).subscribe((data: NotificationDTO) => {
       //console.log(data);
     });
   }

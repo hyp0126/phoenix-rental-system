@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from 'src/app/DOM/Account/login/login.component';
 import { HeaderComponent } from 'src/app/DOM/Navigation/header/header.component';
 import { Subscription } from 'rxjs';
+import { Category } from 'src/app/Models/category';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
 
 @Component({
   selector: 'app-side-menu',
@@ -30,7 +32,7 @@ export class SideMenuComponent implements OnInit {
   constructor(private router: Router, private service: SharedService, public dialog: MatDialog) {
     this.getUser();
     // subscribe Notification Message Count
-    this.subscription = this.service.getNotificationCount().subscribe((count) => {
+    this.subscription = this.service.getNotificationCount().subscribe((count: number) => {
       if (count) {
         this.notificationCount = count;
       } else {
@@ -70,9 +72,9 @@ export class SideMenuComponent implements OnInit {
 
   getCategoryList() {
     this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
-    this.service.getCategories().subscribe((data: any) => {
-      for (var i = 0; i < data.length; i++) {
-        this.categoryList.push(data[i]);
+    this.service.getCategories().subscribe((categories: Category[]) => {
+      for (var i = 0; i < categories.length; i++) {
+        this.categoryList.push(categories[i]);
       }
     });
   }
@@ -80,7 +82,7 @@ export class SideMenuComponent implements OnInit {
   getNotificationCount() {
     var startDate = new Date(new Date().setDate(new Date().getDate() - 30));
     var startDateStr = startDate.toUTCString();
-    this.service.getNotification(this.userAccount.id, startDateStr).subscribe((notifications: any) => {
+    this.service.getNotification(this.userAccount.id, startDateStr).subscribe((notifications: NotificationDTO[]) => {
       var filterdNotification = notifications.filter((el) => {
         return el.toUserId == this.userAccount.id;
       });

@@ -10,6 +10,9 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/user-details-view.component';
 import { TransactionStatusEnum, NotificationTypeEnum } from 'src/app/Helpers/enum';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
+import { Notification } from 'src/app/Models/notification';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
+
 @Component({
   selector: 'app-request-borrow',
   templateUrl: './request-borrow.component.html',
@@ -100,7 +103,7 @@ export class RequestBorrowComponent implements OnInit {
     },
   };
 
-  notification: any = {
+  notification: Notification = {
     id: 0,
     fromUserId: '',
     toUserId: '',
@@ -339,7 +342,7 @@ export class RequestBorrowComponent implements OnInit {
         this.notification.fromUserId = this.userId;
         this.notification.itemId = this.itemPkg.item.id;
         this.notification.toUserId = this.itemPkg.item.userId;
-        this.service.insertNotification(this.notification).subscribe((data: any) => {
+        this.service.insertNotification(this.notification).subscribe((data: NotificationDTO) => {
           console.log(data);
         });
         this.getTransactions(this.itemId);

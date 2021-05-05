@@ -9,6 +9,10 @@ import { map, catchError } from 'rxjs/operators';
 
 import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
 import { Review } from 'src/app/Models/review';
+import { NotificationDTO } from 'src/app/Models/notificationDTO';
+import { Notification } from 'src/app/Models/notification';
+import { CategoryDTO } from 'src/app/Models/categoryDTO';
+import { Category } from 'src/app/Models/category';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +31,7 @@ export class SharedService {
     this.subjectNotification.next();
   }
 
-  getNotificationCount(): Observable<any> {
+  getNotificationCount(): Observable<number> {
     return this.subjectNotification.asObservable();
   }
 
@@ -85,8 +89,8 @@ export class SharedService {
     return `${envAddress}/${route}`;
   };
 
-  getCategories(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/Lookup/GetCategories`);
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${environment.apiUrl}/Lookup/GetCategories`);
   }
 
   insertItem(val: any) {
@@ -180,38 +184,25 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
   }
 
-  insertNotification(notification: any) {
-    return this.http.post<any>(`${environment.apiUrl}/Notification/InsertNotification`, notification);
+  insertNotification(notification: Notification): Observable<NotificationDTO> {
+    return this.http.post<NotificationDTO>(`${environment.apiUrl}/Notification/InsertNotification`, notification);
   }
 
-  getNotification(val: any, startDate: any) {
-    return this.http.get<any>(
-      `${environment.apiUrl}/Notification/getNotification?userId=${val}&startDate=${startDate}`
+  getNotification(userId: string, startDate: string): Observable<NotificationDTO[]> {
+    return this.http.get<NotificationDTO[]>(
+      `${environment.apiUrl}/Notification/getNotification?userId=${userId}&startDate=${startDate}`
     );
   }
 
-  updateNotificationStatus(val: any) {
-    return this.http.put<any>(`${environment.apiUrl}/Notification/UpdateNotificationStatus?notiId=${val}`, '');
+  updateNotificationStatus(notiId: number): Observable<NotificationDTO> {
+    return this.http.put<NotificationDTO>(
+      `${environment.apiUrl}/Notification/UpdateNotificationStatus?notiId=${notiId}`,
+      ''
+    );
   }
 
-  manageCategory(val: any): Observable<any> {
-    return this.http.put<any>(`${environment.apiUrl}/Admin/ManageCategory/`, val);
-  }
-
-  //type: success, info, warning, danger
-  alert(t: string, m: string): void {
-    const timeout = 2000;
-    const dialogRef = this.dialog.open(AlertsComponent, {
-      width: '360px',
-      data: { type: t, msg: m },
-    });
-    dialogRef.afterOpened().subscribe((_) => {
-      if (t != 'danger') {
-        setTimeout(() => {
-          dialogRef.close();
-        }, timeout);
-      }
-    });
+  manageCategory(categoryDTO: CategoryDTO): Observable<Category[]> {
+    return this.http.put<Category[]>(`${environment.apiUrl}/Admin/ManageCategory/`, categoryDTO);
   }
 
   getItemReview(itemId: number): Observable<ItemReviewPkgDTO[]> {
@@ -240,5 +231,21 @@ export class SharedService {
 
   getCityOfAddress(): Observable<string[]> {
     return this.http.get<string[]>(`${environment.apiUrl}/Item/GetCityOfAddress`);
+  }
+
+  //type: success, info, warning, danger
+  alert(t: string, m: string): void {
+    const timeout = 2000;
+    const dialogRef = this.dialog.open(AlertsComponent, {
+      width: '360px',
+      data: { type: t, msg: m },
+    });
+    dialogRef.afterOpened().subscribe((_) => {
+      if (t != 'danger') {
+        setTimeout(() => {
+          dialogRef.close();
+        }, timeout);
+      }
+    });
   }
 }

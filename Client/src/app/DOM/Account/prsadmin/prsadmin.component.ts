@@ -4,6 +4,8 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
+import { CategoryDTO } from 'src/app/Models/categoryDTO';
+import { Category } from 'src/app/Models/category';
 
 export interface CategoryData {
   categoryId: number;
@@ -23,7 +25,6 @@ export class PRSAdminComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
-  // constructor(private fb: FormBuilder, private http:HttpClient) { }
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -34,9 +35,8 @@ export class PRSAdminComponent implements OnInit {
   }
 
   loadCategoryList() {
-    this.service.getCategories().subscribe((data: any) => {
-      this.categoryList = data;
-      //this.dataSource = data; //new MatTableDataSource(data);
+    this.service.getCategories().subscribe((categories: Category[]) => {
+      this.categoryList = categories;
     });
   }
 
@@ -47,10 +47,10 @@ export class PRSAdminComponent implements OnInit {
   }
 
   onSubmitAddNewCategory(value, opt, mess) {
-    var val = {
+    var val: CategoryDTO = {
       option: opt, // insert:1,update:2,delete:3
-      Id: value.categoryId,
-      Name: value.name,
+      id: value.categoryId,
+      name: value.name,
     };
     this.service.manageCategory(val).subscribe(
       (res) => {
