@@ -1,2 +1,2 @@
-# Capstone-Rantal-Service
-Angular11+.NetCore+EntityFramework+JWT+Angular Material
+# Phoenix Rental System (Capstone Project)
+cloned https://github.com/energykhj/Capstone-Rental-System
