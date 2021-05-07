@@ -14,6 +14,7 @@ import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
 import { Review } from 'src/app/Models/review';
 import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
+import { ItemTransactionPkgDTO, TransactionDetailsDTO } from 'src/app/Models/transactionDTO';
 
 @Component({
   selector: 'app-my-borrow',
@@ -37,7 +38,7 @@ export class MyBorrowComponent implements OnInit {
   ownerNames = {};
   notEmptyPost = true;
 
-  tranDetails = {
+  tranDetails: TransactionDetailsDTO = {
     id: 0,
     transactionId: 0,
     statusId: 1,
@@ -94,30 +95,32 @@ export class MyBorrowComponent implements OnInit {
   }
 
   loadTransactionRequested() {
-    this.service.getTransactionByUser(this.userId, [TransactionStatusEnum.Request]).subscribe((transItemPkgs: any) => {
-      this.requestItemPkgs = transItemPkgs;
-      if (transItemPkgs.length < 8) {
-        this.notEmptyPost = false;
-      }
-      this.showMore = false;
+    this.service
+      .getTransactionByUser(this.userId, [TransactionStatusEnum.Request])
+      .subscribe((transItemPkgs: ItemTransactionPkgDTO[]) => {
+        this.requestItemPkgs = transItemPkgs;
+        if (transItemPkgs.length < 8) {
+          this.notEmptyPost = false;
+        }
+        this.showMore = false;
 
-      this.requestItemPkgs.forEach((transItemPkg) => {
-        transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
-          ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-          : environment.PhotoFileUrl + 'noImage.png';
-        this.getOwnerNames(transItemPkg.item.userId);
+        this.requestItemPkgs.forEach((transItemPkg) => {
+          transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
+            ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
+            : environment.PhotoFileUrl + 'noImage.png';
+          this.getOwnerNames(transItemPkg.item.userId);
+        });
+        // this.requestItemPkgs.sort((a, b) => {
+        //   return b.trans.id - a.trans.id;
+        // });
+        this.filteredRequestItemPkgs = this.requestItemPkgs;
       });
-      // this.requestItemPkgs.sort((a, b) => {
-      //   return b.trans.id - a.trans.id;
-      // });
-      this.filteredRequestItemPkgs = this.requestItemPkgs;
-    });
   }
 
   loadTransactionBorrowing() {
     this.service
       .getTransactionByUser(this.userId, [TransactionStatusEnum.Confirmed, TransactionStatusEnum.RequestReturn])
-      .subscribe((transItemPkgs: any) => {
+      .subscribe((transItemPkgs: ItemTransactionPkgDTO[]) => {
         this.borrowingItemPkgs = transItemPkgs;
         if (transItemPkgs.length < 8) {
           this.notEmptyPost = false;
@@ -145,7 +148,7 @@ export class MyBorrowComponent implements OnInit {
         TransactionStatusEnum.Rejected,
         TransactionStatusEnum.ReturnComplete,
       ])
-      .subscribe((transItemPkgs: any) => {
+      .subscribe((transItemPkgs: ItemTransactionPkgDTO[]) => {
         this.compledtedItemPkgs = transItemPkgs;
         if (transItemPkgs.length < 8) {
           this.notEmptyPost = false;

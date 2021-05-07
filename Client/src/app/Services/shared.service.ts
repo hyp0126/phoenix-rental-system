@@ -13,6 +13,12 @@ import { NotificationDTO } from 'src/app/Models/notificationDTO';
 import { Notification } from 'src/app/Models/notification';
 import { CategoryDTO } from 'src/app/Models/categoryDTO';
 import { Category } from 'src/app/Models/category';
+import {
+  ItemTransactionPkgDTO,
+  TransactionPkgDTO,
+  TransactionDTO,
+  TransactionDetailsDTO,
+} from 'src/app/Models/transactionDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -158,30 +164,32 @@ export class SharedService {
     return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertReply`, askReplyPkg);
   }
 
-  getItemByStatus(val: any, status: any) {
-    const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
-    return this.http.get<any>(`${environment.apiUrl}/Transaction`, { params: params });
+  getItemByStatus(userId: string, statusIds: number[]): Observable<ItemTransactionPkgDTO[]> {
+    const params = new HttpParams().set('userId', userId).set('statusIds', statusIds.join(','));
+    return this.http.get<ItemTransactionPkgDTO[]>(`${environment.apiUrl}/Transaction`, { params: params });
   }
 
-  getTransactionByUser(val: any, status: any) {
-    const params = new HttpParams().set('userId', val).set('statusIds', status.join(','));
-    return this.http.get<any>(`${environment.apiUrl}/Transaction/GetTransactionByUser`, { params: params });
+  getTransactionByUser(userId: string, statusIds: number[]): Observable<ItemTransactionPkgDTO[]> {
+    const params = new HttpParams().set('userId', userId).set('statusIds', statusIds.join(','));
+    return this.http.get<ItemTransactionPkgDTO[]>(`${environment.apiUrl}/Transaction/GetTransactionByUser`, {
+      params: params,
+    });
   }
 
-  insertTransaction(transPkg: any) {
+  insertTransaction(transPkg: TransactionPkgDTO): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/Transaction`, transPkg);
   }
 
-  updateTransaction(transPkg: any) {
-    return this.http.put<any>(`${environment.apiUrl}/Transaction/UpdateTransaction`, transPkg);
+  updateTransaction(trans: TransactionDTO): Observable<any> {
+    return this.http.put<any>(`${environment.apiUrl}/Transaction/UpdateTransaction`, trans);
   }
 
-  putTransactionDetail(tDetail: any) {
+  putTransactionDetail(tDetail: TransactionDetailsDTO): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/Transaction/InsertTransactionDetails`, tDetail);
   }
 
-  getItemBorrowedDate(itemId: string) {
-    return this.http.get<any>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
+  getItemBorrowedDate(itemId: number): Observable<TransactionDTO[]> {
+    return this.http.get<TransactionDTO[]>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
   }
 
   insertNotification(notification: Notification): Observable<NotificationDTO> {

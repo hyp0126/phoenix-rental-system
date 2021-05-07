@@ -8,6 +8,7 @@ import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-d
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
+import { ItemTransactionPkgDTO, TransactionDetailsDTO } from 'src/app/Models/transactionDTO';
 
 @Component({
   selector: 'app-my-list',
@@ -51,17 +52,17 @@ export class MyListComponent implements OnInit {
   processingItems: any = [];
   returnItems: any = [];
   completedItems: any = [];
-  requestStatus: any = [TransactionStatusEnum.Request];
-  processingStatus: any = [TransactionStatusEnum.Confirmed];
-  returnStatus: any = [TransactionStatusEnum.RequestReturn];
-  completedStatus: any = [
+  requestStatus: number[] = [TransactionStatusEnum.Request];
+  processingStatus: number[] = [TransactionStatusEnum.Confirmed];
+  returnStatus: number[] = [TransactionStatusEnum.RequestReturn];
+  completedStatus: number[] = [
     TransactionStatusEnum.Rejected,
     TransactionStatusEnum.CanceledByBorrower,
     TransactionStatusEnum.CanceledByLender,
     TransactionStatusEnum.ReturnComplete,
   ];
 
-  transDetailPkg: any = {
+  transDetailPkg: TransactionDetailsDTO = {
     id: 0,
     transactionId: 0,
     statusId: 0,
@@ -121,10 +122,10 @@ export class MyListComponent implements OnInit {
   }
 
   loadTransactionRequest() {
-    this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItem: any) => {
-      this.requestItems = requestItem;
-      console.log(requestItem);
-      if (requestItem.length < 8) {
+    this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItems: ItemTransactionPkgDTO[]) => {
+      this.requestItems = requestItems;
+      console.log(requestItems);
+      if (requestItems.length < 8) {
         this.notEmptyPost2 = false;
       }
       this.showMore = false;
@@ -134,30 +135,32 @@ export class MyListComponent implements OnInit {
           : 'noImage.png';
       });
 
-      this.NameListWithoutFilter2 = requestItem;
+      this.NameListWithoutFilter2 = requestItems;
     });
   }
 
   loadTransactionProcessing() {
-    this.service.getItemByStatus(this.userId, this.processingStatus).subscribe((processingItem: any) => {
-      this.processingItems = processingItem;
-      if (processingItem.length < 8) {
-        this.notEmptyPost3 = false;
-      }
-      this.showMore = false;
-      this.processingItems.forEach((processingItem) => {
-        processingItem.item.defaultImageFile = processingItem.item.defaultImageFile
-          ? processingItem.item.defaultImageFile
-          : 'noImage.png';
+    this.service
+      .getItemByStatus(this.userId, this.processingStatus)
+      .subscribe((processingItems: ItemTransactionPkgDTO[]) => {
+        this.processingItems = processingItems;
+        if (processingItems.length < 8) {
+          this.notEmptyPost3 = false;
+        }
+        this.showMore = false;
+        this.processingItems.forEach((processingItem) => {
+          processingItem.item.defaultImageFile = processingItem.item.defaultImageFile
+            ? processingItem.item.defaultImageFile
+            : 'noImage.png';
+        });
+        this.NameListWithoutFilter3 = processingItems;
       });
-      this.NameListWithoutFilter3 = processingItem;
-    });
   }
 
   loadTransactionRequestReturn() {
-    this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItem: any) => {
-      this.returnItems = returnItem;
-      if (returnItem.length < 8) {
+    this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItems: ItemTransactionPkgDTO[]) => {
+      this.returnItems = returnItems;
+      if (returnItems.length < 8) {
         this.notEmptyPost4 = false;
       }
       this.showMore = false;
@@ -166,24 +169,26 @@ export class MyListComponent implements OnInit {
           ? returnItem.item.defaultImageFile
           : 'noImage.png';
       });
-      this.NameListWithoutFilter4 = returnItem;
+      this.NameListWithoutFilter4 = returnItems;
     });
   }
 
   loadTransactionCompleted() {
-    this.service.getItemByStatus(this.userId, this.completedStatus).subscribe((completedItem: any) => {
-      this.completedItems = completedItem;
-      if (completedItem.length < 8) {
-        this.notEmptyPost5 = false;
-      }
-      this.showMore = false;
-      this.completedItems.forEach((completedItem) => {
-        completedItem.item.defaultImageFile = completedItem.item.defaultImageFile
-          ? completedItem.item.defaultImageFile
-          : 'noImage.png';
+    this.service
+      .getItemByStatus(this.userId, this.completedStatus)
+      .subscribe((completedItems: ItemTransactionPkgDTO[]) => {
+        this.completedItems = completedItems;
+        if (completedItems.length < 8) {
+          this.notEmptyPost5 = false;
+        }
+        this.showMore = false;
+        this.completedItems.forEach((completedItem) => {
+          completedItem.item.defaultImageFile = completedItem.item.defaultImageFile
+            ? completedItem.item.defaultImageFile
+            : 'noImage.png';
+        });
+        this.NameListWithoutFilter5 = completedItems;
       });
-      this.NameListWithoutFilter5 = completedItem;
-    });
   }
 
   onClick1() {
@@ -202,8 +207,8 @@ export class MyListComponent implements OnInit {
 
   onClick2() {
     this.page2 = this.page2 + 1;
-    this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItem) => {
-      const requestList = requestItem;
+    this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItems: ItemTransactionPkgDTO[]) => {
+      const requestList = requestItems;
 
       if (requestList.length < 8) {
         this.notEmptyPost2 = false;
@@ -216,22 +221,24 @@ export class MyListComponent implements OnInit {
 
   onClick3() {
     this.page3 = this.page3 + 1;
-    this.service.getItemByStatus(this.userId, this.processingStatus).subscribe((processingItem) => {
-      const processingList = processingItem;
+    this.service
+      .getItemByStatus(this.userId, this.processingStatus)
+      .subscribe((processingItems: ItemTransactionPkgDTO[]) => {
+        const processingList = processingItems;
 
-      if (processingList.length < 8) {
-        this.notEmptyPost3 = false;
-      }
+        if (processingList.length < 8) {
+          this.notEmptyPost3 = false;
+        }
 
-      this.processingItems = this.userItems.concat(processingList);
-      this.notScrolly3 = true;
-    });
+        this.processingItems = this.userItems.concat(processingList);
+        this.notScrolly3 = true;
+      });
   }
 
   onClick4() {
     this.page4 = this.page4 + 1;
-    this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItem) => {
-      const returnList = returnItem;
+    this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItems: ItemTransactionPkgDTO[]) => {
+      const returnList = returnItems;
 
       if (returnList.length < 8) {
         this.notEmptyPost4 = false;
@@ -244,16 +251,18 @@ export class MyListComponent implements OnInit {
 
   onClick5() {
     this.page5 = this.page5 + 1;
-    this.service.getItemByStatus(this.userId, this.completedStatus).subscribe((completedItem) => {
-      const completedList = completedItem;
+    this.service
+      .getItemByStatus(this.userId, this.completedStatus)
+      .subscribe((completedItems: ItemTransactionPkgDTO[]) => {
+        const completedList = completedItems;
 
-      if (completedList.length < 8) {
-        this.notEmptyPost5 = false;
-      }
+        if (completedList.length < 8) {
+          this.notEmptyPost5 = false;
+        }
 
-      this.completedItems = this.completedItems.concat(completedList);
-      this.notScrolly5 = true;
-    });
+        this.completedItems = this.completedItems.concat(completedList);
+        this.notScrolly5 = true;
+      });
   }
 
   trimString(text, length) {
@@ -374,7 +383,7 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  sendConfirmBorrow(transId) {
+  sendConfirmBorrow(transId: number) {
     this.transDetailPkg.transactionId = transId;
     this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
 
@@ -384,7 +393,7 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  rejectBorrow(transId: any) {
+  rejectBorrow(transId: number) {
     this.transDetailPkg.transactionId = transId;
     this.transDetailPkg.statusId = TransactionStatusEnum.Rejected;
 
@@ -418,7 +427,7 @@ export class MyListComponent implements OnInit {
     this.rejectAndCancel('Cancellation');
   }
 
-  returnComplete(returnItem: any) {
+  returnComplete(returnItem: ItemTransactionPkgDTO) {
     const dialogRef = this.dialog.open(ReasonDialogComponent, {
       height: '400px',
       width: '400px',

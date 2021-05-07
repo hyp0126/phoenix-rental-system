@@ -46,7 +46,8 @@ export class AddEditPostComponent implements OnInit {
   noImagePhotoUrl: string = environment.PhotoFileUrl + 'noImage.png';
   userId: string;
 
-  @Input() public itemId: string;
+  @Input() public itemIdString: string;
+  itemId: number;
   isNewItem: boolean;
   isReadOnly: boolean;
   isSubmitPressed: boolean;
@@ -122,7 +123,8 @@ export class AddEditPostComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.itemId = this.route.snapshot.queryParamMap.get('itemId');
+    this.itemIdString = this.route.snapshot.queryParamMap.get('itemId');
+    this.itemId = parseInt(this.itemIdString);
     this.createAddEditItemForm();
     this.priceInfo.get('endDate').disable();
 
@@ -232,7 +234,7 @@ export class AddEditPostComponent implements OnInit {
     return this.addItemForm.controls.photoInfo as FormGroup;
   }
 
-  loadItemPhotos(itemId: string) {
+  loadItemPhotos(itemId: number) {
     this.service.getItemPhotos(itemId).subscribe(
       (data) => {
         data.forEach((element) => {
@@ -335,7 +337,7 @@ export class AddEditPostComponent implements OnInit {
     });
   }
 
-  loadItemPkg(itemId: string) {
+  loadItemPkg(itemId: number) {
     this.service.getItem(itemId).subscribe((data: any) => {
       this.itemPkg = {
         item: data.item,
@@ -398,7 +400,7 @@ export class AddEditPostComponent implements OnInit {
 
     const formData: FormData = new FormData();
 
-    formData.append('itemId', this.itemId);
+    formData.append('itemId', this.itemId.toString());
     for (let i = 0; i < files.length; i++) {
       formData.append(files[i].name, files[i]);
     }

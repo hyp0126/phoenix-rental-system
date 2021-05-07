@@ -12,6 +12,7 @@ import { TransactionStatusEnum, NotificationTypeEnum } from 'src/app/Helpers/enu
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
+import { TransactionPkgDTO, TransactionDTO } from 'src/app/Models/transactionDTO';
 
 @Component({
   selector: 'app-request-borrow',
@@ -21,7 +22,8 @@ import { NotificationDTO } from 'src/app/Models/notificationDTO';
 export class RequestBorrowComponent implements OnInit {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
-  @Input() public itemId: string;
+  @Input() public itemIdString: string;
+  itemId: number;
   borrowItemForm: FormGroup;
   isPreview: boolean;
   isSubmitPressed: boolean;
@@ -78,7 +80,7 @@ export class RequestBorrowComponent implements OnInit {
     },
   };
 
-  transactionPkg: any = {
+  transactionPkg: TransactionPkgDTO = {
     trans: {
       id: 0,
       itemId: 0,
@@ -87,6 +89,7 @@ export class RequestBorrowComponent implements OnInit {
       startDate: new Date(),
       endDate: new Date(),
       requestDate: new Date(),
+      reason: '',
       refundDeposit: 0,
       currentStatus: TransactionStatusEnum.Request,
       statusName: '',
@@ -142,7 +145,8 @@ export class RequestBorrowComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.itemId = this.route.snapshot.queryParamMap.get('itemId');
+    this.itemIdString = this.route.snapshot.queryParamMap.get('itemId');
+    this.itemId = parseInt(this.itemIdString);
     this.createBorrowItemForm();
     this.setFormData();
 
@@ -174,7 +178,7 @@ export class RequestBorrowComponent implements OnInit {
     this.borrowInfo.get('dates').setValue([this.transactionPkg.trans.startDate, this.transactionPkg.trans.endDate]);
   }
 
-  loadItemPkg(itemId: string) {
+  loadItemPkg(itemId: number) {
     this.service.getItem(itemId).subscribe((data: any) => {
       this.itemPkg = {
         item: data.item,
@@ -210,7 +214,7 @@ export class RequestBorrowComponent implements OnInit {
     this.getTransactions(itemId); // comment for testing duplicated reseravtion
   }
 
-  loadDefaultPhotoAddr(itemId: string) {
+  loadDefaultPhotoAddr(itemId: number) {
     this.service.getItemPhotos(itemId).subscribe(
       (data) => {
         data.forEach((element) => {
@@ -263,8 +267,8 @@ export class RequestBorrowComponent implements OnInit {
     });
   }
 
-  getTransactions(itemId) {
-    this.service.getItemBorrowedDate(itemId).subscribe((data: any) => {
+  getTransactions(itemId: number) {
+    this.service.getItemBorrowedDate(itemId).subscribe((data: TransactionDTO[]) => {
       //console.log(data);
       data.forEach((trans) => {
         this.itemTransactions.push(trans);
@@ -310,7 +314,7 @@ export class RequestBorrowComponent implements OnInit {
       return;
     }
 
-    this.transactionPkg.trans.itemId = parseInt(this.itemId);
+    this.transactionPkg.trans.itemId = this.itemId;
     this.transactionPkg.trans.borrowerId = this.userId;
     this.transactionPkg.trans.deposit = this.itemPkg.item.deposit;
     this.transactionPkg.trans.currentStatus = 1;
