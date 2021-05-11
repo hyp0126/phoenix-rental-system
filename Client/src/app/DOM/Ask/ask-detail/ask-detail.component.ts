@@ -1,4 +1,3 @@
-import { Article } from './../ask.component';
 //import { MatTableDataSource } from '@angular/material/table';
 import { SharedService } from './../../../Services/shared.service';
 import { Component, OnInit } from '@angular/core';
@@ -13,6 +12,7 @@ import { EditDialogComponent } from '../../Shared/edit-dialog/edit-dialog.compon
 import { NotificationTypeEnum } from 'src/app/Helpers/enum';
 import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
+import { Article } from 'src/app/Models/askBoardDTO';
 
 @Component({
   selector: 'app-ask-detail',
@@ -36,21 +36,34 @@ export class AskDetailComponent implements OnInit {
   filePath = environment.PhotoFileUrl;
   formatDate = FormatUtils.formatDate;
 
-  askReplyPkg: any = {
-    date: new Date(),
-    title: '',
-    description: '',
-    userId: '',
-    parentId: 0,
-  };
-
-  askReplyEditPkg: any = {
+  askReplyPkg: Article = {
     id: 0,
     date: new Date(),
     title: '',
     description: '',
     userId: '',
     parentId: 0,
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    photoUrl: '',
+    phone: '',
+  };
+
+  askReplyEditPkg: Article = {
+    id: 0,
+    date: new Date(),
+    title: '',
+    description: '',
+    userId: '',
+    parentId: 0,
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    photoUrl: '',
+    phone: '',
   };
 
   notification: Notification = {
@@ -80,8 +93,8 @@ export class AskDetailComponent implements OnInit {
   }
 
   loadInitAskDetail() {
-    this.service.getArticleWithReply(this.rowId).subscribe((data: any) => {
-      console.log(data);
+    this.service.getArticleWithReply(this.rowId).subscribe((data: Article[]) => {
+      // console.log(data);
       this.articles = data;
       this.content = '';
       for (let el of data) {

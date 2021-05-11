@@ -9,21 +9,7 @@ import { UserDetailsViewComponent } from 'src/app/DOM/Account/user-details-view/
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { EditDialogComponent } from '../Shared/edit-dialog/edit-dialog.component';
-
-export interface Article {
-  date: any;
-  description: string;
-  email: string;
-  firstName: string;
-  id: number;
-  lastName: string;
-  parentId: number;
-  phone: string;
-  photoUrl: string;
-  title: string;
-  userId: string;
-  userName: string;
-}
+import { Article } from 'src/app/Models/askBoardDTO';
 
 @Component({
   selector: 'app-ask',
@@ -42,20 +28,33 @@ export class AskComponent implements AfterViewInit {
   askDescription: string;
   content: string;
 
-  askBoardPkg: any = {
+  askBoardPkg: Article = {
+    id: 0,
     date: new Date(),
     title: '',
     description: '',
     userId: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    photoUrl: '',
+    phone: '',
   };
 
-  askEditPkg: any = {
+  askEditPkg: Article = {
     id: 0,
     date: new Date(),
     title: '',
     description: '',
     userId: '',
     parentId: 0,
+    email: '',
+    firstName: '',
+    lastName: '',
+    userName: '',
+    photoUrl: '',
+    phone: '',
   };
 
   active = 1;
@@ -96,7 +95,7 @@ export class AskComponent implements AfterViewInit {
   }
 
   loadUserItem() {
-    this.service.getArticleList().subscribe((data: any) => {
+    this.service.getArticleList().subscribe((data: Article[]) => {
       this.articles = data;
       this.dataSource = new MatTableDataSource(this.articles);
     });
@@ -127,7 +126,7 @@ export class AskComponent implements AfterViewInit {
 
   onDelete(id: any) {
     this.count = 0;
-    this.service.getArticleWithReply(id).subscribe((data: any) => {
+    this.service.getArticleWithReply(id).subscribe((data: Article[]) => {
       this.count = data.length - 1;
       if (this.count > 0) this.service.alert('warning', 'This asked content cannot be deleted because a reply exists.');
       else {

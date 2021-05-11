@@ -19,6 +19,7 @@ import {
   TransactionDTO,
   TransactionDetailsDTO,
 } from 'src/app/Models/transactionDTO';
+import { Article } from 'src/app/Models/askBoardDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -133,30 +134,31 @@ export class SharedService {
     return this.http.get(`${environment.PhotoFileUrl}` + val, { responseType: 'blob' });
   }
 
-  getArticleList() {
-    return this.http.get<any>(`${environment.apiUrl}/AskBoard/`);
+  getArticleList(): Observable<Article[]> {
+    return this.http.get<Article[]>(`${environment.apiUrl}/AskBoard/`);
   }
 
-  getArticleWithReply(val: any) {
-    return this.http.get<any>(`${environment.apiUrl}/AskBoard/GetArticleWithReply?Id=${val}`);
+  getArticleWithReply(id: number): Observable<Article[]> {
+    return this.http.get<Article[]>(`${environment.apiUrl}/AskBoard/GetArticleWithReply?Id=${id}`);
   }
 
-  insertArticle(askBoardPkg: any) {
+  insertArticle(askBoardPkg: Article) {
     return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertArticle`, askBoardPkg);
   }
 
-  updateArticle(askBoardPkg: any) {
+  updateArticle(askBoardPkg: Article) {
     return this.http.put<any>(`${environment.apiUrl}/AskBoard/UpdateArticle`, askBoardPkg);
   }
 
-  updateReply(askBoardPkg: any) {
+  updateReply(askBoardPkg: Article) {
     return this.http.put<any>(`${environment.apiUrl}/AskBoard/UpdateReply`, askBoardPkg);
   }
-  deleteArticle(id: any) {
+
+  deleteArticle(id: number) {
     return this.http.delete<any>(`${environment.apiUrl}/AskBoard/DeleteArticle/` + id);
   }
 
-  deleteReply(id: any) {
+  deleteReply(id: number) {
     return this.http.delete<any>(`${environment.apiUrl}/AskBoard/DeleteReply/` + id);
   }
 
