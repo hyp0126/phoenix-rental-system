@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../../Services/authentication.service'
 import { PasswordValidator, ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { UserInfo } from 'src/app/Models/userDetailsDTO';
 
 @Component({
   selector: 'app-register',
@@ -60,10 +61,10 @@ export class RegisterComponent implements OnInit {
 
   onSubmitRegister(value) {
     // console.log(value.matching_passwords.password);
-    var val = {
-      Username: value.email,
-      Email: value.email,
-      Password: value.matching_passwords.password,
+    var val: UserInfo = {
+      //Username: value.email,
+      email: value.email,
+      password: value.matching_passwords.password,
     };
 
     this.authenticationService.createUser(val).subscribe(

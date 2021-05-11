@@ -6,6 +6,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { environment } from 'src/environments/environment';
 import { Province } from 'src/app/Models/province';
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 
 @Component({
   selector: 'app-user-details',
@@ -19,7 +20,7 @@ export class UserDetailsComponent implements OnInit {
   UserData: any = [];
   alerts: any = [];
 
-  loginUser: any = {
+  loginUser: UserPkgDTO = {
     account: {
       id: '',
       email: '',
@@ -29,7 +30,7 @@ export class UserDetailsComponent implements OnInit {
       email: '',
       firstName: '',
       lastName: '',
-      photourl: '',
+      photoUrl: '',
       phone: '',
       statusId: 0,
     },
@@ -95,7 +96,7 @@ export class UserDetailsComponent implements OnInit {
   getUser() {
     this.id = this.id.replace(/['"]+/g, '');
     this.service.getUserInfo.subscribe(
-      (data: any) => {
+      (data: UserPkgDTO) => {
         if (data.details != null) {
           this.loginUser.account = data.account;
           this.loginUser.details = data.details;
@@ -146,7 +147,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   onSubmitUpdateUserDetails(value) {
-    this.loginUser.details.photourl = this.PhotoFileName;
+    this.loginUser.details.photoUrl = this.PhotoFileName;
     this.service.updateUser(this.loginUser).subscribe(
       (res) => {
         window.location.reload();

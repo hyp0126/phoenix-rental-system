@@ -16,7 +16,7 @@ import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
 import { Category } from 'src/app/Models/category';
 import { Province } from 'src/app/Models/province';
-
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-add-edit-post',
   templateUrl: './add-edit-post.component.html',
@@ -280,7 +280,7 @@ export class AddEditPostComponent implements OnInit {
     this.getFormData();
     if (this.isDefaultAddress) {
       this.service.getUserInfo.subscribe(
-        (data: any) => {
+        (data: UserPkgDTO) => {
           if (data.address) {
             this.itemPkg.address = {
               id: data.address.id,

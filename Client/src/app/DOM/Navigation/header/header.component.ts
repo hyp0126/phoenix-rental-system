@@ -10,8 +10,9 @@ import { environment } from 'src/environments/environment';
 import { LoginComponent } from '../../Account/login/login.component';
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/Models/category';
+import { CategoryDTO } from 'src/app/Models/CategoryDTO';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
-
+import { UserPkgDTO, UserDetailsDTO, UserAccountDTO, AddressDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -29,9 +30,9 @@ export class HeaderComponent implements OnInit {
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
 
-  userDetails: any = [];
-  userAccount: any = [];
-  address: any = [];
+  userDetails: UserDetailsDTO;
+  userAccount: UserAccountDTO;
+  address: AddressDTO;
   photoUrl: string;
   userName: string = '';
   borrowCount = 1;
@@ -42,8 +43,8 @@ export class HeaderComponent implements OnInit {
   selectedCity: string = HeaderComponent.ALL_CITIES;
   selectedCategoryId = 0;
 
-  cityList: any = [];
-  categoryList: any = [];
+  cityList: string[] = [];
+  categoryList: Category[] = [];
 
   constructor(public dialog: MatDialog, private router: Router, private service: SharedService, fb: FormBuilder) {
     this.options = fb.group({
@@ -82,10 +83,10 @@ export class HeaderComponent implements OnInit {
     const userId: string = localStorage.getItem('userId');
     if (userId) {
       this.service.getUserInfo.subscribe(
-        (user) => {
+        (user: UserPkgDTO) => {
           this.userAccount = user.account;
           this.userDetails = user.details;
-          this.address = user.addresses;
+          this.address = user.address;
           this.userName = user.account.email;
 
           this.userName = this.userDetails.firstName
@@ -112,7 +113,8 @@ export class HeaderComponent implements OnInit {
   }
 
   getCategoryList() {
-    this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
+    //this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
+    this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES }];
     this.service.getCategories().subscribe((categories: Category[]) => {
       for (var i = 0; i < categories.length; i++) {
         this.categoryList.push(categories[i]);

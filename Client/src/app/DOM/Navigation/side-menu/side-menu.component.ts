@@ -8,7 +8,7 @@ import { HeaderComponent } from 'src/app/DOM/Navigation/header/header.component'
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/Models/category';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
-
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -44,7 +44,7 @@ export class SideMenuComponent implements OnInit {
   getUser() {
     const userId: string = localStorage.getItem('userId');
     if (userId) {
-      this.service.getUserInfo.subscribe((user) => {
+      this.service.getUserInfo.subscribe((user: UserPkgDTO) => {
         this.userAccount = user.account;
         this.userDetails = user.details;
         this.userName = this.userDetails.firstName ? this.userDetails.firstName + ' ' + this.userDetails.lastName : '';

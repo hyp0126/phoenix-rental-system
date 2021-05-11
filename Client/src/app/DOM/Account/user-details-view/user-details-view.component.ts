@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
-
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-user-details-view',
   templateUrl: './user-details-view.component.html',
@@ -35,7 +35,7 @@ export class UserDetailsViewComponent implements OnInit {
     //console.log(this.data.dataKey);
     this.isLender = this.data.isLender;
     this.service.getOwnerInfo(this.data.dataKey).subscribe(
-      (data: any) => {
+      (data: UserPkgDTO) => {
         if (data.details != null) {
           this.ownerDetails = data.details;
           this.PhotoFileName = data.details.photoUrl;

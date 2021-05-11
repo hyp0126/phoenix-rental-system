@@ -5,6 +5,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } 
 import { SharedService } from 'src/app/Services/shared.service';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { environment } from 'src/environments/environment';
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+
 @Component({
   selector: 'app-user-account',
   templateUrl: './user-account.component.html',
@@ -34,7 +36,7 @@ export class UserAccountComponent implements OnInit {
   getUser() {
     this.id = this.id.replace(/['"]+/g, '');
     this.service.getUserInfo.subscribe(
-      (data: any) => {
+      (data: UserPkgDTO) => {
         if (data.details != null) {
           this.loginUser.userName = data.details.firstName + ' ' + data.details.lastName;
           this.loginUser.userEmail = data.account.email;
@@ -44,7 +46,7 @@ export class UserAccountComponent implements OnInit {
         }
         this.userEmail = data.account.email;
         if (data.role.name == 'Admin') {
-          this.userRole = data.role.roleName;
+          this.userRole = data.role.name;
           this.Menus.push('Admin');
         }
       },

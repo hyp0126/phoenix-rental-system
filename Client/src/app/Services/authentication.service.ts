@@ -4,24 +4,24 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { Details } from '../Models/user';
+import { UserDetailsDTO, UserInfo } from '../Models/userDetailsDTO';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<Details>;
-  public currentUserInfo: Observable<Details>;
-  public currentUser: Observable<Details>;
+  private currentUserSubject: BehaviorSubject<UserDetailsDTO>;
+  public currentUserInfo: Observable<UserDetailsDTO>;
+  public currentUser: Observable<UserDetailsDTO>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<Details>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUserSubject = new BehaviorSubject<UserDetailsDTO>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue(): Details {
+  public get currentUserValue(): UserDetailsDTO {
     return this.currentUserSubject.value;
   }
 
-  createUser(val: any) {
+  createUser(val: UserInfo) {
     //return this.http.post(environment.apiUrl+'/Authentication/CreateUser',val)
     return this.http.post<any>(`${environment.apiUrl}/Authentication/CreateUser`, val).pipe(
       map((user) => {

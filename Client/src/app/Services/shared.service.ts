@@ -21,6 +21,7 @@ import {
 } from 'src/app/Models/transactionDTO';
 import { Article } from 'src/app/Models/askBoardDTO';
 import { Province } from 'src/app/Models/province';
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -55,27 +56,27 @@ export class SharedService {
     return this.subjectReloadHome.asObservable();
   }
 
-  public get getUserInfo() {
+  public get getUserInfo(): Observable<UserPkgDTO> {
     var id = this.isLoginUser.replace(/['"]+/g, '');
     if (!id) return;
-    return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
+    return this.http.get<UserPkgDTO>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
   }
 
-  public getOwnerInfo(id: string) {
+  public getOwnerInfo(id: string): Observable<UserPkgDTO> {
     if (!id) return;
-    return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
+    return this.http.get<UserPkgDTO>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
   }
 
   getProvinces(): Observable<Province[]> {
     return this.http.get<Province[]>(`${environment.apiUrl}/Lookup/GetProvinces`);
   }
 
-  updateUser(val: any) {
+  updateUser(val: UserPkgDTO): Observable<UserPkgDTO> {
     //alert(val.details.statusId);
     if (val.details.statusId == 0) {
-      return this.http.post<any>(`${environment.apiUrl}/UserDetails/InsertUser`, val);
+      return this.http.post<UserPkgDTO>(`${environment.apiUrl}/UserDetails/InsertUser`, val);
     } else {
-      return this.http.put<any>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
+      return this.http.put<UserPkgDTO>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
     }
   }
 
@@ -83,11 +84,11 @@ export class SharedService {
     return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, val);
   }
 
-  upload(file: any) {
-    let input = new FormData();
-    input.append('filesData', file);
-    return this.http.post(`${environment.apiUrl}/UserDetails/SavePhoto`, input);
-  }
+  // upload(file: any) {
+  //   let input = new FormData();
+  //   input.append('filesData', file);
+  //   return this.http.post(`${environment.apiUrl}/UserDetails/SavePhoto`, input);
+  // }
 
   get isLoginUser() {
     return localStorage.getItem('userId');

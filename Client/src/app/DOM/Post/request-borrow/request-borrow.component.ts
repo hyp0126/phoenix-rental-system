@@ -13,7 +13,7 @@ import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
 import { TransactionPkgDTO, TransactionDTO } from 'src/app/Models/transactionDTO';
-
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-request-borrow',
   templateUrl: './request-borrow.component.html',
@@ -229,7 +229,7 @@ export class RequestBorrowComponent implements OnInit {
 
   getOwnerDetails() {
     this.service.getOwnerInfo(this.itemPkg.item.userId).subscribe(
-      (data: any) => {
+      (data: UserPkgDTO) => {
         if (data.details != null) {
           this.ownerDetails = data.details;
         }

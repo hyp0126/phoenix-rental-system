@@ -15,7 +15,7 @@ import { Review } from 'src/app/Models/review';
 import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
 import { ItemTransactionPkgDTO, TransactionDetailsDTO } from 'src/app/Models/transactionDTO';
-
+import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-my-borrow',
   templateUrl: './my-borrow.component.html',
@@ -180,7 +180,7 @@ export class MyBorrowComponent implements OnInit {
 
     if (existKey == false) {
       this.service.getOwnerInfo(userId).subscribe(
-        (data: any) => {
+        (data: UserPkgDTO) => {
           if (data.details != null) {
             var name = data.details.firstName + ' ' + data.details.lastName;
             this.ownerNames[userId] = name;
