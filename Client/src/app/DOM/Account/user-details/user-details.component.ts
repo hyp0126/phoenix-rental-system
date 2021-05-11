@@ -5,6 +5,8 @@ import { MatDialog, MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular
 import { SharedService } from 'src/app/Services/shared.service';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { environment } from 'src/environments/environment';
+import { Province } from 'src/app/Models/province';
+
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
@@ -50,8 +52,7 @@ export class UserDetailsComponent implements OnInit {
   PhotoFilePath: string = '';
   userDetailsForm: FormGroup;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
-  ProvinceList: any = [];
-  selectedProvince: string;
+  ProvinceList: Province[] = [];
 
   validation_messages = {
     firstName: [{ type: 'required', message: 'First name is required' }],
@@ -190,7 +191,7 @@ export class UserDetailsComponent implements OnInit {
   }
 
   loadProvinceList() {
-    this.service.getProvinces().subscribe((data: any) => {
+    this.service.getProvinces().subscribe((data: Province[]) => {
       this.ProvinceList = data;
     });
   }

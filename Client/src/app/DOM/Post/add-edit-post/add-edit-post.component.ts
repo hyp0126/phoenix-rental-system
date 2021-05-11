@@ -15,6 +15,7 @@ import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
 import { Category } from 'src/app/Models/category';
+import { Province } from 'src/app/Models/province';
 
 @Component({
   selector: 'app-add-edit-post',
@@ -31,8 +32,8 @@ export class AddEditPostComponent implements OnInit {
 
   addItemForm: FormGroup;
 
-  categoryList: any = [];
-  provinceList: any = [];
+  categoryList: Category[] = [];
+  provinceList: Province[] = [];
 
   reviewPkgs: any = [];
   avgRate: number = 0;
@@ -332,7 +333,7 @@ export class AddEditPostComponent implements OnInit {
   }
 
   loadProvinceList() {
-    this.service.getProvinces().subscribe((data: any) => {
+    this.service.getProvinces().subscribe((data: Province[]) => {
       this.provinceList = data;
     });
   }

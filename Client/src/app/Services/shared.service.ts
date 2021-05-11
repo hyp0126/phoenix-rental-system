@@ -20,6 +20,7 @@ import {
   TransactionDetailsDTO,
 } from 'src/app/Models/transactionDTO';
 import { Article } from 'src/app/Models/askBoardDTO';
+import { Province } from 'src/app/Models/province';
 
 @Injectable({
   providedIn: 'root',
@@ -65,8 +66,8 @@ export class SharedService {
     return this.http.get<any>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
   }
 
-  getProvinces(): Observable<any[]> {
-    return this.http.get<any[]>(`${environment.apiUrl}/Lookup/GetProvinces`);
+  getProvinces(): Observable<Province[]> {
+    return this.http.get<Province[]>(`${environment.apiUrl}/Lookup/GetProvinces`);
   }
 
   updateUser(val: any) {
@@ -91,10 +92,6 @@ export class SharedService {
   get isLoginUser() {
     return localStorage.getItem('userId');
   }
-
-  private createCompleteRoute = (route: string, envAddress: string) => {
-    return `${envAddress}/${route}`;
-  };
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${environment.apiUrl}/Lookup/GetCategories`);
