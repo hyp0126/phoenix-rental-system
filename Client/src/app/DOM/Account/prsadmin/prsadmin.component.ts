@@ -7,11 +7,6 @@ import { MatTable } from '@angular/material/table';
 import { CategoryDTO } from 'src/app/Models/categoryDTO';
 import { Category } from 'src/app/Models/category';
 
-export interface CategoryData {
-  categoryId: number;
-  name: string;
-}
-
 @Component({
   selector: 'app-prsadmin',
   templateUrl: './prsadmin.component.html',
@@ -21,7 +16,7 @@ export class PRSAdminComponent implements OnInit {
   @Input()
   public userEmail: string;
   categoryForm: FormGroup;
-  categoryList: CategoryData[];
+  categoryList: Category[];
   displayedColumns: string[] = ['id', 'name', 'action'];
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
@@ -117,7 +112,7 @@ export class PopupComponent {
   constructor(
     public dialogRef: MatDialogRef<PopupComponent>,
     //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: CategoryData
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: Category
   ) {
     this.local_data = { ...data };
     this.action = this.local_data.action;

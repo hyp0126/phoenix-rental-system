@@ -125,7 +125,11 @@ export class AddEditPostComponent implements OnInit {
 
   ngOnInit() {
     this.itemIdString = this.route.snapshot.queryParamMap.get('itemId');
-    this.itemId = parseInt(this.itemIdString);
+    if (this.itemIdString != null) {
+      this.itemId = parseInt(this.itemIdString);
+    } else {
+      this.itemId = null;
+    }
     this.createAddEditItemForm();
     this.priceInfo.get('endDate').disable();
 
