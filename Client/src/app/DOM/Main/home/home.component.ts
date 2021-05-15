@@ -8,6 +8,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ItemDTO } from 'src/app/Models/itemDTO';
 
 @Component({
   selector: 'app-home',
@@ -80,8 +81,8 @@ export class HomeComponent implements OnInit {
   }
 
   loadInitPost() {
-    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city, this.categoryId).subscribe(
-      (data) => {
+    this.service.getSearchedItemAndDefaultPhoto(this.page, this.search, this.city, parseInt(this.categoryId)).subscribe(
+      (data: ItemDTO[]) => {
         this.properties = data;
         if (this.properties.length < 8) {
           this.notEmptyPost = false;
@@ -98,8 +99,8 @@ export class HomeComponent implements OnInit {
     this.page = this.page + 1;
 
     this.service
-      .getSearchedItemAndDefaultPhoto(this.page, this.search, this.city, this.categoryId)
-      .subscribe((data) => {
+      .getSearchedItemAndDefaultPhoto(this.page, this.search, this.city, parseInt(this.categoryId))
+      .subscribe((data: ItemDTO[]) => {
         const newList = data;
 
         if (newList.length < 8) {

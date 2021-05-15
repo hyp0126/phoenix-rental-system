@@ -14,6 +14,7 @@ import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
 import { TransactionPkgDTO, TransactionDTO } from 'src/app/Models/transactionDTO';
 import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { ItemPkgDTO, PhotoDTO } from 'src/app/Models/itemDTO';
 @Component({
   selector: 'app-request-borrow',
   templateUrl: './request-borrow.component.html',
@@ -179,7 +180,7 @@ export class RequestBorrowComponent implements OnInit {
   }
 
   loadItemPkg(itemId: number) {
-    this.service.getItem(itemId).subscribe((data: any) => {
+    this.service.getItem(itemId).subscribe((data: ItemPkgDTO) => {
       this.itemPkg = {
         item: data.item,
         address: data.address,
@@ -216,7 +217,7 @@ export class RequestBorrowComponent implements OnInit {
 
   loadDefaultPhotoAddr(itemId: number) {
     this.service.getItemPhotos(itemId).subscribe(
-      (data) => {
+      (data: PhotoDTO[]) => {
         data.forEach((element) => {
           this.itemDefaultPhotoUrl = environment.PhotoFileUrl + element.fileName;
         });

@@ -9,6 +9,7 @@ import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
 import { ItemTransactionPkgDTO, TransactionDetailsDTO } from 'src/app/Models/transactionDTO';
+import { ItemPkgDTO } from 'src/app/Models/itemDTO';
 
 @Component({
   selector: 'app-my-list',
@@ -106,9 +107,9 @@ export class MyListComponent implements OnInit {
   }
 
   loadUserItems() {
-    this.service.getUserItem(this.page1, this.userId).subscribe((userItem: any) => {
-      this.userItems = userItem;
-      if (userItem.length < 8) {
+    this.service.getUserItem(this.page1, this.userId).subscribe((userItems: ItemPkgDTO[]) => {
+      this.userItems = userItems;
+      if (userItems.length < 8) {
         this.notEmptyPost1 = false;
       }
       this.showMore = false;
@@ -117,7 +118,7 @@ export class MyListComponent implements OnInit {
           ? userItem.item.defaultImageFile
           : 'noImage.png';
       });
-      this.NameListWithoutFilter1 = userItem;
+      this.NameListWithoutFilter1 = userItems;
     });
   }
 
@@ -193,8 +194,8 @@ export class MyListComponent implements OnInit {
 
   onClick1() {
     this.page1 = this.page1 + 1;
-    this.service.getUserItem(this.page1, this.userId).subscribe((userItem) => {
-      const newList = userItem;
+    this.service.getUserItem(this.page1, this.userId).subscribe((userItems: ItemPkgDTO[]) => {
+      const newList = userItems;
 
       if (newList.length < 8) {
         this.notEmptyPost1 = false;

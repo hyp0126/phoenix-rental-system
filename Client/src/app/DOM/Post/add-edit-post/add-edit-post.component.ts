@@ -17,6 +17,7 @@ import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
 import { Category } from 'src/app/Models/category';
 import { Province } from 'src/app/Models/province';
 import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { ItemPkgDTO, PhotoDTO } from 'src/app/Models/itemDTO';
 @Component({
   selector: 'app-add-edit-post',
   templateUrl: './add-edit-post.component.html',
@@ -35,13 +36,13 @@ export class AddEditPostComponent implements OnInit {
   categoryList: Category[] = [];
   provinceList: Province[] = [];
 
-  reviewPkgs: any = [];
+  reviewPkgs: ItemReviewPkgDTO[] = [];
   avgRate: number = 0;
   reviewsCount: number = 0;
 
-  photoUrls = [];
+  photoUrls: string[] = [];
   photoFiles: any = [];
-  itemDefaultPhotoUrl: any;
+  itemDefaultPhotoUrl: string;
   isDefaultAddress: boolean = false;
 
   noImagePhotoUrl: string = environment.PhotoFileUrl + 'noImage.png';
@@ -55,18 +56,22 @@ export class AddEditPostComponent implements OnInit {
 
   formatDate = FormatUtils.formatDate;
 
-  itemPkg: any = {
+  itemPkg: ItemPkgDTO = {
     item: {
       id: 0,
       userId: '',
       categoryId: 1,
+      categoryName: '',
       name: '',
       description: '',
+      defaultImageFile: '',
       deposit: 0.0,
       fee: 0.0,
       startDate: new Date(),
       endDate: new Date(),
-      //addressId: 0,
+      addressId: 0,
+      createdDate: new Date(),
+      timeStamp: new Date(),
     },
     address: {
       id: 0,
@@ -241,7 +246,7 @@ export class AddEditPostComponent implements OnInit {
 
   loadItemPhotos(itemId: number) {
     this.service.getItemPhotos(itemId).subscribe(
-      (data) => {
+      (data: PhotoDTO[]) => {
         data.forEach((element) => {
           //let photoUrl = environment.PhotoFileUrl + element.fileName;
           this.service.getItemPhotoFile(element.fileName).subscribe(
@@ -343,7 +348,7 @@ export class AddEditPostComponent implements OnInit {
   }
 
   loadItemPkg(itemId: number) {
-    this.service.getItem(itemId).subscribe((data: any) => {
+    this.service.getItem(itemId).subscribe((data: ItemPkgDTO) => {
       this.itemPkg = {
         item: data.item,
         address: data.address,

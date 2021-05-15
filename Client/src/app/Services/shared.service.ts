@@ -22,6 +22,7 @@ import {
 import { Article } from 'src/app/Models/askBoardDTO';
 import { Province } from 'src/app/Models/province';
 import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { ItemPkgDTO, PhotoDTO, ItemDTO } from 'src/app/Models/itemDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -57,31 +58,31 @@ export class SharedService {
   }
 
   public get getUserInfo(): Observable<UserPkgDTO> {
-    var id = this.isLoginUser.replace(/['"]+/g, '');
-    if (!id) return;
-    return this.http.get<UserPkgDTO>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
+    var userId = this.isLoginUser.replace(/['"]+/g, '');
+    if (!userId) return;
+    return this.http.get<UserPkgDTO>(`${environment.apiUrl}/UserDetails/GetUser/` + userId);
   }
 
-  public getOwnerInfo(id: string): Observable<UserPkgDTO> {
-    if (!id) return;
-    return this.http.get<UserPkgDTO>(`${environment.apiUrl}/UserDetails/GetUser/` + id);
+  public getOwnerInfo(userId: string): Observable<UserPkgDTO> {
+    if (!userId) return;
+    return this.http.get<UserPkgDTO>(`${environment.apiUrl}/UserDetails/GetUser/` + userId);
   }
 
   getProvinces(): Observable<Province[]> {
     return this.http.get<Province[]>(`${environment.apiUrl}/Lookup/GetProvinces`);
   }
 
-  updateUser(val: UserPkgDTO): Observable<UserPkgDTO> {
+  updateUser(userPkgDTO: UserPkgDTO): Observable<UserPkgDTO> {
     //alert(val.details.statusId);
-    if (val.details.statusId == 0) {
-      return this.http.post<UserPkgDTO>(`${environment.apiUrl}/UserDetails/InsertUser`, val);
+    if (userPkgDTO.details.statusId == 0) {
+      return this.http.post<UserPkgDTO>(`${environment.apiUrl}/UserDetails/InsertUser`, userPkgDTO);
     } else {
-      return this.http.put<UserPkgDTO>(`${environment.apiUrl}/UserDetails/UpdateUser`, val);
+      return this.http.put<UserPkgDTO>(`${environment.apiUrl}/UserDetails/UpdateUser`, userPkgDTO);
     }
   }
 
-  uploadPhoto(val: any) {
-    return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, val);
+  uploadPhoto(form: FormData) {
+    return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, form);
   }
 
   // upload(file: any) {
@@ -98,38 +99,43 @@ export class SharedService {
     return this.http.get<Category[]>(`${environment.apiUrl}/Lookup/GetCategories`);
   }
 
-  insertItem(val: any) {
-    return this.http.post<any>(`${environment.apiUrl}/Item`, val);
+  insertItem(itemPkgDTO: ItemPkgDTO): Observable<ItemPkgDTO> {
+    return this.http.post<ItemPkgDTO>(`${environment.apiUrl}/Item`, itemPkgDTO);
   }
 
-  uploadItemPhoto(val: any) {
-    return this.http.post(`${environment.apiUrl}/Item/SavePhotos`, val);
+  uploadItemPhoto(form: FormData): Observable<string[]> {
+    return this.http.post<string[]>(`${environment.apiUrl}/Item/SavePhotos`, form);
   }
 
-  getItem(val: any): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetItem/` + val);
+  getItem(itemId: number): Observable<ItemPkgDTO> {
+    return this.http.get<ItemPkgDTO>(`${environment.apiUrl}/Item/GetItem/` + itemId);
   }
 
-  getUserItem(page: any, val: any) {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetUserItemsAndDefaultPhoto/` + page + '/' + val);
+  getUserItem(page: number, userId: string): Observable<ItemPkgDTO[]> {
+    return this.http.get<ItemPkgDTO[]>(`${environment.apiUrl}/Item/GetUserItemsAndDefaultPhoto/` + page + '/' + userId);
   }
 
-  updateItem(val: any) {
-    return this.http.put<any>(`${environment.apiUrl}/Item`, val);
+  updateItem(itemPkgDTO: ItemPkgDTO): Observable<ItemPkgDTO> {
+    return this.http.put<ItemPkgDTO>(`${environment.apiUrl}/Item`, itemPkgDTO);
   }
 
-  getSearchedItemAndDefaultPhoto(page: any, search: string, city: string, categoryId: string) {
-    return this.http.get<any>(
+  getSearchedItemAndDefaultPhoto(
+    page: number,
+    search: string,
+    city: string,
+    categoryId: number
+  ): Observable<ItemDTO[]> {
+    return this.http.get<ItemDTO[]>(
       `${environment.apiUrl}/Item/GetSearchedItemAndDefaultPhoto/` + page + '/' + search + '/' + city + '/' + categoryId
     );
   }
 
-  getItemPhotos(val: any) {
-    return this.http.get<any>(`${environment.apiUrl}/Item/GetItemPhotos/` + val);
+  getItemPhotos(itemId: number): Observable<PhotoDTO[]> {
+    return this.http.get<PhotoDTO[]>(`${environment.apiUrl}/Item/GetItemPhotos/` + itemId);
   }
 
-  getItemPhotoFile(val: any): Observable<any> {
-    return this.http.get(`${environment.PhotoFileUrl}` + val, { responseType: 'blob' });
+  getItemPhotoFile(fileName: string): Observable<any> {
+    return this.http.get(`${environment.PhotoFileUrl}` + fileName, { responseType: 'blob' });
   }
 
   getArticleList(): Observable<Article[]> {

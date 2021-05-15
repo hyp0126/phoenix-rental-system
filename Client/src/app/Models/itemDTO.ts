@@ -25,7 +25,7 @@ export interface ItemDTO {
   createdDate: Date;
   timeStamp: Date;
   statusId?: number;
-  statusName: string;
+  statusName?: string;
 }
 
 export interface ItemAddressDTO {
