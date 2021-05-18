@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase

@@ -17,42 +17,41 @@ import { ItemPkgDTO } from 'src/app/Models/itemDTO';
   styleUrls: ['./my-list.component.scss'],
 })
 export class MyListComponent implements OnInit {
-  active = 1;
-  userId = '';
+  active: number = 1;
+  userId: string = '';
   showMore: boolean;
-  filePath = environment.PhotoFileUrl;
+  filePath: string = environment.PhotoFileUrl;
   NameFilter1: string = '';
   NameFilter2: string = '';
   NameFilter3: string = '';
   NameFilter4: string = '';
   NameFilter5: string = '';
   DescFilter: string = '';
-  page1 = 1;
-  page2 = 1;
-  page3 = 1;
-  page4 = 1;
-  page5 = 1;
-  notEmptyPost1 = true;
-  notScrolly1 = true;
-  notEmptyPost2 = true;
-  notScrolly2 = true;
-  notEmptyPost3 = true;
-  notScrolly3 = true;
-  notEmptyPost4 = true;
-  notScrolly4 = true;
-  notEmptyPost5 = true;
-  notScrolly5 = true;
-  NameListWithoutFilter1: any = [];
-  NameListWithoutFilter2: any = [];
-  NameListWithoutFilter3: any = [];
-  NameListWithoutFilter4: any = [];
-  NameListWithoutFilter5: any = [];
-  itemTransactions: any[] = [];
-  userItems: any = [];
-  requestItems: any = [];
-  processingItems: any = [];
-  returnItems: any = [];
-  completedItems: any = [];
+  page1: number = 1;
+  page2: number = 1;
+  page3: number = 1;
+  page4: number = 1;
+  page5: number = 1;
+  notEmptyPost1: boolean = true;
+  notScrolly1: boolean = true;
+  notEmptyPost2: boolean = true;
+  notScrolly2: boolean = true;
+  notEmptyPost3: boolean = true;
+  notScrolly3: boolean = true;
+  notEmptyPost4: boolean = true;
+  notScrolly4: boolean = true;
+  notEmptyPost5: boolean = true;
+  notScrolly5: boolean = true;
+  NameListWithoutFilter1: ItemPkgDTO[] = [];
+  NameListWithoutFilter2: ItemTransactionPkgDTO[] = [];
+  NameListWithoutFilter3: ItemTransactionPkgDTO[] = [];
+  NameListWithoutFilter4: ItemTransactionPkgDTO[] = [];
+  NameListWithoutFilter5: ItemTransactionPkgDTO[] = [];
+  userItems: ItemPkgDTO[] = [];
+  requestItems: ItemTransactionPkgDTO[] = [];
+  processingItems: ItemTransactionPkgDTO[] = [];
+  returnItems: ItemTransactionPkgDTO[] = [];
+  completedItems: ItemTransactionPkgDTO[] = [];
   requestStatus: number[] = [TransactionStatusEnum.Request];
   processingStatus: number[] = [TransactionStatusEnum.Confirmed];
   returnStatus: number[] = [TransactionStatusEnum.RequestReturn];
@@ -215,7 +214,7 @@ export class MyListComponent implements OnInit {
         this.notEmptyPost2 = false;
       }
 
-      this.requestItems = this.userItems.concat(requestList);
+      this.requestItems = this.requestItems.concat(requestList);
       this.notScrolly2 = true;
     });
   }
@@ -231,7 +230,7 @@ export class MyListComponent implements OnInit {
           this.notEmptyPost3 = false;
         }
 
-        this.processingItems = this.userItems.concat(processingList);
+        this.processingItems = this.processingItems.concat(processingList);
         this.notScrolly3 = true;
       });
   }

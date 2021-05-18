@@ -35,7 +35,7 @@ export class RequestBorrowComponent implements OnInit {
   diffDays: number = 0;
   showMore: boolean;
   maxTextViewLen: number = 50;
-  itemTransactions: any[] = [];
+  itemTransactions: TransactionDTO[] = [];
 
   formatDate = FormatUtils.formatDate;
   formatCurrency = FormatUtils.formatCurrency;

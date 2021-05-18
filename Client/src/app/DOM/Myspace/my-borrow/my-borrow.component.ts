@@ -22,21 +22,21 @@ import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
   styleUrls: ['./my-borrow.component.scss'],
 })
 export class MyBorrowComponent implements OnInit {
-  active = 0;
+  active: number = 0;
   showMore: boolean;
   userId: string = '';
 
-  requestItemPkgs: any[];
-  filteredRequestItemPkgs: any[];
-  borrowingItemPkgs: any[];
-  filteredBorrowingItemPkgs: any[];
-  compledtedItemPkgs: any[];
-  filteredCompledtedItemPkgs: any[];
+  requestItemPkgs: ItemTransactionPkgDTO[];
+  filteredRequestItemPkgs: ItemTransactionPkgDTO[];
+  borrowingItemPkgs: ItemTransactionPkgDTO[];
+  filteredBorrowingItemPkgs: ItemTransactionPkgDTO[];
+  compledtedItemPkgs: ItemTransactionPkgDTO[];
+  filteredCompledtedItemPkgs: ItemTransactionPkgDTO[];
 
   NameFilter: string = '';
   currentDate: Date = new Date();
-  ownerNames = {};
-  notEmptyPost = true;
+  ownerNames: { [key: string]: string } = {};
+  notEmptyPost: boolean = true;
 
   tranDetails: TransactionDetailsDTO = {
     id: 0,
