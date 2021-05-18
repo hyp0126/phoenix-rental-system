@@ -13,7 +13,7 @@ import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { Notification } from 'src/app/Models/notification';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
 import { TransactionPkgDTO, TransactionDTO } from 'src/app/Models/transactionDTO';
-import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { UserPkgDTO, UserDetailsDTO } from 'src/app/Models/userDetailsDTO';
 import { ItemPkgDTO, PhotoDTO } from 'src/app/Models/itemDTO';
 @Component({
   selector: 'app-request-borrow',
@@ -29,7 +29,7 @@ export class RequestBorrowComponent implements OnInit {
   isPreview: boolean;
   isSubmitPressed: boolean;
 
-  itemDefaultPhotoUrl: any;
+  itemDefaultPhotoUrl: string;
   noImagePhotoUrl: string = environment.PhotoFileUrl + 'noImage.png';
   userId: string;
   diffDays: number = 0;
@@ -44,30 +44,34 @@ export class RequestBorrowComponent implements OnInit {
   maxDate: Date;
   disabledDates: Date[] = [];
 
-  displayBorrowedDates = false;
+  displayBorrowedDates: boolean = false;
 
-  ownerDetails: any = {
+  ownerDetails: UserDetailsDTO = {
     id: '',
     email: '',
     firstName: '',
     lastName: '',
-    photourl: '',
+    photoUrl: '',
     phone: '',
     statusId: 0,
   };
 
-  itemPkg: any = {
+  itemPkg: ItemPkgDTO = {
     item: {
       id: 0,
       userId: '',
       categoryId: 1,
+      categoryName: '',
       name: '',
       description: '',
+      defaultImageFile: '',
       deposit: 0.0,
       fee: 0.0,
       startDate: new Date(),
       endDate: new Date(),
-      //addressId: 0,
+      addressId: 0,
+      createdDate: new Date(),
+      timeStamp: new Date(),
     },
     address: {
       id: 0,

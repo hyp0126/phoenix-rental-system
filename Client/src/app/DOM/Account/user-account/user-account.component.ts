@@ -23,7 +23,7 @@ export class UserAccountComponent implements OnInit {
   //loginUser: User;
   id: string;
   userEmail: string;
-  userRole = '';
+  userRole: string = '';
   constructor(private router: Router, private service: SharedService) {
     this.id = this.service.isLoginUser;
     if (this.service.isLoginUser) {

@@ -8,7 +8,7 @@ import { HeaderComponent } from 'src/app/DOM/Navigation/header/header.component'
 import { Subscription } from 'rxjs';
 import { Category } from 'src/app/Models/category';
 import { NotificationDTO } from 'src/app/Models/notificationDTO';
-import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { UserPkgDTO, UserAccountDTO, UserDetailsDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './side-menu.component.html',
@@ -17,16 +17,16 @@ import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
 export class SideMenuComponent implements OnInit {
   @Output() sidenavClose = new EventEmitter();
 
-  search = '';
-  userAccount: any = [];
-  userDetails: any = [];
+  search: string = '';
+  userAccount: UserAccountDTO;
+  userDetails: UserDetailsDTO;
   photoUrl: string;
   userName: string = '';
   selectedCity: string = HeaderComponent.ALL_CITIES;
-  selectedCategoryId = 0;
-  cityList: any = [];
-  categoryList: any = [];
-  notificationCount = 0;
+  selectedCategoryId: number = 0;
+  cityList: string[] = [];
+  categoryList: Category[] = [];
+  notificationCount: number = 0;
   subscription: Subscription;
 
   constructor(private router: Router, private service: SharedService, public dialog: MatDialog) {
@@ -71,7 +71,8 @@ export class SideMenuComponent implements OnInit {
   }
 
   getCategoryList() {
-    this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
+    //this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES, item: [] }];
+    this.categoryList = [{ categoryId: 0, name: HeaderComponent.ALL_CATEGORIES }];
     this.service.getCategories().subscribe((categories: Category[]) => {
       for (var i = 0; i < categories.length; i++) {
         this.categoryList.push(categories[i]);

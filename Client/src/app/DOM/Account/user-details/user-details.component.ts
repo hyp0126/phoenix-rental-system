@@ -6,7 +6,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 import { ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { environment } from 'src/environments/environment';
 import { Province } from 'src/app/Models/province';
-import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { UserPkgDTO, UserDetailsDTO, AddressDTO } from 'src/app/Models/userDetailsDTO';
 
 @Component({
   selector: 'app-user-details',
@@ -14,12 +14,6 @@ import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
   styleUrls: ['./user-details.component.scss'],
 })
 export class UserDetailsComponent implements OnInit {
-  userDetails: any = [];
-  userAccount: any = [];
-  address: any = [];
-  UserData: any = [];
-  alerts: any = [];
-
   loginUser: UserPkgDTO = {
     account: {
       id: '',
@@ -199,7 +193,6 @@ export class UserDetailsComponent implements OnInit {
 
   formattedPostalCode() {
     var pc = this.userDetailsForm.value.postalCode.toUpperCase();
-    this.address.postalCode = pc;
   }
 
   formattedPhone() {
@@ -209,7 +202,6 @@ export class UserDetailsComponent implements OnInit {
     var str = this.userDetailsForm.value.phone;
     if (match) {
       this.userDetailsForm.value.phone = match[1] + '-' + match[2] + '-' + match[3];
-      this.userDetails.phone = match[1] + '-' + match[2] + '-' + match[3];
       console.log(this.userDetailsForm.value.phone);
     }
   }

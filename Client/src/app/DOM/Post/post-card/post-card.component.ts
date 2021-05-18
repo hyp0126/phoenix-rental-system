@@ -5,14 +5,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
-
+import { ItemDTO } from 'src/app/Models/itemDTO';
 @Component({
   selector: 'app-post-card',
   templateUrl: './post-card.component.html',
   styleUrls: ['./post-card.component.scss'],
 })
 export class PostCardComponent implements OnInit {
-  @Input() property: any;
+  @Input() property: ItemDTO;
   @Input() isDetail: boolean;
 
   PhotoFilePath: string = '';

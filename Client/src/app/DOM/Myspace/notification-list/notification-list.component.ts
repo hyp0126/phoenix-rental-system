@@ -10,8 +10,8 @@ import { NotificationDTO } from 'src/app/Models/notificationDTO';
   styleUrls: ['./notification-list.component.scss'],
 })
 export class NotificationListComponent implements OnInit {
-  userId = '';
-  notifications: any = [];
+  userId: string = '';
+  notifications: NotificationDTO[] = [];
 
   constructor(private service: SharedService, public dialog: MatDialog) {}
 

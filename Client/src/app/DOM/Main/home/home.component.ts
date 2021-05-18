@@ -16,17 +16,17 @@ import { ItemDTO } from 'src/app/Models/itemDTO';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  currentUser: any;
-  id: any;
+  // currentUser: any;
+  // id: any;
 
-  properties: any = [];
-  page = 1;
-  search = '';
-  city = '';
-  categoryId = '';
-  notEmptyPost = true;
-  notScrolly = true;
-  isSearched = false;
+  properties: ItemDTO[] = [];
+  page: number = 1;
+  search: string = '';
+  city: string = '';
+  categoryId: string = '';
+  notEmptyPost: boolean = true;
+  notScrolly: boolean = true;
+  isSearched: boolean = false;
 
   subscription: Subscription;
 
@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
 
   isUserAuthenticated() {
     const token: string = localStorage.getItem('jwt');
-    this.id = '5aab855c-c644-45c7-b798-159b1f78d640'; //localStorage.getItem("id");
+    // this.id = '5aab855c-c644-45c7-b798-159b1f78d640'; //localStorage.getItem("id");
     if (token && !this.jwtHelper.isTokenExpired(token)) {
       return true;
     } else return false;

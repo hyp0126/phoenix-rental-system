@@ -21,19 +21,19 @@ import { Article } from 'src/app/Models/askBoardDTO';
 })
 export class AskDetailComponent implements OnInit {
   //dataSource: MatTableDataSource<Article>;
-  panelOpenState = true;
+  panelOpenState: boolean = true;
 
   content: string;
 
-  userId = '';
-  rowId: any;
-  path: any;
-  url: any;
-  name: any;
-  title: any;
+  userId: string = '';
+  rowId: number;
+  path: string;
+  url: string;
+  name: string;
+  title: string;
   headContent: string;
-  articles: any = [];
-  filePath = environment.PhotoFileUrl;
+  articles: Article[] = [];
+  filePath: string = environment.PhotoFileUrl;
   formatDate = FormatUtils.formatDate;
 
   askReplyPkg: Article = {

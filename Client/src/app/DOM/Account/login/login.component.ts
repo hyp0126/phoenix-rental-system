@@ -12,11 +12,11 @@ import { AuthenticationService } from '../../../Services/authentication.service'
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  hide = true;
+  hide: boolean = true;
   invalidLogin: boolean;
   loginForm: FormGroup;
-  loading = false;
-  submitted = false;
+  loading: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private router: Router,

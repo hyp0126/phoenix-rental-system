@@ -24,8 +24,8 @@ export class HeaderComponent implements OnInit {
   public static ALL_CITIES: string = 'All Cities';
   public static ALL_CATEGORIES: string = 'All Categories';
 
-  search = '';
-  searchValue: any;
+  search: string = '';
+  searchValue: string;
   options: FormGroup;
   hideRequiredControl = new FormControl(false);
   floatLabelControl = new FormControl('auto');
@@ -35,13 +35,13 @@ export class HeaderComponent implements OnInit {
   address: AddressDTO;
   photoUrl: string;
   userName: string = '';
-  borrowCount = 1;
+  borrowCount: number = 1;
 
-  notificationCount = 0;
+  notificationCount: number = 0;
   subscription: Subscription;
 
   selectedCity: string = HeaderComponent.ALL_CITIES;
-  selectedCategoryId = 0;
+  selectedCategoryId: number = 0;
 
   cityList: string[] = [];
   categoryList: Category[] = [];

@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedService } from 'src/app/Services/shared.service';
 import { environment } from 'src/environments/environment';
 import { FormatUtils } from 'src/app/Helpers/format-utils';
-import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
+import { UserPkgDTO, UserDetailsDTO } from 'src/app/Models/userDetailsDTO';
 @Component({
   selector: 'app-user-details-view',
   templateUrl: './user-details-view.component.html',
@@ -17,12 +17,12 @@ export class UserDetailsViewComponent implements OnInit {
   isLoading: boolean = true;
   isLender: boolean = false;
 
-  ownerDetails: any = {
+  ownerDetails: UserDetailsDTO = {
     id: '',
     email: '',
     firstName: '',
     lastName: '',
-    photourl: '',
+    photoUrl: '',
     phone: '',
     statusId: 0,
   };

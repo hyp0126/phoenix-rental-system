@@ -28,8 +28,8 @@ export class AddEditPostComponent implements OnInit {
   //@ViewChild('formTabs') formTabs: TabsetComponent;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
-  activeTabId = 0;
-  maxTabNum = 5;
+  activeTabId: number = 0;
+  maxTabNum: number = 5;
 
   addItemForm: FormGroup;
 

@@ -71,12 +71,12 @@ export class AskComponent implements AfterViewInit {
   }
   @ViewChild(MatSort) sort: MatSort;
 
-  userId = '';
+  userId: string = '';
   showMore: boolean;
-  filePath = environment.PhotoFileUrl;
-  articles: any = [];
-  page = 1;
-  count = 0;
+  filePath: string = environment.PhotoFileUrl;
+  articles: Article[] = [];
+  page: number = 1;
+  count: number = 0;
 
   constructor(private service: SharedService, public dialog: MatDialog) {
     // Create 100 users

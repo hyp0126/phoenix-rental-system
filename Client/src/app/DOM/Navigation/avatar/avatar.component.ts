@@ -15,11 +15,11 @@ export class AvatarComponent implements OnInit {
   @Input()
   public name: string;
 
-  public showInitials = false;
+  public showInitials: boolean = false;
   public initials: string;
   public circleColor: string;
 
-  private colors = [
+  private colors: string[] = [
     '#EB7181', // red
     '#468547', // green
     '#FFD558', // yellow
