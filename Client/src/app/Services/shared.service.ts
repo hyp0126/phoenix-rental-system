@@ -166,7 +166,7 @@ export class SharedService {
     return this.http.delete<any>(`${environment.apiUrl}/AskBoard/DeleteReply/` + id);
   }
 
-  insertReply(askReplyPkg: any) {
+  insertReply(askReplyPkg: Article) {
     return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertReply`, askReplyPkg);
   }
 

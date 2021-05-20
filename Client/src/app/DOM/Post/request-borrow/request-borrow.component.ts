@@ -245,7 +245,7 @@ export class RequestBorrowComponent implements OnInit {
     );
   }
 
-  openDetail(id: any) {
+  openDetail(id: number) {
     const dialogRef = this.dialog.open(DetailComponent, {
       // height: '500px',
       width: '600px',
@@ -258,7 +258,7 @@ export class RequestBorrowComponent implements OnInit {
     });
   }
 
-  openOwnerDetails(id: any) {
+  openOwnerDetails(id: string) {
     const dialogRef = this.dialog.open(UserDetailsViewComponent, {
       // height: '500px',
       width: '300px',
@@ -343,7 +343,7 @@ export class RequestBorrowComponent implements OnInit {
   onBorrow() {
     if (this.borrowInfo.invalid == false) {
       this.service.insertTransaction(this.transactionPkg).subscribe((data: any) => {
-        console.log(data);
+        //console.log(data);
         this.service.alert('success', 'Send Request Borrow');
         //this.router.navigate(['/home']);
 

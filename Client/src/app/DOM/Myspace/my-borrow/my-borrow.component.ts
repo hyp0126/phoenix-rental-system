@@ -81,7 +81,7 @@ export class MyBorrowComponent implements OnInit {
     this.loadTransaction(this.active);
   }
 
-  loadTransaction(activeId) {
+  loadTransaction(activeId: number) {
     if (activeId == 0) {
       // Requested Tab
       this.loadTransactionRequested();
@@ -168,7 +168,7 @@ export class MyBorrowComponent implements OnInit {
       });
   }
 
-  getOwnerNames(userId) {
+  getOwnerNames(userId: string) {
     var existKey = false;
 
     if (this.ownerNames != undefined) {
@@ -193,30 +193,30 @@ export class MyBorrowComponent implements OnInit {
     }
   }
 
-  trimString(text, length) {
+  trimString(text: string, length: number) {
     return text.length > length ? text.substring(0, length) + '...' : text;
   }
 
-  Filter(tabNum) {
+  Filter(tabNum: number) {
     var itemNameFilter = this.NameFilter;
     //var itemDescFilter = this.DescFilter;
 
     switch (tabNum) {
       case 0:
         if (this.requestItemPkgs) {
-          this.filteredRequestItemPkgs = this.requestItemPkgs.filter(function (el: any) {
+          this.filteredRequestItemPkgs = this.requestItemPkgs.filter(function (el: ItemTransactionPkgDTO) {
             return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
           });
         }
       case 1:
         if (this.borrowingItemPkgs) {
-          this.filteredBorrowingItemPkgs = this.borrowingItemPkgs.filter(function (el: any) {
+          this.filteredBorrowingItemPkgs = this.borrowingItemPkgs.filter(function (el: ItemTransactionPkgDTO) {
             return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
           });
         }
       case 2:
         if (this.compledtedItemPkgs) {
-          this.filteredCompledtedItemPkgs = this.compledtedItemPkgs.filter(function (el: any) {
+          this.filteredCompledtedItemPkgs = this.compledtedItemPkgs.filter(function (el: ItemTransactionPkgDTO) {
             return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
           });
         }
@@ -228,7 +228,7 @@ export class MyBorrowComponent implements OnInit {
     this.loadTransaction(event.nextId);
   }
 
-  openOwnerDetails(id: any) {
+  openOwnerDetails(id: string) {
     const dialogRef = this.dialog.open(UserDetailsViewComponent, {
       // height: '500px',
       width: '300px',
@@ -251,7 +251,7 @@ export class MyBorrowComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
+    dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
@@ -273,7 +273,7 @@ export class MyBorrowComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
+    dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;

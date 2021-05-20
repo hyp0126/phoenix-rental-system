@@ -31,7 +31,7 @@ export class PostCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  openDetail(id: any) {
+  openDetail(id: number) {
     const dialogRef = this.dialog.open(DetailComponent, {
       // height: '500px',
       width: '600px',
@@ -44,7 +44,7 @@ export class PostCardComponent implements OnInit {
     });
   }
 
-  onclickDetails(id: any) {
+  onclickDetails(id: number) {
     this.router.navigate(['/post'], {
       queryParams: {
         itemId: id,

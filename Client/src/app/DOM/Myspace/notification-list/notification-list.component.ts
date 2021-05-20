@@ -34,7 +34,7 @@ export class NotificationListComponent implements OnInit {
     });
   }
 
-  onCheck(noti: any) {
+  onCheck(noti: NotificationDTO) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
       data: {

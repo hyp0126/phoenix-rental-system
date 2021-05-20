@@ -8,7 +8,7 @@ import { ReasonDialogComponent } from 'src/app/DOM/Shared/reason-dialog/reason-d
 import { FormatUtils } from 'src/app/Helpers/format-utils';
 import { DateValidator } from 'src/app/DOM/Shared/validators/date.validator';
 import { ConfirmDialogComponent } from 'src/app/DOM/Shared/confirm-dialog/confirm-dialog.component';
-import { ItemTransactionPkgDTO, TransactionDetailsDTO } from 'src/app/Models/transactionDTO';
+import { ItemTransactionPkgDTO, TransactionDetailsDTO, TransactionDTO } from 'src/app/Models/transactionDTO';
 import { ItemPkgDTO } from 'src/app/Models/itemDTO';
 
 @Component({
@@ -273,7 +273,7 @@ export class MyListComponent implements OnInit {
     var itemNameFilter = this.NameFilter1;
     var itemDescFilter = this.DescFilter;
 
-    this.userItems = this.NameListWithoutFilter1.filter(function (el: any) {
+    this.userItems = this.NameListWithoutFilter1.filter(function (el: ItemPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
@@ -282,7 +282,7 @@ export class MyListComponent implements OnInit {
     var itemNameFilter = this.NameFilter2;
     var itemDescFilter = this.DescFilter;
 
-    this.requestItems = this.NameListWithoutFilter2.filter(function (el: any) {
+    this.requestItems = this.NameListWithoutFilter2.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
@@ -291,7 +291,7 @@ export class MyListComponent implements OnInit {
     var itemNameFilter = this.NameFilter3;
     var itemDescFilter = this.DescFilter;
 
-    this.processingItems = this.NameListWithoutFilter3.filter(function (el: any) {
+    this.processingItems = this.NameListWithoutFilter3.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
@@ -300,7 +300,7 @@ export class MyListComponent implements OnInit {
     var itemNameFilter = this.NameFilter4;
     var itemDescFilter = this.DescFilter;
 
-    this.returnItems = this.NameListWithoutFilter4.filter(function (el: any) {
+    this.returnItems = this.NameListWithoutFilter4.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
@@ -309,7 +309,7 @@ export class MyListComponent implements OnInit {
     var itemNameFilter = this.NameFilter5;
     var itemDescFilter = this.DescFilter;
 
-    this.completedItems = this.NameListWithoutFilter5.filter(function (el: any) {
+    this.completedItems = this.NameListWithoutFilter5.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
@@ -318,7 +318,7 @@ export class MyListComponent implements OnInit {
     this.loadTabItems(event.nextId);
   }
 
-  openBorrowerDetails(id: any) {
+  openBorrowerDetails(id: string) {
     const dialogRef = this.dialog.open(UserDetailsViewComponent, {
       // height: '500px',
       width: '300px',
@@ -332,7 +332,7 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  confirmBorrow(newTrans: any) {
+  confirmBorrow(newTrans: TransactionDTO) {
     this.service.getItemBorrowedDate(newTrans.itemId).subscribe((data: any) => {
       //console.log(data);
       var checkDates = true;
@@ -400,7 +400,7 @@ export class MyListComponent implements OnInit {
     this.rejectAndCancel('Rejection');
   }
 
-  rejectAndCancel(text: any) {
+  rejectAndCancel(text: string) {
     const dialogRef = this.dialog.open(ReasonDialogComponent, {
       height: '300px',
       width: '400px',
@@ -420,7 +420,7 @@ export class MyListComponent implements OnInit {
     });
   }
 
-  cancelBorrow(transId: any) {
+  cancelBorrow(transId: number) {
     this.transDetailPkg.transactionId = transId;
     this.transDetailPkg.statusId = TransactionStatusEnum.CanceledByLender;
 

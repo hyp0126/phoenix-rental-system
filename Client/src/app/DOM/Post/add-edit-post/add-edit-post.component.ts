@@ -495,7 +495,7 @@ export class AddEditPostComponent implements OnInit {
     }
   }
 
-  openDetail(id: any) {
+  openDetail(id: number) {
     const dialogRef = this.dialog.open(DetailComponent, {
       // height: '500px',
       width: '600px',
@@ -508,7 +508,7 @@ export class AddEditPostComponent implements OnInit {
     });
   }
 
-  deletePhoto(index: any) {
+  deletePhoto(index: number) {
     this.photoFiles.splice(index, 1);
     this.photoUrls.splice(index, 1);
     this.itemDefaultPhotoUrl = this.photoUrls[0];

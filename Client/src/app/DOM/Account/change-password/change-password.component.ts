@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../../Services/authentication.service'
 import { PasswordValidator, ParentErrorStateMatcher } from 'src/app/DOM/Shared/validators';
 import { SharedService } from 'src/app/Services/shared.service';
 import { Router } from '@angular/router';
+import { UserInfo } from 'src/app/Models/userDetailsDTO';
 
 @Component({
   selector: 'app-change-password',
@@ -48,10 +49,10 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   onSubmitPasswordChange(value) {
-    var val = {
-      Email: this.userEmail,
-      Password: value.current_password,
-      NewPassword: value.matching_passwords.password,
+    var val: UserInfo = {
+      email: this.userEmail,
+      password: value.current_password,
+      newPassword: value.matching_passwords.password,
     };
 
     this.authenticationService.changePassword(val).subscribe(

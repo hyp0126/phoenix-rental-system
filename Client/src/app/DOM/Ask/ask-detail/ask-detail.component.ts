@@ -137,7 +137,7 @@ export class AskDetailComponent implements OnInit {
     this.content = content;
   }
 
-  onDelete(id: any) {
+  onDelete(id: number) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '350px',
       data: {
@@ -180,7 +180,7 @@ export class AskDetailComponent implements OnInit {
     });
   }
 
-  openBorrowerDetails(id: any) {
+  openBorrowerDetails(id: string) {
     const dialogRef = this.dialog.open(UserDetailsViewComponent, {
       width: '300px',
       data: {

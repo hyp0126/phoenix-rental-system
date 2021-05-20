@@ -124,7 +124,7 @@ export class AskComponent implements AfterViewInit {
     });
   }
 
-  onDelete(id: any) {
+  onDelete(id: number) {
     this.count = 0;
     this.service.getArticleWithReply(id).subscribe((data: Article[]) => {
       this.count = data.length - 1;
@@ -152,7 +152,7 @@ export class AskComponent implements AfterViewInit {
     this.content = content;
   }
 
-  openBorrowerDetails(id: any) {
+  openBorrowerDetails(id: string) {
     const dialogRef = this.dialog.open(UserDetailsViewComponent, {
       // height: '500px',
       width: '300px',
@@ -175,7 +175,7 @@ export class AskComponent implements AfterViewInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
+    dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
         this.askEditPkg.id = id;
         this.askEditPkg.userId = this.userId;
