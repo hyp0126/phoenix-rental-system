@@ -4,41 +4,41 @@ import { HttpClientModule } from '@angular/common/http';
 /* DOM Components */
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './DOM/Account/login/login.component';
-import { RegisterComponent } from './DOM/Account/register/register.component';
-import { HeaderComponent } from './DOM/Navigation/header/header.component';
-import { SideMenuComponent } from './DOM/Navigation/side-menu/side-menu.component';
-import { HomeComponent } from './DOM/Main/Home/home.component';
-import { DetailComponent } from './DOM/Main/detail/detail.component';
-import { PostComponent } from './DOM/Post/post.component';
-import { AddEditPostComponent } from './DOM/Post/add-edit-post/add-edit-post.component';
-import { UserAccountComponent } from './DOM/Account/user-account/user-account.component';
-import { UserDetailsComponent } from './DOM/Account/user-details/user-details.component';
-import { AskComponent } from './DOM/Ask/ask.component';
-import { PostCardComponent } from './DOM/Post/post-card/post-card.component';
-import { MapsComponent } from './DOM/Navigation/maps/maps.component';
-import { MyListComponent } from './DOM/Myspace/my-list/my-list.component';
-import { MyBorrowComponent } from './DOM/Myspace/my-borrow/my-borrow.component';
-import { AskDetailComponent } from './DOM/Ask/ask-detail/ask-detail.component';
-import { EditorComponent } from './DOM/Shared/editor/editor.component';
-import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
-import { UserDetailsViewComponent } from './DOM/Account/user-details-view/user-details-view.component';
-import { NotificationListComponent } from './DOM/Myspace/notification-list/notification-list.component';
-import { ReasonDialogComponent } from './DOM/Shared/reason-dialog/reason-dialog.component';
-import { ReviewDialogComponent } from './DOM/Shared/review-dialog/review-dialog.component';
+import { LoginComponent } from './pages/account/login/login.component';
+import { RegisterComponent } from './pages/account/register/register.component';
+import { HeaderComponent } from './pages/navigation/header/header.component';
+import { SideMenuComponent } from './pages/navigation/side-menu/side-menu.component';
+import { HomeComponent } from './pages/main/home/home.component';
+import { DetailComponent } from './pages/main/detail/detail.component';
+import { PostComponent } from './pages/post/post.component';
+import { AddEditPostComponent } from './pages/post/add-edit-post/add-edit-post.component';
+import { UserAccountComponent } from './pages/account/user-account/user-account.component';
+import { UserDetailsComponent } from './pages/account/user-details/user-details.component';
+import { AskComponent } from './pages/ask/ask.component';
+import { PostCardComponent } from './pages/post/post-card/post-card.component';
+import { MapsComponent } from './pages/navigation/maps/maps.component';
+import { MyListComponent } from './pages/myspace/my-list/my-list.component';
+import { MyBorrowComponent } from './pages/myspace/my-borrow/my-borrow.component';
+import { AskDetailComponent } from './pages/ask/ask-detail/ask-detail.component';
+import { EditorComponent } from './pages/shared/editor/editor.component';
+import { RequestBorrowComponent } from './pages/post/request-borrow/request-borrow.component';
+import { UserDetailsViewComponent } from './pages/account/user-details-view/user-details-view.component';
+import { NotificationListComponent } from './pages/myspace/notification-list/notification-list.component';
+import { ReasonDialogComponent } from './pages/shared/reason-dialog/reason-dialog.component';
+import { ReviewDialogComponent } from './pages/shared/review-dialog/review-dialog.component';
 
 /* Account */
-import { ChangePasswordComponent } from './DOM/Account/change-password/change-password.component';
-import { PRSAdminComponent, PopupComponent } from './DOM/Account/prsadmin/prsadmin.component';
+import { ChangePasswordComponent } from './pages/account/change-password/change-password.component';
+import { PRSAdminComponent, PopupComponent } from './pages/account/prsadmin/prsadmin.component';
 
 /* common component */
-import { AvatarComponent } from './DOM/Navigation/avatar/avatar.component';
-import { ConfirmDialogComponent } from './DOM/Shared/confirm-dialog/confirm-dialog.component';
-import { AlertsComponent } from './DOM/Shared/alerts/alerts.component';
+import { AvatarComponent } from './pages/navigation/avatar/avatar.component';
+import { ConfirmDialogComponent } from './pages/shared/confirm-dialog/confirm-dialog.component';
+import { AlertsComponent } from './pages/shared/alerts/alerts.component';
 
 /* Angular Material */
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from '../app/Helpers/angular-material.module';
+import { AngularMaterialModule } from './helpers/angular-material.module';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 /* Ngx Bootstrap */
@@ -59,7 +59,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 /* Authenticate */
 import { JwtModule } from '@auth0/angular-jwt';
-import { AuthService } from './Services/auth.service';
+import { AuthService } from './services/auth.service';
 
 /* Currency Input */
 import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
@@ -69,14 +69,14 @@ import { customCurrencyMaskConfig } from 'src/environments/environment';
 import { NgxFileDropModule } from 'ngx-file-drop';
 
 /* Services */
-import { SharedService } from 'src/app/Services/shared.service';
-import { AuthenticationService } from 'src/app/Services/authentication.service';
+import { SharedService } from 'src/app/services/shared.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 /* Pipes */
-import { AuthImgPipe } from '../app/Helpers/auth-img.pipe';
+import { AuthImgPipe } from './helpers/auth-img.pipe';
 
 import { environment } from 'src/environments/environment';
-import { EditDialogComponent } from './DOM/Shared/edit-dialog/edit-dialog.component';
+import { EditDialogComponent } from './pages/shared/edit-dialog/edit-dialog.component';
 
 @NgModule({
   declarations: [

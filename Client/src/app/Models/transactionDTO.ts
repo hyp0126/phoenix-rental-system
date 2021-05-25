@@ -1,4 +1,4 @@
-import { ItemDTO } from 'src/app/Models/itemDTO';
+import { ItemDTO } from 'src/app/models/itemDTO';
 
 export interface TransactionPkgDTO {
   trans: TransactionDTO;

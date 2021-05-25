@@ -1,4 +1,4 @@
-import { ItemDTO, PhotoDTO } from 'src/app/Models/itemDTO';
+import { ItemDTO, PhotoDTO } from 'src/app/models/itemDTO';
 
 export interface UserItemPkgDTO {
   userItem: UserItemDTO;

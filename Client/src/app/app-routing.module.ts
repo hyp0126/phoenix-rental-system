@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LoginComponent } from '../app/DOM/Account/login/login.component';
-import { RegisterComponent } from '../app/DOM/Account/register/register.component';
-import { UserAccountComponent } from '../app/DOM/Account/user-account/user-account.component';
-import { HomeComponent } from './DOM/Main/Home/home.component';
-import { PostComponent } from './DOM/Post/post.component';
-import { AskComponent } from 'src/app/DOM/Ask/ask.component';
-import { AskDetailComponent } from 'src/app/DOM/Ask/ask-detail/ask-detail.component';
-import { MyListComponent } from 'src/app/DOM/Myspace/my-list/my-list.component';
-import { MyBorrowComponent } from 'src/app/DOM/Myspace/my-borrow/my-borrow.component';
-import { EditorComponent } from 'src/app/DOM/Shared/editor/editor.component';
-import { RequestBorrowComponent } from './DOM/Post/request-borrow/request-borrow.component';
-import { AuthService } from '../app/Services/auth.service';
-import { ChangePasswordComponent } from 'src/app/DOM/Account/change-password/change-password.component';
-import { PRSAdminComponent } from 'src/app/DOM/Account/prsadmin/prsadmin.component';
+import { LoginComponent } from './pages/account/login/login.component';
+import { RegisterComponent } from './pages/account/register/register.component';
+import { UserAccountComponent } from './pages/account/user-account/user-account.component';
+import { HomeComponent } from './pages/main/home/home.component';
+import { PostComponent } from './pages/post/post.component';
+import { AskComponent } from 'src/app/pages/ask/ask.component';
+import { AskDetailComponent } from 'src/app/pages/ask/ask-detail/ask-detail.component';
+import { MyListComponent } from 'src/app/pages/myspace/my-list/my-list.component';
+import { MyBorrowComponent } from 'src/app/pages/myspace/my-borrow/my-borrow.component';
+import { EditorComponent } from 'src/app/pages/shared/editor/editor.component';
+import { RequestBorrowComponent } from './pages/post/request-borrow/request-borrow.component';
+import { AuthService } from './services/auth.service';
+import { ChangePasswordComponent } from 'src/app/pages/account/change-password/change-password.component';
+import { PRSAdminComponent } from 'src/app/pages/account/prsadmin/prsadmin.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },

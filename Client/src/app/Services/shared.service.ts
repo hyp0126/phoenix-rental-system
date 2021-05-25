@@ -2,27 +2,27 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
-import { AlertsComponent } from 'src/app/DOM/Shared/alerts/alerts.component';
+import { AlertsComponent } from 'src/app/pages/shared/alerts/alerts.component';
 import { MatDialog } from '@angular/material/dialog';
 import { map, catchError } from 'rxjs/operators';
 // import { User } from '../Models/user';
 
-import { ItemReviewPkgDTO } from 'src/app/Models/itemDTO';
-import { Review } from 'src/app/Models/review';
-import { NotificationDTO } from 'src/app/Models/notificationDTO';
-import { Notification } from 'src/app/Models/notification';
-import { CategoryDTO } from 'src/app/Models/categoryDTO';
-import { Category } from 'src/app/Models/category';
+import { ItemReviewPkgDTO } from 'src/app/models/itemDTO';
+import { Review } from 'src/app/models/review';
+import { NotificationDTO } from 'src/app/models/notificationDTO';
+import { Notification } from 'src/app/models/notification';
+import { CategoryDTO } from 'src/app/models/categoryDTO';
+import { Category } from 'src/app/models/category';
 import {
   ItemTransactionPkgDTO,
   TransactionPkgDTO,
   TransactionDTO,
   TransactionDetailsDTO,
-} from 'src/app/Models/transactionDTO';
-import { Article } from 'src/app/Models/askBoardDTO';
-import { Province } from 'src/app/Models/province';
-import { UserPkgDTO } from 'src/app/Models/userDetailsDTO';
-import { ItemPkgDTO, PhotoDTO, ItemDTO } from 'src/app/Models/itemDTO';
+} from 'src/app/models/transactionDTO';
+import { Article } from 'src/app/models/askBoardDTO';
+import { Province } from 'src/app/models/province';
+import { UserPkgDTO } from 'src/app/models/userDetailsDTO';
+import { ItemPkgDTO, PhotoDTO, ItemDTO } from 'src/app/models/itemDTO';
 
 @Injectable({
   providedIn: 'root',

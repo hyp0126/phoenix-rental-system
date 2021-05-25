@@ -1,4 +1,4 @@
-import { AddressDTO } from 'src/app/Models/userDetailsDTO';
+import { AddressDTO } from 'src/app/models/userDetailsDTO';
 export interface ItemPkgDTO {
   item: ItemDTO;
   address: AddressDTO;

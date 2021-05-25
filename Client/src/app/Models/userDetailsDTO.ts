@@ -1,4 +1,4 @@
-import { RoleDTO } from 'src/app/Models/userItemDTO';
+import { RoleDTO } from 'src/app/models/userItemDTO';
 
 export interface UserAccountDTO {
   id?: string;

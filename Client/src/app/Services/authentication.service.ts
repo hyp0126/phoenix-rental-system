@@ -4,8 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
-import { UserInfo } from '../Models/userDetailsDTO';
-import { UserToken } from 'src/app/Models/userToken';
+import { UserInfo } from '../models/userDetailsDTO';
+import { UserToken } from 'src/app/models/userToken';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<UserToken>;
