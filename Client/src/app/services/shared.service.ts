@@ -81,8 +81,8 @@ export class SharedService {
     }
   }
 
-  uploadPhoto(form: FormData) {
-    return this.http.post(`${environment.apiUrl}/UserDetails/SaveAvatar`, form);
+  uploadPhoto(form: FormData): Observable<{ filePath: string }> {
+    return this.http.post<{ filePath: string }>(`${environment.apiUrl}/UserDetails/SaveAvatar`, form);
   }
 
   // upload(file: any) {
@@ -103,8 +103,8 @@ export class SharedService {
     return this.http.post<ItemPkgDTO>(`${environment.apiUrl}/Item`, itemPkgDTO);
   }
 
-  uploadItemPhoto(form: FormData): Observable<string[]> {
-    return this.http.post<string[]>(`${environment.apiUrl}/Item/SavePhotos`, form);
+  uploadItemPhoto(form: FormData): Observable<{ filePathList: string[] }> {
+    return this.http.post<{ filePathList: string[] }>(`${environment.apiUrl}/Item/SavePhotos`, form);
   }
 
   getItem(itemId: number): Observable<ItemPkgDTO> {

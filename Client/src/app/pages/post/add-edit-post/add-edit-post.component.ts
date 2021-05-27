@@ -18,6 +18,7 @@ import { Category } from 'src/app/models/category';
 import { Province } from 'src/app/models/province';
 import { UserPkgDTO } from 'src/app/models/userDetailsDTO';
 import { ItemPkgDTO, PhotoDTO } from 'src/app/models/itemDTO';
+
 @Component({
   selector: 'app-add-edit-post',
   templateUrl: './add-edit-post.component.html',
@@ -415,7 +416,7 @@ export class AddEditPostComponent implements OnInit {
       formData.append(files[i].name, files[i]);
     }
 
-    this.service.uploadItemPhoto(formData).subscribe((data: any) => {
+    this.service.uploadItemPhoto(formData).subscribe((data: { filePathList: string[] }) => {
       let errorMsg: string = '';
       data.filePathList.forEach((element) => {
         if (element.indexOf('Err:') != -1) {

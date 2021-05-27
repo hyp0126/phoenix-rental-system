@@ -131,7 +131,7 @@ export class UserDetailsComponent implements OnInit {
     formData.append(file.name, file, file.name);
     formData.append('id', this.id);
     //formData.append("id", this.id);
-    this.service.uploadPhoto(formData).subscribe((data: any) => {
+    this.service.uploadPhoto(formData).subscribe((data: { filePath: string }) => {
       //alert(data.filePath);
       this.PhotoFileName = data.filePath; //toString();
       //this.PhotoFilePath=environment.PhotoUrlAvatar+this.PhotoFileName;
