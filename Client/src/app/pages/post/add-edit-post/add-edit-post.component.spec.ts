@@ -59,6 +59,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { DateValidator, ParentErrorStateMatcher } from 'src/app/pages/shared/validators';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ItemReviewPkgDTO, ReviewDTO } from 'src/app/models/itemDTO';
 
 export const customCurrencyMaskConfig = {
   align: 'right',
@@ -410,14 +411,33 @@ describe('AddEditPostComponent', () => {
   });
 
   it('should display injected review', () => {
-    let review = {
+    let review: ReviewDTO = {
+      id: 1,
+      itemId: 1,
+      userId: '',
       userName: 'Harry Hong',
       date: new Date('2021-03-01T12:00:00.00Z'),
       rate: 3,
       title: 'Bicycle Review',
       review1: 'Bicycle is Good',
     };
+
     component.reviewPkgs.push({
+      item: {
+        id: 0,
+        userId: '',
+        categoryId: 1,
+        categoryName: '',
+        name: 'Bike',
+        description: '',
+        defaultImageFile: '',
+        deposit: 50,
+        fee: 2,
+        startDate: new Date(),
+        addressId: 1,
+        createdDate: new Date(),
+        timeStamp: new Date(),
+      },
       review: review,
     });
     component.reviewsCount = 1;
