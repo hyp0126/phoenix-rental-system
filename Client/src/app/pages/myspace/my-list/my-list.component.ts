@@ -333,21 +333,21 @@ export class MyListComponent implements OnInit {
   }
 
   confirmBorrow(newTrans: TransactionDTO) {
-    this.service.getItemBorrowedDate(newTrans.itemId).subscribe((data: any) => {
+    this.service.getItemBorrowedDate(newTrans.itemId).subscribe((transDTOs: TransactionDTO[]) => {
       //console.log(data);
       var checkDates = true;
       var requestCount = 0;
-      if (data.length != 0) {
-        for (var i = 0; i < data.length; i++) {
-          var tranStartDate = new Date(data[i].startDate);
-          var tranEndDate = new Date(data[i].endDate);
+      if (transDTOs.length != 0) {
+        for (var i = 0; i < transDTOs.length; i++) {
+          var tranStartDate = new Date(transDTOs[i].startDate);
+          var tranEndDate = new Date(transDTOs[i].endDate);
 
           // endDate < (tranStartDate ~ tranEndDate)
           if (DateValidator.compareDateWithoutForm(newTrans.endDate, tranStartDate) == 1) {
           }
           // (tranStartDate ~ tranEndDate) < startDate
           else if (DateValidator.compareDateWithoutForm(tranEndDate, newTrans.startDate) == 1) {
-          } else if (data[i].currentStatus == TransactionStatusEnum.Request) {
+          } else if (transDTOs[i].currentStatus == TransactionStatusEnum.Request) {
             requestCount++;
           } else {
             checkDates = false;
@@ -387,7 +387,7 @@ export class MyListComponent implements OnInit {
     this.transDetailPkg.transactionId = transId;
     this.transDetailPkg.statusId = TransactionStatusEnum.Confirmed;
 
-    this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+    this.service.putTransactionDetail(this.transDetailPkg).subscribe(() => {
       //console.log(data.status);
       this.ngOnInit();
     });
@@ -412,7 +412,7 @@ export class MyListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((data: any) => {
       if (data) {
         this.transDetailPkg.reason = data;
-        this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+        this.service.putTransactionDetail(this.transDetailPkg).subscribe(() => {
           //console.log(data);
           this.ngOnInit();
         });
@@ -443,12 +443,12 @@ export class MyListComponent implements OnInit {
         this.transDetailPkg.reason = data.reason;
         returnItem.trans.refundDeposit = data.refundDeposit;
 
-        this.service.updateTransaction(returnItem.trans).subscribe((data: any) => {
+        this.service.updateTransaction(returnItem.trans).subscribe(() => {
           //console.log(data.status);
           this.transDetailPkg.transactionId = returnItem.trans.id;
           this.transDetailPkg.statusId = TransactionStatusEnum.ReturnComplete;
 
-          this.service.putTransactionDetail(this.transDetailPkg).subscribe((data: any) => {
+          this.service.putTransactionDetail(this.transDetailPkg).subscribe(() => {
             //console.log(data.status);
             this.ngOnInit();
           });

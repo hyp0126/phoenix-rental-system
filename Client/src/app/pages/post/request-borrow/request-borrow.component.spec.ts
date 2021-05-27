@@ -41,6 +41,8 @@ import { Observable, Subject, of } from 'rxjs';
 import { TransactionStatusEnum, NotificationTypeEnum } from 'src/app/helpers/enum';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { ItemTransactionPkgDTO } from 'src/app/models/transactionDTO';
+import { ItemPkgDTO } from 'src/app/models/itemDTO';
 
 export const customCurrencyMaskConfig = {
   align: 'right',
@@ -76,7 +78,7 @@ describe('RequestBorrowComponent', () => {
   };
 
   const fakeRouter = {
-    navigate(v: any): any {
+    navigate(commands: any[]): Promise<boolean> {
       return;
     },
   };
@@ -125,18 +127,22 @@ describe('RequestBorrowComponent', () => {
     },
   };
 
-  const fakeItemPkg: any = {
+  const fakeItemPkg: ItemPkgDTO = {
     item: {
       id: 0,
       userId: 'userId',
       categoryId: 1,
+      categoryName: '',
       name: 'test item',
       description: 'test description',
+      defaultImageFile: '',
       deposit: 100.0,
       fee: 10.0,
       startDate: new Date('03/01/2021'),
       endDate: new Date('03/31/2021'),
-      //addressId: 0,
+      addressId: 0,
+      createdDate: new Date(),
+      timeStamp: new Date(),
     },
     address: {
       id: 0,
@@ -154,8 +160,8 @@ describe('RequestBorrowComponent', () => {
 
   const fakeService = {
     isLoginUser: 'usuerId',
-    getTransactionByUser(val: any, status: any): Observable<any> {
-      var transactions: any[] = [];
+    getTransactionByUser(val: string, status: number[]): Observable<ItemTransactionPkgDTO[]> {
+      var transactions: ItemTransactionPkgDTO[] = [];
       if (fakeTransMode == 0) {
         for (var i = 0; i < status.length; i++) {
           var trans = JSON.parse(JSON.stringify(fakeTransaction)); //deep copy

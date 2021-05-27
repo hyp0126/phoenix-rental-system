@@ -119,7 +119,7 @@ export class AskComponent implements AfterViewInit {
     this.askBoardPkg.userId = this.userId;
     this.askBoardPkg.description = this.content;
     console.log(this.askBoardPkg);
-    this.service.insertArticle(this.askBoardPkg).subscribe((data: any) => {
+    this.service.insertArticle(this.askBoardPkg).subscribe(() => {
       this.ngOnInit();
     });
   }
@@ -139,7 +139,7 @@ export class AskComponent implements AfterViewInit {
         });
         dialogRef.afterClosed().subscribe((result) => {
           if (result) {
-            this.service.deleteArticle(id).subscribe((data: any) => {
+            this.service.deleteArticle(id).subscribe(() => {
               this.ngOnInit();
             });
           }
@@ -184,7 +184,7 @@ export class AskComponent implements AfterViewInit {
         this.askEditPkg.parentId = id;
 
         console.log(this.askEditPkg);
-        this.service.updateArticle(this.askEditPkg).subscribe((data: any) => {
+        this.service.updateArticle(this.askEditPkg).subscribe(() => {
           this.service.alert('success', 'The content is changed.');
           this.ngOnInit();
         });

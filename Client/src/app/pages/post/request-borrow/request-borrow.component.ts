@@ -342,8 +342,7 @@ export class RequestBorrowComponent implements OnInit {
 
   onBorrow() {
     if (this.borrowInfo.invalid == false) {
-      this.service.insertTransaction(this.transactionPkg).subscribe((data: any) => {
-        //console.log(data);
+      this.service.insertTransaction(this.transactionPkg).subscribe(() => {
         this.service.alert('success', 'Send Request Borrow');
         //this.router.navigate(['/home']);
 

@@ -469,12 +469,12 @@ export class AddEditPostComponent implements OnInit {
     this.getFormData();
 
     if (this.isNewItem == true) {
-      this.service.insertItem(this.itemPkg).subscribe((data: any) => {
+      this.service.insertItem(this.itemPkg).subscribe((data: ItemPkgDTO) => {
         this.itemId = data.item.id;
         this.uploadPhoto();
       });
     } else {
-      this.service.updateItem(this.itemPkg).subscribe((data: any) => {
+      this.service.updateItem(this.itemPkg).subscribe((data: ItemPkgDTO) => {
         this.itemId = data.item.id;
         this.uploadPhoto();
       });

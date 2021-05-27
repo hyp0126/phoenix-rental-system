@@ -112,7 +112,7 @@ export class AskDetailComponent implements OnInit {
     this.askReplyPkg.title = this.title;
     this.askReplyPkg.description = this.content;
     console.log(this.askReplyPkg);
-    this.service.insertReply(this.askReplyPkg).subscribe((data: any) => {
+    this.service.insertReply(this.askReplyPkg).subscribe(() => {
       this.sendNotification();
       this.ngOnInit();
     });
@@ -147,7 +147,7 @@ export class AskDetailComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.service.deleteReply(id).subscribe((data: any) => {
+        this.service.deleteReply(id).subscribe(() => {
           this.ngOnInit();
         });
       }
@@ -163,7 +163,7 @@ export class AskDetailComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
+    dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
         this.askReplyEditPkg.id = id;
         this.askReplyEditPkg.userId = this.userId;
@@ -172,7 +172,7 @@ export class AskDetailComponent implements OnInit {
         this.askReplyEditPkg.parentId = this.rowId;
 
         console.log(this.askReplyEditPkg);
-        this.service.updateReply(this.askReplyEditPkg).subscribe((data: any) => {
+        this.service.updateReply(this.askReplyEditPkg).subscribe(() => {
           this.service.alert('success', 'The content is changed.');
           this.ngOnInit();
         });

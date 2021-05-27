@@ -16,9 +16,6 @@ import { ItemDTO } from 'src/app/models/itemDTO';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  // currentUser: any;
-  // id: any;
-
   properties: ItemDTO[] = [];
   page: number = 1;
   search: string = '';

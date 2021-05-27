@@ -256,7 +256,7 @@ export class MyBorrowComponent implements OnInit {
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
         this.tranDetails.reason = data;
-        this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+        this.service.putTransactionDetail(this.tranDetails).subscribe(() => {
           this.ngOnInit();
         });
       }
@@ -278,7 +278,7 @@ export class MyBorrowComponent implements OnInit {
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.CanceledByBorrower;
         this.tranDetails.reason = data;
-        this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+        this.service.putTransactionDetail(this.tranDetails).subscribe(() => {
           this.ngOnInit();
         });
       }
@@ -298,7 +298,7 @@ export class MyBorrowComponent implements OnInit {
         // Send Request Return
         this.tranDetails.transactionId = transactionId;
         this.tranDetails.statusId = TransactionStatusEnum.RequestReturn;
-        this.service.putTransactionDetail(this.tranDetails).subscribe((data: any) => {
+        this.service.putTransactionDetail(this.tranDetails).subscribe(() => {
           //console.log(data);
           this.loadTransaction(this.active);
           this.service.alert('success', 'Requested Return');
@@ -375,7 +375,7 @@ export class MyBorrowComponent implements OnInit {
       dialogRef.afterClosed().subscribe((data: any) => {
         if (data) {
           if (data.isDelete) {
-            this.service.deleteItemReview(this.review.id).subscribe((data: any) => {});
+            this.service.deleteItemReview(this.review.id).subscribe(() => {});
           } else {
             this.review.itemId = compledtedItemPkg.item.id;
             this.review.date = new Date();

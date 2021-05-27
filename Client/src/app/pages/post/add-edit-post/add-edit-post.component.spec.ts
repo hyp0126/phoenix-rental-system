@@ -95,7 +95,7 @@ describe('AddEditPostComponent', () => {
   };
 
   const fakeRouter = {
-    navigate(v: any): any {
+    navigate(commands: any[]): Promise<boolean> {
       return;
     },
   };

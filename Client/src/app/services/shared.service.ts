@@ -30,8 +30,8 @@ import { ItemPkgDTO, PhotoDTO, ItemDTO } from 'src/app/models/itemDTO';
 export class SharedService {
   constructor(private http: HttpClient, public dialog: MatDialog) {}
 
-  private subjectNotification = new Subject<any>();
-  private subjectReloadHome = new Subject<any>();
+  private subjectNotification = new Subject<number>();
+  private subjectReloadHome = new Subject<boolean>();
 
   sendNotificationCount(count: number) {
     this.subjectNotification.next(count);
@@ -46,14 +46,14 @@ export class SharedService {
   }
 
   sendNotificationReloadHome() {
-    this.subjectReloadHome.next();
+    this.subjectReloadHome.next(true);
   }
 
   clearNotificationReloadHome() {
     this.subjectReloadHome.next();
   }
 
-  getNotificationReloadHome(): Observable<any> {
+  getNotificationReloadHome(): Observable<boolean> {
     return this.subjectReloadHome.asObservable();
   }
 

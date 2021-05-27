@@ -44,8 +44,7 @@ export class NotificationListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.service.updateNotificationStatus(noti.id).subscribe((data: any) => {
-          console.log(data);
+        this.service.updateNotificationStatus(noti.id).subscribe(() => {
           this.ngOnInit();
         });
       }
