@@ -71,7 +71,11 @@ export class AvatarComponent implements OnInit {
   }
 
   userDetails() {
-    //this.dialog.open(UserDetailsComponent);
     this.router.navigate(['/user-account']);
+  }
+
+  help() {
+    //window.location.replace('/assets/help/AboutPRS.html');
+    window.open('/assets/help/AboutPRS.html');
   }
 }
