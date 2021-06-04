@@ -133,4 +133,9 @@ export class SideMenuComponent implements OnInit {
         this.sidenavClose.emit();
       });
   }
+
+  help() {
+    //window.location.replace('/assets/help/AboutPRS.html');
+    window.open('/assets/help/AboutPRS.html');
+  }
 }

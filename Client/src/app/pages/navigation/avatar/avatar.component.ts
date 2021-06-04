@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDetailsComponent } from '../../account/user-details/user-details.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LoginComponent } from '../../account/login/login.component';
 
 @Component({
   selector: 'app-avatar',
@@ -41,7 +42,9 @@ export class AvatarComponent implements OnInit {
   private createInititals(): void {
     let initials = '';
 
-    if (this.name.includes('@')) {
+    if (this.name == '') {
+      initials = 'Sign';
+    } else if (this.name.includes('@')) {
       initials = this.name.charAt(0).toUpperCase();
     } else {
       for (let i = 0; i < this.name.length; i++) {
@@ -72,6 +75,10 @@ export class AvatarComponent implements OnInit {
 
   userDetails() {
     this.router.navigate(['/user-account']);
+  }
+
+  login() {
+    this.dialog.open(LoginComponent);
   }
 
   help() {
