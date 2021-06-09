@@ -34,12 +34,13 @@ namespace Server.Controllers
         }
 
         [HttpGet("GetTransactionByUser")]
-        public async Task<ActionResult<List<ItemTransactionPkgDTO>>> GetTransactionByUser([FromQuery] string userId, [FromQuery] string statusIds)
+        public async Task<ActionResult<List<ItemTransactionPkgDTO>>> GetTransactionByUser([FromQuery] string page, [FromQuery] string userId, [FromQuery] string statusIds)
         {
+            int currentPage = int.Parse(page);
             List<ItemTransactionPkgDTO> pkgDtoList = new List<ItemTransactionPkgDTO>();
             List<int> statusList = GetStatusList(statusIds);
            
-            var Transactions = await TB.GetTransactionByBorrower(userId, statusList);
+            var Transactions = await TB.GetTransactionByBorrower(currentPage, userId, statusList);
             foreach (var trans in Transactions)
             {
                 var Item = await IB.GetItem(trans.ItemId);

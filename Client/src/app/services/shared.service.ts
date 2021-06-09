@@ -175,8 +175,11 @@ export class SharedService {
     return this.http.get<ItemTransactionPkgDTO[]>(`${environment.apiUrl}/Transaction`, { params: params });
   }
 
-  getTransactionByUser(userId: string, statusIds: number[]): Observable<ItemTransactionPkgDTO[]> {
-    const params = new HttpParams().set('userId', userId).set('statusIds', statusIds.join(','));
+  getTransactionByUser(page: number, userId: string, statusIds: number[]): Observable<ItemTransactionPkgDTO[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('userId', userId)
+      .set('statusIds', statusIds.join(','));
     return this.http.get<ItemTransactionPkgDTO[]>(`${environment.apiUrl}/Transaction/GetTransactionByUser`, {
       params: params,
     });

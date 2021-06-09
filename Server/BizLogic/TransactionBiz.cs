@@ -11,6 +11,7 @@ namespace Server.BizLogic
     public partial class TransactionBiz
     {
         private readonly PhoenixContext context;
+        private readonly int PAGE_SIZE = 8;
 
         List<int> errorList = new List<int>();
         Transaction transaction = new Transaction();
@@ -59,12 +60,13 @@ namespace Server.BizLogic
                 .ToListAsync();
         }
 
-        public async Task<List<Transaction>> GetTransactionByBorrower(string userId, List<int> status)
+        public async Task<List<Transaction>> GetTransactionByBorrower(int currentPage, string userId, List<int> status)
         {
             return await context.Transaction
                 .Include(c => c.TransactionDetail)
                 .Where(c => status.Contains((int)c.CurrentStatus) && c.BorrowerId == userId)
                 .OrderByDescending(c => c.Id)
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
 
             //list.Where(x => status.Contains((int)x.CurrentStatus));

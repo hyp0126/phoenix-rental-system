@@ -23,7 +23,6 @@ import { UserPkgDTO } from 'src/app/models/userDetailsDTO';
 })
 export class MyBorrowComponent implements OnInit {
   active: number = 0;
-  showMore: boolean;
   userId: string = '';
 
   requestItemPkgs: ItemTransactionPkgDTO[];
@@ -37,6 +36,7 @@ export class MyBorrowComponent implements OnInit {
   currentDate: Date = new Date();
   ownerNames: { [key: string]: string } = {};
   notEmptyPost: boolean = true;
+  page: number = 0;
 
   tranDetails: TransactionDetailsDTO = {
     id: 0,
@@ -95,75 +95,87 @@ export class MyBorrowComponent implements OnInit {
   }
 
   loadTransactionRequested() {
+    this.page = this.page + 1;
+
     this.service
-      .getTransactionByUser(this.userId, [TransactionStatusEnum.Request])
+      .getTransactionByUser(this.page, this.userId, [TransactionStatusEnum.Request])
       .subscribe((transItemPkgs: ItemTransactionPkgDTO[]) => {
-        this.requestItemPkgs = transItemPkgs;
+        transItemPkgs.forEach((trItemPkg) => {
+          trItemPkg.item.defaultImageFile = trItemPkg.item.defaultImageFile
+            ? environment.PhotoFileUrl + trItemPkg.item.defaultImageFile
+            : environment.PhotoFileUrl + 'noImage.png';
+          this.getOwnerNames(trItemPkg.item.userId);
+        });
+
+        if (this.page == 1) {
+          this.requestItemPkgs = transItemPkgs;
+        } else {
+          this.requestItemPkgs.push(...transItemPkgs);
+        }
+
         if (transItemPkgs.length < 8) {
           this.notEmptyPost = false;
         }
-        this.showMore = false;
-
-        this.requestItemPkgs.forEach((transItemPkg) => {
-          transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
-            ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-            : environment.PhotoFileUrl + 'noImage.png';
-          this.getOwnerNames(transItemPkg.item.userId);
-        });
-        // this.requestItemPkgs.sort((a, b) => {
-        //   return b.trans.id - a.trans.id;
-        // });
         this.filteredRequestItemPkgs = this.requestItemPkgs;
       });
   }
 
   loadTransactionBorrowing() {
+    this.page = this.page + 1;
+
     this.service
-      .getTransactionByUser(this.userId, [TransactionStatusEnum.Confirmed, TransactionStatusEnum.RequestReturn])
+      .getTransactionByUser(this.page, this.userId, [
+        TransactionStatusEnum.Confirmed,
+        TransactionStatusEnum.RequestReturn,
+      ])
       .subscribe((transItemPkgs: ItemTransactionPkgDTO[]) => {
-        this.borrowingItemPkgs = transItemPkgs;
+        transItemPkgs.forEach((trItemPkg) => {
+          trItemPkg.item.defaultImageFile = trItemPkg.item.defaultImageFile
+            ? environment.PhotoFileUrl + trItemPkg.item.defaultImageFile
+            : environment.PhotoFileUrl + 'noImage.png';
+          this.getOwnerNames(trItemPkg.item.userId);
+        });
+
+        if (this.page == 1) {
+          this.borrowingItemPkgs = transItemPkgs;
+        } else {
+          this.borrowingItemPkgs.push(...transItemPkgs);
+        }
+
         if (transItemPkgs.length < 8) {
           this.notEmptyPost = false;
         }
-        this.showMore = false;
-
-        this.borrowingItemPkgs.forEach((transItemPkg) => {
-          transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
-            ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-            : environment.PhotoFileUrl + 'noImage.png';
-          this.getOwnerNames(transItemPkg.item.userId);
-        });
-        // this.borrowingItemPkgs.sort((a, b) => {
-        //   return b.trans.id - a.trans.id;
-        // });
         this.filteredBorrowingItemPkgs = this.borrowingItemPkgs;
       });
   }
 
   loadTransactionCompleted() {
+    this.page = this.page + 1;
+
     this.service
-      .getTransactionByUser(this.userId, [
+      .getTransactionByUser(this.page, this.userId, [
         TransactionStatusEnum.CanceledByBorrower,
         TransactionStatusEnum.CanceledByLender,
         TransactionStatusEnum.Rejected,
         TransactionStatusEnum.ReturnComplete,
       ])
       .subscribe((transItemPkgs: ItemTransactionPkgDTO[]) => {
-        this.compledtedItemPkgs = transItemPkgs;
+        transItemPkgs.forEach((trItemPkg) => {
+          trItemPkg.item.defaultImageFile = trItemPkg.item.defaultImageFile
+            ? environment.PhotoFileUrl + trItemPkg.item.defaultImageFile
+            : environment.PhotoFileUrl + 'noImage.png';
+          this.getOwnerNames(trItemPkg.item.userId);
+        });
+
+        if (this.page == 1) {
+          this.compledtedItemPkgs = transItemPkgs;
+        } else {
+          this.compledtedItemPkgs.push(...transItemPkgs);
+        }
+
         if (transItemPkgs.length < 8) {
           this.notEmptyPost = false;
         }
-        this.showMore = false;
-
-        this.compledtedItemPkgs.forEach((transItemPkg) => {
-          transItemPkg.item.defaultImageFile = transItemPkg.item.defaultImageFile
-            ? environment.PhotoFileUrl + transItemPkg.item.defaultImageFile
-            : environment.PhotoFileUrl + 'noImage.png';
-          this.getOwnerNames(transItemPkg.item.userId);
-        });
-        // this.compledtedItemPkgs.sort((a, b) => {
-        //   return b.trans.id - a.trans.id;
-        // });
         this.filteredCompledtedItemPkgs = this.compledtedItemPkgs;
       });
   }
@@ -225,6 +237,8 @@ export class MyBorrowComponent implements OnInit {
 
   onNavChange(event) {
     this.NameFilter = '';
+    this.page = 0;
+    this.notEmptyPost = true;
     this.loadTransaction(event.nextId);
   }
 
@@ -394,5 +408,7 @@ export class MyBorrowComponent implements OnInit {
     });
   }
 
-  onLoadMore() {}
+  onLoadMore() {
+    this.loadTransaction(this.active);
+  }
 }
