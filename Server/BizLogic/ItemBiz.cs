@@ -69,7 +69,7 @@ namespace Server.BizLogic
                 .Include(c => c.RecordStatus)
                 .Where(c => c.UserId == userId)
                 .OrderByDescending(c => c.Id)
-                //.Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
+                .Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
         }
 

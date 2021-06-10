@@ -21,32 +21,14 @@ export class MyListComponent implements OnInit {
   userId: string = '';
   showMore: boolean;
   filePath: string = environment.PhotoFileUrl;
-  NameFilter1: string = '';
-  NameFilter2: string = '';
-  NameFilter3: string = '';
-  NameFilter4: string = '';
-  NameFilter5: string = '';
-  DescFilter: string = '';
-  page1: number = 1;
-  page2: number = 1;
-  page3: number = 1;
-  page4: number = 1;
-  page5: number = 1;
-  notEmptyPost1: boolean = true;
-  notScrolly1: boolean = true;
-  notEmptyPost2: boolean = true;
-  notScrolly2: boolean = true;
-  notEmptyPost3: boolean = true;
-  notScrolly3: boolean = true;
-  notEmptyPost4: boolean = true;
-  notScrolly4: boolean = true;
-  notEmptyPost5: boolean = true;
-  notScrolly5: boolean = true;
-  NameListWithoutFilter1: ItemPkgDTO[] = [];
-  NameListWithoutFilter2: ItemTransactionPkgDTO[] = [];
-  NameListWithoutFilter3: ItemTransactionPkgDTO[] = [];
-  NameListWithoutFilter4: ItemTransactionPkgDTO[] = [];
-  NameListWithoutFilter5: ItemTransactionPkgDTO[] = [];
+  nameFilter: string = '';
+  page: number = 1;
+  notEmptyPost: boolean = true;
+  userItemsWithoutFilter: ItemPkgDTO[] = [];
+  requestItemsWithoutFilter: ItemTransactionPkgDTO[] = [];
+  processingItemsWithoutFilter: ItemTransactionPkgDTO[] = [];
+  returnItemsWithoutFilter: ItemTransactionPkgDTO[] = [];
+  completedItemsWithoutFilter: ItemTransactionPkgDTO[] = [];
   userItems: ItemPkgDTO[] = [];
   requestItems: ItemTransactionPkgDTO[] = [];
   processingItems: ItemTransactionPkgDTO[] = [];
@@ -87,6 +69,10 @@ export class MyListComponent implements OnInit {
   }
 
   loadTabItems(activeId) {
+    this.page = 1;
+    this.nameFilter = '';
+    this.notEmptyPost = true;
+
     if (activeId == 1) {
       // My Items
       this.loadUserItems();
@@ -106,10 +92,10 @@ export class MyListComponent implements OnInit {
   }
 
   loadUserItems() {
-    this.service.getUserItem(this.page1, this.userId).subscribe((userItems: ItemPkgDTO[]) => {
+    this.service.getUserItem(this.page, this.userId).subscribe((userItems: ItemPkgDTO[]) => {
       this.userItems = userItems;
       if (userItems.length < 8) {
-        this.notEmptyPost1 = false;
+        this.notEmptyPost = false;
       }
       this.showMore = false;
       this.userItems.forEach((userItem) => {
@@ -117,35 +103,36 @@ export class MyListComponent implements OnInit {
           ? userItem.item.defaultImageFile
           : 'noImage.png';
       });
-      this.NameListWithoutFilter1 = userItems;
+      this.userItemsWithoutFilter = this.userItems;
     });
   }
 
   loadTransactionRequest() {
-    this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItems: ItemTransactionPkgDTO[]) => {
-      this.requestItems = requestItems;
-      console.log(requestItems);
-      if (requestItems.length < 8) {
-        this.notEmptyPost2 = false;
-      }
-      this.showMore = false;
-      this.requestItems.forEach((requestItem) => {
-        requestItem.item.defaultImageFile = requestItem.item.defaultImageFile
-          ? requestItem.item.defaultImageFile
-          : 'noImage.png';
-      });
+    this.service
+      .getItemByStatus(this.page, this.userId, this.requestStatus)
+      .subscribe((requestItems: ItemTransactionPkgDTO[]) => {
+        this.requestItems = requestItems;
+        if (requestItems.length < 8) {
+          this.notEmptyPost = false;
+        }
+        this.showMore = false;
+        this.requestItems.forEach((requestItem) => {
+          requestItem.item.defaultImageFile = requestItem.item.defaultImageFile
+            ? requestItem.item.defaultImageFile
+            : 'noImage.png';
+        });
 
-      this.NameListWithoutFilter2 = requestItems;
-    });
+        this.requestItemsWithoutFilter = this.requestItems;
+      });
   }
 
   loadTransactionProcessing() {
     this.service
-      .getItemByStatus(this.userId, this.processingStatus)
+      .getItemByStatus(this.page, this.userId, this.processingStatus)
       .subscribe((processingItems: ItemTransactionPkgDTO[]) => {
         this.processingItems = processingItems;
         if (processingItems.length < 8) {
-          this.notEmptyPost3 = false;
+          this.notEmptyPost = false;
         }
         this.showMore = false;
         this.processingItems.forEach((processingItem) => {
@@ -153,33 +140,35 @@ export class MyListComponent implements OnInit {
             ? processingItem.item.defaultImageFile
             : 'noImage.png';
         });
-        this.NameListWithoutFilter3 = processingItems;
+        this.processingItemsWithoutFilter = this.processingItems;
       });
   }
 
   loadTransactionRequestReturn() {
-    this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItems: ItemTransactionPkgDTO[]) => {
-      this.returnItems = returnItems;
-      if (returnItems.length < 8) {
-        this.notEmptyPost4 = false;
-      }
-      this.showMore = false;
-      this.returnItems.forEach((returnItem) => {
-        returnItem.item.defaultImageFile = returnItem.item.defaultImageFile
-          ? returnItem.item.defaultImageFile
-          : 'noImage.png';
+    this.service
+      .getItemByStatus(this.page, this.userId, this.returnStatus)
+      .subscribe((returnItems: ItemTransactionPkgDTO[]) => {
+        this.returnItems = returnItems;
+        if (returnItems.length < 8) {
+          this.notEmptyPost = false;
+        }
+        this.showMore = false;
+        this.returnItems.forEach((returnItem) => {
+          returnItem.item.defaultImageFile = returnItem.item.defaultImageFile
+            ? returnItem.item.defaultImageFile
+            : 'noImage.png';
+        });
+        this.returnItemsWithoutFilter = this.returnItems;
       });
-      this.NameListWithoutFilter4 = returnItems;
-    });
   }
 
   loadTransactionCompleted() {
     this.service
-      .getItemByStatus(this.userId, this.completedStatus)
+      .getItemByStatus(this.page, this.userId, this.completedStatus)
       .subscribe((completedItems: ItemTransactionPkgDTO[]) => {
         this.completedItems = completedItems;
         if (completedItems.length < 8) {
-          this.notEmptyPost5 = false;
+          this.notEmptyPost = false;
         }
         this.showMore = false;
         this.completedItems.forEach((completedItem) => {
@@ -187,81 +176,85 @@ export class MyListComponent implements OnInit {
             ? completedItem.item.defaultImageFile
             : 'noImage.png';
         });
-        this.NameListWithoutFilter5 = completedItems;
+        this.completedItemsWithoutFilter = this.completedItems;
       });
   }
 
-  onClick1() {
-    this.page1 = this.page1 + 1;
-    this.service.getUserItem(this.page1, this.userId).subscribe((userItems: ItemPkgDTO[]) => {
+  onLoadMoreItem() {
+    this.page = this.page + 1;
+    this.service.getUserItem(this.page, this.userId).subscribe((userItems: ItemPkgDTO[]) => {
       const newList = userItems;
 
       if (newList.length < 8) {
-        this.notEmptyPost1 = false;
+        this.notEmptyPost = false;
       }
 
       this.userItems = this.userItems.concat(newList);
-      this.notScrolly1 = true;
+      this.userItemsWithoutFilter = this.userItems;
     });
   }
 
-  onClick2() {
-    this.page2 = this.page2 + 1;
-    this.service.getItemByStatus(this.userId, this.requestStatus).subscribe((requestItems: ItemTransactionPkgDTO[]) => {
-      const requestList = requestItems;
-
-      if (requestList.length < 8) {
-        this.notEmptyPost2 = false;
-      }
-
-      this.requestItems = this.requestItems.concat(requestList);
-      this.notScrolly2 = true;
-    });
-  }
-
-  onClick3() {
-    this.page3 = this.page3 + 1;
+  onLoadMoreRequest() {
+    this.page = this.page + 1;
     this.service
-      .getItemByStatus(this.userId, this.processingStatus)
+      .getItemByStatus(this.page, this.userId, this.requestStatus)
+      .subscribe((requestItems: ItemTransactionPkgDTO[]) => {
+        const requestList = requestItems;
+
+        if (requestList.length < 8) {
+          this.notEmptyPost = false;
+        }
+
+        this.requestItems = this.requestItems.concat(requestList);
+        this.requestItemsWithoutFilter = this.requestItems;
+      });
+  }
+
+  onLoadMoreProcessing() {
+    this.page = this.page + 1;
+    this.service
+      .getItemByStatus(this.page, this.userId, this.processingStatus)
       .subscribe((processingItems: ItemTransactionPkgDTO[]) => {
         const processingList = processingItems;
 
         if (processingList.length < 8) {
-          this.notEmptyPost3 = false;
+          this.notEmptyPost = false;
         }
 
         this.processingItems = this.processingItems.concat(processingList);
-        this.notScrolly3 = true;
+        this.processingItemsWithoutFilter = this.processingItems;
       });
   }
 
-  onClick4() {
-    this.page4 = this.page4 + 1;
-    this.service.getItemByStatus(this.userId, this.returnStatus).subscribe((returnItems: ItemTransactionPkgDTO[]) => {
-      const returnList = returnItems;
+  onLoadMoreReturn() {
+    this.page = this.page + 1;
+    this.service
+      .getItemByStatus(this.page, this.userId, this.returnStatus)
+      .subscribe((returnItems: ItemTransactionPkgDTO[]) => {
+        const returnList = returnItems;
 
-      if (returnList.length < 8) {
-        this.notEmptyPost4 = false;
-      }
+        if (returnList.length < 8) {
+          this.notEmptyPost = false;
+        }
 
-      this.returnItems = this.returnItems.concat(returnList);
-      this.notScrolly4 = true;
-    });
+        this.returnItems = this.returnItems.concat(returnList);
+        this.returnItemsWithoutFilter = this.returnItems;
+      });
   }
 
-  onClick5() {
-    this.page5 = this.page5 + 1;
+  onLoadMoreCompleted() {
+    this.page = this.page + 1;
     this.service
-      .getItemByStatus(this.userId, this.completedStatus)
+      .getItemByStatus(this.page, this.userId, this.completedStatus)
       .subscribe((completedItems: ItemTransactionPkgDTO[]) => {
         const completedList = completedItems;
 
         if (completedList.length < 8) {
-          this.notEmptyPost5 = false;
+          this.notEmptyPost = false;
         }
 
         this.completedItems = this.completedItems.concat(completedList);
-        this.notScrolly5 = true;
+        this.completedItemsWithoutFilter = this.completedItems;
       });
   }
 
@@ -269,47 +262,42 @@ export class MyListComponent implements OnInit {
     return text.length > length ? text.substring(0, length) + '...' : text;
   }
 
-  FilterFn1() {
-    var itemNameFilter = this.NameFilter1;
-    var itemDescFilter = this.DescFilter;
+  filterItem() {
+    var itemNameFilter = this.nameFilter;
 
-    this.userItems = this.NameListWithoutFilter1.filter(function (el: ItemPkgDTO) {
+    this.userItems = this.userItemsWithoutFilter.filter(function (el: ItemPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
 
-  FilterFn2() {
-    var itemNameFilter = this.NameFilter2;
-    var itemDescFilter = this.DescFilter;
+  filterRequest() {
+    var itemNameFilter = this.nameFilter;
 
-    this.requestItems = this.NameListWithoutFilter2.filter(function (el: ItemTransactionPkgDTO) {
+    this.requestItems = this.requestItemsWithoutFilter.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
 
-  FilterFn3() {
-    var itemNameFilter = this.NameFilter3;
-    var itemDescFilter = this.DescFilter;
+  filterProcessing() {
+    var itemNameFilter = this.nameFilter;
 
-    this.processingItems = this.NameListWithoutFilter3.filter(function (el: ItemTransactionPkgDTO) {
+    this.processingItems = this.processingItemsWithoutFilter.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
 
-  FilterFn4() {
-    var itemNameFilter = this.NameFilter4;
-    var itemDescFilter = this.DescFilter;
+  filterReturn() {
+    var itemNameFilter = this.nameFilter;
 
-    this.returnItems = this.NameListWithoutFilter4.filter(function (el: ItemTransactionPkgDTO) {
+    this.returnItems = this.returnItemsWithoutFilter.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }
 
-  FilterFn5() {
-    var itemNameFilter = this.NameFilter5;
-    var itemDescFilter = this.DescFilter;
+  filterCompleted() {
+    var itemNameFilter = this.nameFilter;
 
-    this.completedItems = this.NameListWithoutFilter5.filter(function (el: ItemTransactionPkgDTO) {
+    this.completedItems = this.completedItemsWithoutFilter.filter(function (el: ItemTransactionPkgDTO) {
       return el.item.name.toString().toLowerCase().includes(itemNameFilter.toString().trim().toLowerCase());
     });
   }

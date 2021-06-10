@@ -79,6 +79,7 @@ namespace Server.BizLogic
                 .Include(c => c.TransactionDetail)
                 .Where(c => status.Contains((int)c.CurrentStatus) && c.ItemId == itemId)
                 .OrderByDescending(c => c.Id)
+                //.Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE)
                 .ToListAsync();
 
             /*return await context.Transaction

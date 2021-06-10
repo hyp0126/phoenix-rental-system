@@ -29,10 +29,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter1"
+                    [(ngModel)]="nameFilter"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn1()"
+                    (keyup)="filterItem()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -89,8 +89,8 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="notEmptyPost1" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick1()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onLoadMoreItem()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>
@@ -101,10 +101,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter2"
+                    [(ngModel)]="nameFilter"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn2()"
+                    (keyup)="filterRequest()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -157,8 +157,8 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="notEmptyPost2" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick2()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onLoadMoreRequest()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>
@@ -175,10 +175,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter3"
+                    [(ngModel)]="nameFilter"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn3()"
+                    (keyup)="filterProcessing()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -253,8 +253,8 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="notEmptyPost3" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick3()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onLoadMoreProcessing()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>
@@ -270,10 +270,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter4"
+                    [(ngModel)]="nameFilter"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn4()"
+                    (keyup)="filterReturn()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -324,8 +324,8 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="notEmptyPost3" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick4()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onLoadMoreReturn()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>
@@ -340,10 +340,10 @@
               <ng-template ngbNavContent>
                 <div class="input-group mt-3 mb-3">
                   <input
-                    [(ngModel)]="NameFilter5"
+                    [(ngModel)]="nameFilter"
                     class="form-control"
                     style="background-color: rgb(252, 248, 251); border-color: rgb(218, 216, 216)"
-                    (keyup)="FilterFn5()"
+                    (keyup)="filterCompleted()"
                     placeholder="Filter by Name"
                   />
                   <div class="input-group-append">
@@ -416,8 +416,8 @@
                     </div>
                   </div>
                 </div>
-                <div *ngIf="notEmptyPost4" class="col-md-12 d-flex justify-content-center">
-                  <button (click)="onClick5()" type="button" class="btn btn-secondary">LOAD MORE</button>
+                <div *ngIf="notEmptyPost" class="col-md-12 d-flex justify-content-center">
+                  <button (click)="onLoadMoreCompleted()" type="button" class="btn btn-secondary">LOAD MORE</button>
                 </div>
               </ng-template>
             </li>

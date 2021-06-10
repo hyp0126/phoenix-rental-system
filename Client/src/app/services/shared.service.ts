@@ -170,8 +170,11 @@ export class SharedService {
     return this.http.post<any>(`${environment.apiUrl}/AskBoard/InsertReply`, askReplyPkg);
   }
 
-  getItemByStatus(userId: string, statusIds: number[]): Observable<ItemTransactionPkgDTO[]> {
-    const params = new HttpParams().set('userId', userId).set('statusIds', statusIds.join(','));
+  getItemByStatus(page: number, userId: string, statusIds: number[]): Observable<ItemTransactionPkgDTO[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('userId', userId)
+      .set('statusIds', statusIds.join(','));
     return this.http.get<ItemTransactionPkgDTO[]>(`${environment.apiUrl}/Transaction`, { params: params });
   }
 

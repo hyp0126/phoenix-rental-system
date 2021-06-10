@@ -32,7 +32,7 @@ export class MyBorrowComponent implements OnInit {
   compledtedItemPkgs: ItemTransactionPkgDTO[];
   filteredCompledtedItemPkgs: ItemTransactionPkgDTO[];
 
-  NameFilter: string = '';
+  nameFilter: string = '';
   currentDate: Date = new Date();
   ownerNames: { [key: string]: string } = {};
   notEmptyPost: boolean = true;
@@ -77,7 +77,8 @@ export class MyBorrowComponent implements OnInit {
   ngOnInit(): void {
     this.userId = this.service.isLoginUser;
     this.userId = this.userId.replace(/['"]+/g, '');
-    //this.service.getUserItem(8, this.userId).subscribe((userItem) => {});
+    this.page = 0;
+    this.notEmptyPost = true;
     this.loadTransaction(this.active);
   }
 
@@ -210,7 +211,7 @@ export class MyBorrowComponent implements OnInit {
   }
 
   Filter(tabNum: number) {
-    var itemNameFilter = this.NameFilter;
+    var itemNameFilter = this.nameFilter;
     //var itemDescFilter = this.DescFilter;
 
     switch (tabNum) {
@@ -236,7 +237,7 @@ export class MyBorrowComponent implements OnInit {
   }
 
   onNavChange(event) {
-    this.NameFilter = '';
+    this.nameFilter = '';
     this.page = 0;
     this.notEmptyPost = true;
     this.loadTransaction(event.nextId);

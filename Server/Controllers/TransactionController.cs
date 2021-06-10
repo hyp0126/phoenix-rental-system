@@ -23,6 +23,7 @@ namespace Server.Controllers
         private readonly ItemBiz IB;
         private readonly TransactionBiz TB;
         private readonly UserBiz UB;
+        private readonly int PAGE_SIZE = 8;
 
         public TransactionController(PhoenixContext _context, IMapper _mapper)
         {
@@ -74,8 +75,9 @@ namespace Server.Controllers
         /// <param name="statusIds"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<ItemTransactionPkgDTO>>> GetItemByStatus([FromQuery] string userId, [FromQuery] string statusIds/*, [FromQuery] int currentPage*/)
+        public async Task<ActionResult<List<ItemTransactionPkgDTO>>> GetItemByStatus([FromQuery] string userId, [FromQuery] string statusIds, [FromQuery] string page)
         {
+            int currentPage = int.Parse(page);
             List<ItemTransactionPkgDTO> pkgDtoList = new List<ItemTransactionPkgDTO>();
             List<int> statusList = GetStatusList(statusIds);
 
@@ -84,6 +86,7 @@ namespace Server.Controllers
             foreach (var item in Items)
             {
                 var transactions = await TB.GetItemByStatus(item.Id, statusList);
+                
                 if (transactions.Count <= 0) continue;
 
                 foreach (var trans in transactions)
@@ -107,7 +110,7 @@ namespace Server.Controllers
                     pkgDtoList.Add(dto);
                 }
             }
-            return pkgDtoList.OrderByDescending(c => c.Trans.Id).ToList();
+            return pkgDtoList.OrderByDescending(c => c.Trans.Id).Skip((currentPage - 1) * PAGE_SIZE).Take(PAGE_SIZE).ToList();
         }
 
         [HttpGet("GetItemBorrowedDate")]
