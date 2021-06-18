@@ -29,7 +29,14 @@ export class UserDetailsViewComponent implements OnInit {
 
   formatDate = FormatUtils.formatDate;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service: SharedService) {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      dataKey: string;
+      isLender: boolean;
+    },
+    private service: SharedService
+  ) {}
 
   ngOnInit(): void {
     //console.log(this.data.dataKey);

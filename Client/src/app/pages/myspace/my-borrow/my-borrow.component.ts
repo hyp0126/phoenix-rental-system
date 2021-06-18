@@ -22,7 +22,7 @@ import { UserPkgDTO } from 'src/app/models/userDetailsDTO';
   styleUrls: ['./my-borrow.component.scss'],
 })
 export class MyBorrowComponent implements OnInit {
-  active: number = 0;
+  activeTabId: number = 0;
   userId: string = '';
 
   requestItemPkgs: ItemTransactionPkgDTO[];
@@ -79,7 +79,7 @@ export class MyBorrowComponent implements OnInit {
     this.userId = this.userId.replace(/['"]+/g, '');
     this.page = 0;
     this.notEmptyPost = true;
-    this.loadTransaction(this.active);
+    this.loadTransaction(this.activeTabId);
   }
 
   loadTransaction(activeId: number) {
@@ -315,7 +315,7 @@ export class MyBorrowComponent implements OnInit {
         this.tranDetails.statusId = TransactionStatusEnum.RequestReturn;
         this.service.putTransactionDetail(this.tranDetails).subscribe(() => {
           //console.log(data);
-          this.loadTransaction(this.active);
+          this.loadTransaction(this.activeTabId);
           this.service.alert('success', 'Requested Return');
           //this.router.navigate(['/home']);
 
@@ -387,29 +387,31 @@ export class MyBorrowComponent implements OnInit {
         },
       });
 
-      dialogRef.afterClosed().subscribe((data: any) => {
-        if (data) {
-          if (data.isDelete) {
-            this.service.deleteItemReview(this.review.id).subscribe(() => {});
-          } else {
-            this.review.itemId = compledtedItemPkg.item.id;
-            this.review.date = new Date();
-            this.review.userId = this.userId;
-            this.review.rate = data.itemRate;
-            this.review.title = data.reviewTitle;
-            this.review.review1 = data.review;
-            if (this.review.id == 0) {
-              this.service.insertItemReview(this.review).subscribe((data: ItemReviewPkgDTO) => {});
+      dialogRef
+        .afterClosed()
+        .subscribe((data: { itemRate?: number; reviewTitle?: string; review?: string; isDelete: boolean }) => {
+          if (data) {
+            if (data.isDelete) {
+              this.service.deleteItemReview(this.review.id).subscribe(() => {});
             } else {
-              this.service.updateItemReview(this.review).subscribe((data: ItemReviewPkgDTO) => {});
+              this.review.itemId = compledtedItemPkg.item.id;
+              this.review.date = new Date();
+              this.review.userId = this.userId;
+              this.review.rate = data.itemRate;
+              this.review.title = data.reviewTitle;
+              this.review.review1 = data.review;
+              if (this.review.id == 0) {
+                this.service.insertItemReview(this.review).subscribe((data: ItemReviewPkgDTO) => {});
+              } else {
+                this.service.updateItemReview(this.review).subscribe((data: ItemReviewPkgDTO) => {});
+              }
             }
           }
-        }
-      });
+        });
     });
   }
 
   onLoadMore() {
-    this.loadTransaction(this.active);
+    this.loadTransaction(this.activeTabId);
   }
 }

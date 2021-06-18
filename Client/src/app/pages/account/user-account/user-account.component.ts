@@ -7,6 +7,10 @@ import { ParentErrorStateMatcher } from 'src/app/pages/shared/validators';
 import { environment } from 'src/environments/environment';
 import { UserPkgDTO } from 'src/app/models/userDetailsDTO';
 
+export interface LoginUser {
+  userName: string;
+  userEmail: string;
+}
 @Component({
   selector: 'app-user-account',
   templateUrl: './user-account.component.html',
@@ -15,7 +19,7 @@ import { UserPkgDTO } from 'src/app/models/userDetailsDTO';
 export class UserAccountComponent implements OnInit {
   Menus: string[] = ['Account', 'Password'];
   selectedMenu = this.Menus[0];
-  loginUser: any = {
+  loginUser: LoginUser = {
     userName: '',
     userEmail: '',
   };

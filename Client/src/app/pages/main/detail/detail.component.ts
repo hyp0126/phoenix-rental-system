@@ -13,7 +13,13 @@ export class DetailComponent implements OnInit {
   photos: PhotoDTO[] = [];
   PhotoFilePath: string = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private service: SharedService) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      dataKey: number;
+    },
+    private service: SharedService
+  ) {
     this.PhotoFilePath = environment.PhotoFileUrl;
   }
 

@@ -397,7 +397,7 @@ export class MyListComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
+    dialogRef.afterClosed().subscribe((data: string) => {
       if (data) {
         this.transDetailPkg.reason = data;
         this.service.putTransactionDetail(this.transDetailPkg).subscribe(() => {
@@ -426,7 +426,7 @@ export class MyListComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((data: any) => {
+    dialogRef.afterClosed().subscribe((data: { refundDeposit: number; reason: string }) => {
       if (data) {
         this.transDetailPkg.reason = data.reason;
         returnItem.trans.refundDeposit = data.refundDeposit;

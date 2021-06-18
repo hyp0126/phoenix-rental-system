@@ -19,7 +19,7 @@
           <ul
             ngbNav
             #nav="ngbNav"
-            [(activeId)]="active"
+            [(activeId)]="activeTabId"
             [destroyOnHide]="false"
             (navChange)="onNavChange($event)"
             class="nav-tabs"
@@ -166,6 +166,7 @@
                               mat-stroked-button
                               (click)="onRequestReturn(borrowingItemPkg.trans.id)"
                               color="primary"
+                              id="btnRequestReturn"
                             >
                               Request Return
                             </button>
@@ -174,6 +175,7 @@
                               mat-stroked-button
                               (click)="onCancelReservation(borrowingItemPkg.trans.id)"
                               color="warn"
+                              id="btnCancelBorrow"
                             >
                               Cancel Borrow
                             </button>

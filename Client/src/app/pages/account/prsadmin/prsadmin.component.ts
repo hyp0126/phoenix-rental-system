@@ -18,7 +18,7 @@ export class PRSAdminComponent implements OnInit {
   categoryForm: FormGroup;
   categoryList: Category[];
   displayedColumns: string[] = ['id', 'name', 'action'];
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatTable, { static: true }) table: MatTable<Category>;
 
   constructor(
     private fb: FormBuilder,
@@ -58,11 +58,10 @@ export class PRSAdminComponent implements OnInit {
     );
   }
 
-  openDialog(action, obj) {
-    obj.action = action;
+  openDialog(action: string, obj: Category) {
     const dialogRef = this.dialog.open(PopupComponent, {
       width: '300px',
-      data: obj,
+      data: { category: obj, action: action },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -76,11 +75,11 @@ export class PRSAdminComponent implements OnInit {
     });
   }
 
-  addRowData(row_obj) {
+  addRowData(row_obj: Category) {
     this.onSubmitAddNewCategory(row_obj, 1, 'insert');
   }
 
-  updateRowData(row_obj) {
+  updateRowData(row_obj: Category) {
     this.categoryList = this.categoryList.filter((value, key) => {
       if (value.categoryId == row_obj.categoryId) {
         value.name = row_obj.name;
@@ -90,7 +89,7 @@ export class PRSAdminComponent implements OnInit {
     });
   }
 
-  deleteRowData(row_obj) {
+  deleteRowData(row_obj: Category) {
     this.categoryList = this.categoryList.filter((value, key) => {
       if (value.categoryId == row_obj.categoryId) {
         this.onSubmitAddNewCategory(row_obj, 3, 'delete');
@@ -107,15 +106,15 @@ export class PRSAdminComponent implements OnInit {
 })
 export class PopupComponent {
   action: string;
-  local_data: any;
+  local_data: Category;
 
   constructor(
     public dialogRef: MatDialogRef<PopupComponent>,
     //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: Category
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { category: Category; action: string }
   ) {
-    this.local_data = { ...data };
-    this.action = this.local_data.action;
+    this.local_data = data.category;
+    this.action = data.action;
   }
 
   doAction() {

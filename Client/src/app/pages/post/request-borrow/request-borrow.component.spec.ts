@@ -43,6 +43,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ItemTransactionPkgDTO } from 'src/app/models/transactionDTO';
 import { ItemPkgDTO } from 'src/app/models/itemDTO';
+import { TransactionPkgDTO, TransactionDTO } from 'src/app/models/transactionDTO';
 
 export const customCurrencyMaskConfig = {
   align: 'right',
@@ -78,44 +79,48 @@ describe('RequestBorrowComponent', () => {
   };
 
   const fakeRouter = {
-    navigate(commands: any[]): Promise<boolean> {
+    navigate(): Promise<boolean> {
       return;
     },
   };
 
-  var fakeTransaction = {
+  var currentDate = new Date();
+  var nextDate = new Date();
+  nextDate.setDate(currentDate.getDate() + 1);
+
+  var fakeTransaction: ItemTransactionPkgDTO = {
     item: {
       id: 0,
       userId: 'userId',
       categoryId: 1,
-      cateforyName: '',
+      categoryName: '',
       name: '',
       description: '',
       defaultImageFile: '',
       deposit: 100,
       fee: 10,
-      startDate: new Date('03/01/2021'),
-      endDate: new Date('03/31/2021'),
+      startDate: currentDate,
+      endDate: nextDate,
       addressId: 0,
-      createdDate: new Date('03/01/2021'),
-      timeStamp: new Date('03/01/2021'),
+      createdDate: currentDate,
+      timeStamp: currentDate,
       statusId: 1,
-      statasName: '',
+      statusName: '',
     },
     trans: {
       id: 0,
       itemId: 0,
       borrowerId: '',
       borrowerName: '',
-      startDate: new Date('03/20/2021'),
-      endDate: new Date('03/21/2021'),
-      requestDate: new Date('03/18/2021'),
+      startDate: currentDate,
+      endDate: nextDate,
+      requestDate: currentDate,
       reason: '',
       total: 10,
       deposit: 100,
       refundDeposit: 100,
       currentStatus: 1,
-      statausName: '',
+      statusName: '',
     },
   };
 
@@ -138,11 +143,11 @@ describe('RequestBorrowComponent', () => {
       defaultImageFile: '',
       deposit: 100.0,
       fee: 10.0,
-      startDate: new Date('03/01/2021'),
-      endDate: new Date('03/31/2021'),
+      startDate: currentDate,
+      endDate: nextDate,
       addressId: 0,
-      createdDate: new Date(),
-      timeStamp: new Date(),
+      createdDate: currentDate,
+      timeStamp: currentDate,
     },
     address: {
       id: 0,
@@ -159,8 +164,8 @@ describe('RequestBorrowComponent', () => {
   var fakeTransMode = 0;
 
   const fakeService = {
-    isLoginUser: 'usuerId',
-    getTransactionByUser(val: string, status: number[]): Observable<ItemTransactionPkgDTO[]> {
+    isLoginUser: 'userId',
+    getTransactionByUser(page: number, userId: string, status: number[]): Observable<ItemTransactionPkgDTO[]> {
       var transactions: ItemTransactionPkgDTO[] = [];
       if (fakeTransMode == 0) {
         for (var i = 0; i < status.length; i++) {
@@ -271,7 +276,7 @@ describe('RequestBorrowComponent', () => {
     expect(compiled.innerHTML).toContain('test description');
     expect(compiled.innerHTML).toContain('100.00');
     expect(compiled.innerHTML).toContain('10.00');
-    expect(compiled.innerHTML).toContain('3/1/2021 ~ 3/31/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(currentDate) + ' ~ ' + component.formatDate(nextDate));
   });
 
   it('should display Preview button', () => {
@@ -288,22 +293,22 @@ describe('RequestBorrowComponent', () => {
   });
 
   it('should display preview date after click preview button', () => {
-    component.itemTransactions = []; // no reservation
+    component.itemTransactions = []; // clear reservation
     component.onSubmit();
     fixture.detectChanges();
 
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.innerHTML).toContain('Days');
-    expect(compiled.innerHTML).toContain('13');
+    expect(compiled.innerHTML).toContain('2');
     expect(compiled.innerHTML).toContain('day(s)');
     expect(compiled.innerHTML).toContain('Total fee');
-    expect(compiled.innerHTML).toContain('130.00');
+    expect(compiled.innerHTML).toContain('20.00');
     expect(compiled.innerHTML).toContain('Deposit');
     expect(compiled.innerHTML).toContain('100.00');
   });
 
   it('should display Borrow button after click Preview', () => {
-    component.itemTransactions = []; // no reservation
+    component.itemTransactions = []; // clear reservation
     component.onSubmit();
     fixture.detectChanges();
 

@@ -25,9 +25,9 @@ declare const require: {
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 // Then we find all the tests.
 //const context = require.context('./', true, /\.spec\.ts$/);
-const context = require.context('./', true, /add-edit-post\.component\.spec\.ts$/);
+//const context = require.context('./', true, /add-edit-post\.component\.spec\.ts$/);
 //const context = require.context('./', true, /my-borrow\.component\.spec\.ts$/);
-//const context = require.context('./', true, /request-borrow\.component\.spec\.ts$/);
+const context = require.context('./', true, /request-borrow\.component\.spec\.ts$/);
 //const context = require.context('./', true, /review-dialog\.component\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);

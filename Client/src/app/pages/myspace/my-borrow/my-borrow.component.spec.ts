@@ -39,6 +39,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Observable, Subject, of } from 'rxjs';
 import { TransactionStatusEnum, NotificationTypeEnum } from 'src/app/helpers/enum';
 import { ItemTransactionPkgDTO } from 'src/app/models/transactionDTO';
+
 export const customCurrencyMaskConfig = {
   align: 'right',
   allowNegative: true,
@@ -74,44 +75,50 @@ describe('MyBorrowComponent', () => {
   };
 
   const fakeRouter = {
-    navigate(commands: any[]): Promise<boolean> {
+    navigate(): Promise<boolean> {
       return;
     },
   };
 
-  var fakeTransaction = {
+  var currentDate = new Date();
+  var startDate = new Date();
+  startDate.setDate(currentDate.getDate() + 1);
+  var endDate = new Date();
+  endDate.setDate(currentDate.getDate() + 2);
+
+  var fakeTransaction: ItemTransactionPkgDTO = {
     item: {
       id: 0,
       userId: '',
       categoryId: 1,
-      cateforyName: '',
+      categoryName: '',
       name: '',
       description: '',
       defaultImageFile: '',
       deposit: 100,
       fee: 10,
-      startDate: new Date('03/01/2021'),
-      endDate: new Date('03/31/2021'),
+      startDate: currentDate,
+      endDate: endDate,
       addressId: 0,
-      createdDate: new Date('03/01/2021'),
-      timeStamp: new Date('03/01/2021'),
+      createdDate: currentDate,
+      timeStamp: currentDate,
       statusId: 1,
-      statasName: '',
+      statusName: '',
     },
     trans: {
       id: 0,
       itemId: 0,
       borrowerId: '',
       borrowerName: '',
-      startDate: new Date('03/20/2021'),
-      endDate: new Date('03/21/2021'),
-      requestDate: new Date('03/18/2021'),
+      startDate: startDate,
+      endDate: endDate,
+      requestDate: currentDate,
       reason: '',
       total: 10,
       deposit: 100,
       refundDeposit: 100,
       currentStatus: 1,
-      statausName: '',
+      statusName: '',
     },
   };
 
@@ -126,7 +133,7 @@ describe('MyBorrowComponent', () => {
 
   const fakeService = {
     isLoginUser: 'usuerId',
-    getTransactionByUser(val: string, status: number[]): Observable<ItemTransactionPkgDTO[]> {
+    getTransactionByUser(page: number, userId: string, status: number[]): Observable<ItemTransactionPkgDTO[]> {
       var transactions: ItemTransactionPkgDTO[] = [];
       if (fakeTransMode == 0) {
         for (var i = 0; i < status.length; i++) {
@@ -210,6 +217,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of Request status in Requested Tab', () => {
     fakeTransMode = TransactionStatusEnum.Request;
+    component.activeTabId = 0;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -218,6 +226,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of Confirmed status in Borrowing Tab', () => {
     fakeTransMode = TransactionStatusEnum.Confirmed;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -226,6 +235,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of RequestReturn status in Borrowing Tab', () => {
     fakeTransMode = TransactionStatusEnum.RequestReturn;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -234,6 +244,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of Rejected status in Completed Tab', () => {
     fakeTransMode = TransactionStatusEnum.Rejected;
+    component.activeTabId = 2;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -242,6 +253,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of CanceledByLender status in Completed Tab', () => {
     fakeTransMode = TransactionStatusEnum.CanceledByLender;
+    component.activeTabId = 2;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -250,6 +262,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of CanceledByBorrower status in Completed Tab', () => {
     fakeTransMode = TransactionStatusEnum.CanceledByBorrower;
+    component.activeTabId = 2;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -258,6 +271,7 @@ describe('MyBorrowComponent', () => {
 
   it('should contain item of ReturnComplete status in Completed Tab', () => {
     fakeTransMode = TransactionStatusEnum.ReturnComplete;
+    component.activeTabId = 2;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -266,6 +280,7 @@ describe('MyBorrowComponent', () => {
 
   it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Requested Tab', () => {
     fakeTransMode = TransactionStatusEnum.Request;
+    component.activeTabId = 0;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -273,9 +288,9 @@ describe('MyBorrowComponent', () => {
     expect(compiled.innerHTML).toContain('Borrow from');
     expect(compiled.innerHTML).toContain('Yi Phyo Hong');
     expect(compiled.innerHTML).toContain('Request date:');
-    expect(compiled.innerHTML).toContain('3/18/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(startDate));
     expect(compiled.innerHTML).toContain('When:');
-    expect(compiled.innerHTML).toContain('3/20/2021 ~ 3/21/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(startDate) + ' ~ ' + component.formatDate(endDate));
     expect(compiled.innerHTML).toContain('Deposit:');
     expect(compiled.innerHTML).toContain('100.00');
     expect(compiled.innerHTML).toContain('Total Fee:');
@@ -284,6 +299,7 @@ describe('MyBorrowComponent', () => {
 
   it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Borrowing Tab', () => {
     fakeTransMode = TransactionStatusEnum.Confirmed;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -291,13 +307,14 @@ describe('MyBorrowComponent', () => {
     expect(compiled.innerHTML).toContain('Borrow from');
     expect(compiled.innerHTML).toContain('Yi Phyo Hong');
     expect(compiled.innerHTML).toContain('Request date:');
-    expect(compiled.innerHTML).toContain('3/18/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(startDate));
     expect(compiled.innerHTML).toContain('When:');
-    expect(compiled.innerHTML).toContain('3/20/2021 ~ 3/21/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(startDate) + ' ~ ' + component.formatDate(endDate));
   });
 
   it('should display Owner Name, Request/Start/End Dates, Deposit, Total Fee in Completed Tab', () => {
     fakeTransMode = TransactionStatusEnum.ReturnComplete;
+    component.activeTabId = 2;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -305,13 +322,14 @@ describe('MyBorrowComponent', () => {
     expect(compiled.innerHTML).toContain('Borrow from');
     expect(compiled.innerHTML).toContain('Yi Phyo Hong');
     expect(compiled.innerHTML).toContain('Request date:');
-    expect(compiled.innerHTML).toContain('3/18/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(startDate));
     expect(compiled.innerHTML).toContain('When:');
-    expect(compiled.innerHTML).toContain('3/20/2021 ~ 3/21/2021');
+    expect(compiled.innerHTML).toContain(component.formatDate(startDate) + ' ~ ' + component.formatDate(endDate));
   });
 
   it('item of Request status should contain Cancel Request button', () => {
     fakeTransMode = TransactionStatusEnum.Request;
+    component.activeTabId = 0;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -320,6 +338,7 @@ describe('MyBorrowComponent', () => {
 
   it('item of Confirmed status should contain Cancel Borrow and Request Return button', () => {
     fakeTransMode = TransactionStatusEnum.Confirmed;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -329,6 +348,7 @@ describe('MyBorrowComponent', () => {
 
   it('item of RequestReturn status should not contain Cancel Borrow and Request Return button', () => {
     fakeTransMode = TransactionStatusEnum.RequestReturn;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
@@ -338,6 +358,7 @@ describe('MyBorrowComponent', () => {
 
   it('Cancel Request Button method should be called', fakeAsync(() => {
     fakeTransMode = TransactionStatusEnum.Request;
+    component.activeTabId = 0;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -345,7 +366,7 @@ describe('MyBorrowComponent', () => {
 
     let button = fixture.debugElement.nativeElement.querySelector('button');
     button.click();
-    tick();
+    tick(500);
 
     fixture.whenStable().then(() => {
       expect(component.onCancelRequest).toHaveBeenCalled();
@@ -354,33 +375,35 @@ describe('MyBorrowComponent', () => {
 
   it('Cancel Borrow Button method should be called', fakeAsync(() => {
     fakeTransMode = TransactionStatusEnum.Confirmed;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
 
     spyOn(component, 'onCancelReservation');
 
-    let button = fixture.debugElement.nativeElement.querySelector('button');
+    let button = fixture.debugElement.nativeElement.querySelector('#btnCancelBorrow');
     button.click();
-    tick();
-
-    fixture.whenStable().then(() => {
-      expect(component.onCancelReservation).toHaveBeenCalled();
-    });
+    tick(500);
+    expect(component.onCancelReservation).toHaveBeenCalled();
+    //fixture.whenStable().then(() => {
+    expect(component.onCancelReservation).toHaveBeenCalled();
+    //});
   }));
 
   it('Request Return Button method should be called', fakeAsync(() => {
     fakeTransMode = TransactionStatusEnum.Confirmed;
+    component.activeTabId = 1;
     component.ngOnInit();
     fixture.detectChanges();
 
-    spyOn(component, 'onRequestReturn');
+    var requestReturnMethod = spyOn(component, 'onRequestReturn');
 
-    let button = fixture.debugElement.nativeElement.querySelector('button');
+    let button = fixture.debugElement.nativeElement.querySelector('#btnRequestReturn');
     button.click();
-    tick();
+    tick(500);
 
-    fixture.whenStable().then(() => {
-      expect(component.onRequestReturn).toHaveBeenCalled();
-    });
+    //fixture.whenStable().then(() => {
+    expect(requestReturnMethod).toHaveBeenCalled();
+    //});
   }));
 });
