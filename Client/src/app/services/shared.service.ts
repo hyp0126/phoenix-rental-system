@@ -201,7 +201,7 @@ export class SharedService {
   }
 
   getItemBorrowedDate(itemId: number): Observable<TransactionDTO[]> {
-    return this.http.get<TransactionDTO[]>(`${environment.apiUrl}/Transaction/getItemBorrowedDate?itemId=${itemId}`);
+    return this.http.get<TransactionDTO[]>(`${environment.apiUrl}/Transaction/GetItemBorrowedDate?itemId=${itemId}`);
   }
 
   insertNotification(notification: Notification): Observable<NotificationDTO> {
@@ -210,7 +210,7 @@ export class SharedService {
 
   getNotification(userId: string, startDate: string): Observable<NotificationDTO[]> {
     return this.http.get<NotificationDTO[]>(
-      `${environment.apiUrl}/Notification/getNotification?userId=${userId}&startDate=${startDate}`
+      `${environment.apiUrl}/Notification/GetNotification?userId=${userId}&startDate=${startDate}`
     );
   }
 

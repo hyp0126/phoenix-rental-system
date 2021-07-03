@@ -99,8 +99,12 @@ namespace Server
                 options.AddDefaultPolicy(
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:4200")
-                                            .SetIsOriginAllowed((host) => true)
+                                      builder.WithOrigins(Configuration
+                                                            .GetSection("AllowedHosts")
+                                                            .GetChildren()
+                                                            .Select(x => x.Value)
+                                                            .ToArray())
+                                            //.SetIsOriginAllowed((host) => true) // allow any origin
                                             .AllowAnyHeader()
                                             .AllowAnyMethod()
                                             .AllowCredentials();
