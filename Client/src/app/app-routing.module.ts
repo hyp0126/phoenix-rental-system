@@ -16,13 +16,15 @@ import { AuthService } from './services/auth.service';
 import { ChangePasswordComponent } from 'src/app/pages/account/change-password/change-password.component';
 import { PRSAdminComponent } from 'src/app/pages/account/prsadmin/prsadmin.component';
 
+import { DirtyGuard } from 'src/app/guards/dirty.guard';
+
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'user-account', component: UserAccountComponent, canActivate: [AuthService] },
-  { path: 'post', component: PostComponent, canActivate: [AuthService] },
+  { path: 'post', component: PostComponent, canActivate: [AuthService], canDeactivate: [DirtyGuard] },
   { path: 'my-list', component: MyListComponent, canActivate: [AuthService] },
   { path: 'my-borrow', component: MyBorrowComponent, canActivate: [AuthService] },
   { path: 'ask', component: AskComponent, canActivate: [AuthService] },

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { NgForm, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
@@ -25,6 +25,7 @@ import { ItemPkgDTO, PhotoDTO } from 'src/app/models/itemDTO';
   styleUrls: ['./add-edit-post.component.scss'],
 })
 export class AddEditPostComponent implements OnInit {
+  @Output() contentChange = new EventEmitter<boolean>();
   //@ViewChild('Form') addPropertyForm: NgForm;
   //@ViewChild('formTabs') formTabs: TabsetComponent;
   parentErrorStateMatcher = new ParentErrorStateMatcher();
@@ -151,6 +152,7 @@ export class AddEditPostComponent implements OnInit {
     }
 
     this.setFormData();
+    this.addItemForm.valueChanges.subscribe((e) => this.contentChange.emit(true));
   }
 
   createAddEditItemForm() {
