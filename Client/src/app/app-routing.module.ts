@@ -27,8 +27,8 @@ const routes: Routes = [
   { path: 'post', component: PostComponent, canActivate: [AuthService], canDeactivate: [DirtyGuard] },
   { path: 'my-list', component: MyListComponent, canActivate: [AuthService] },
   { path: 'my-borrow', component: MyBorrowComponent, canActivate: [AuthService] },
-  { path: 'ask', component: AskComponent, canActivate: [AuthService] },
-  { path: 'ask-detail', component: AskDetailComponent, canActivate: [AuthService] },
+  { path: 'ask', component: AskComponent, canActivate: [AuthService], canDeactivate: [DirtyGuard] },
+  { path: 'ask-detail', component: AskDetailComponent, canActivate: [AuthService], canDeactivate: [DirtyGuard] },
   { path: 'editor', component: EditorComponent },
   {
     path: 'request-borrow',

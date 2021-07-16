@@ -10,6 +10,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/confirm-dialog.component';
 import { EditDialogComponent } from '../shared/edit-dialog/edit-dialog.component';
 import { Article } from 'src/app/models/askBoardDTO';
+import { DirtyComponent } from 'src/app/models/dirty.component';
 
 @Component({
   selector: 'app-ask',
@@ -23,10 +24,11 @@ import { Article } from 'src/app/models/askBoardDTO';
     ]),
   ],
 })
-export class AskComponent implements AfterViewInit {
+export class AskComponent implements AfterViewInit, DirtyComponent {
   askTitle: string;
   askDescription: string;
   content: string;
+  isDirty: boolean = false;
 
   askBoardPkg: Article = {
     id: 0,
@@ -94,6 +96,10 @@ export class AskComponent implements AfterViewInit {
     this.loadUserItem();
   }
 
+  canDeactivate() {
+    return this.isDirty;
+  }
+
   loadUserItem() {
     this.service.getArticleList().subscribe((data: Article[]) => {
       this.articles = data;
@@ -149,6 +155,9 @@ export class AskComponent implements AfterViewInit {
   }
 
   onChange(content: string) {
+    if (this.content.localeCompare(content)) {
+      this.isDirty = true;
+    }
     this.content = content;
   }
 

@@ -13,15 +13,17 @@ import { NotificationTypeEnum } from 'src/app/helpers/enum';
 import { Notification } from 'src/app/models/notification';
 import { NotificationDTO } from 'src/app/models/notificationDTO';
 import { Article } from 'src/app/models/askBoardDTO';
+import { DirtyComponent } from 'src/app/models/dirty.component';
 
 @Component({
   selector: 'app-ask-detail',
   templateUrl: './ask-detail.component.html',
   styleUrls: ['./ask-detail.component.scss'],
 })
-export class AskDetailComponent implements OnInit {
+export class AskDetailComponent implements OnInit, DirtyComponent {
   //dataSource: MatTableDataSource<Article>;
   panelOpenState: boolean = true;
+  isDirty: boolean = false;
 
   content: string;
 
@@ -92,6 +94,10 @@ export class AskDetailComponent implements OnInit {
     //this.content = 'Test Content'; // Ask content test
   }
 
+  canDeactivate() {
+    return this.isDirty;
+  }
+
   loadInitAskDetail() {
     this.service.getArticleWithReply(this.rowId).subscribe((data: Article[]) => {
       // console.log(data);
@@ -134,6 +140,9 @@ export class AskDetailComponent implements OnInit {
   }
 
   onChange(content: string) {
+    if (this.content.localeCompare(content)) {
+      this.isDirty = true;
+    }
     this.content = content;
   }
 
