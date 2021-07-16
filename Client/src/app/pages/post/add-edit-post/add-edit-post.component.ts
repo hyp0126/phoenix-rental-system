@@ -141,10 +141,10 @@ export class AddEditPostComponent implements OnInit {
     this.priceInfo.get('endDate').disable();
 
     if (this.itemId != null) {
+      this.isNewItem = false;
       this.loadItemPkg(this.itemId);
       this.loadItemPhotos(this.itemId);
       this.loadReviews(this.itemId);
-      this.isNewItem = false;
     } else {
       this.isNewItem = true;
       this.isReadOnly = false;
@@ -152,7 +152,9 @@ export class AddEditPostComponent implements OnInit {
     }
 
     this.setFormData();
-    this.addItemForm.valueChanges.subscribe((e) => this.contentChange.emit(true));
+    if (this.isNewItem) {
+      this.addItemForm.valueChanges.subscribe((e) => this.contentChange.emit(true));
+    }
   }
 
   createAddEditItemForm() {
@@ -367,6 +369,7 @@ export class AddEditPostComponent implements OnInit {
       this.itemPkg.item.startDate = new Date(data.item.startDate);
       this.itemPkg.item.endDate = new Date(data.item.endDate);
       this.setFormData();
+      this.addItemForm.valueChanges.subscribe((e) => this.contentChange.emit(true));
     });
   }
 
@@ -470,6 +473,7 @@ export class AddEditPostComponent implements OnInit {
     }
 
     this.getFormData();
+    this.contentChange.emit(false);
 
     if (this.isNewItem == true) {
       this.service.insertItem(this.itemPkg).subscribe((data: ItemPkgDTO) => {

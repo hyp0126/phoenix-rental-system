@@ -15,12 +15,14 @@ import { NotificationDTO } from 'src/app/models/notificationDTO';
 import { TransactionPkgDTO, TransactionDTO } from 'src/app/models/transactionDTO';
 import { UserPkgDTO, UserDetailsDTO } from 'src/app/models/userDetailsDTO';
 import { ItemPkgDTO, PhotoDTO } from 'src/app/models/itemDTO';
+import { DirtyComponent } from 'src/app/models/dirty.component';
+
 @Component({
   selector: 'app-request-borrow',
   templateUrl: './request-borrow.component.html',
   styleUrls: ['./request-borrow.component.scss'],
 })
-export class RequestBorrowComponent implements OnInit {
+export class RequestBorrowComponent implements OnInit, DirtyComponent {
   parentErrorStateMatcher = new ParentErrorStateMatcher();
 
   @Input() public itemIdString: string;
@@ -153,12 +155,17 @@ export class RequestBorrowComponent implements OnInit {
     this.itemIdString = this.route.snapshot.queryParamMap.get('itemId');
     this.itemId = parseInt(this.itemIdString);
     this.createBorrowItemForm();
-    this.setFormData();
 
     if (this.itemId != null) {
       this.loadItemPkg(this.itemId);
       this.loadDefaultPhotoAddr(this.itemId);
     }
+
+    this.setFormData();
+  }
+
+  canDeactivate() {
+    return this.borrowItemForm.dirty;
   }
 
   createBorrowItemForm() {
@@ -214,6 +221,7 @@ export class RequestBorrowComponent implements OnInit {
       }
 
       this.setFormData();
+      this.borrowItemForm.markAsPristine();
     });
 
     this.getTransactions(itemId); // comment for testing duplicated reseravtion
@@ -338,6 +346,7 @@ export class RequestBorrowComponent implements OnInit {
     this.transactionPkg.trans.total = this.diffDays * this.itemPkg.item.fee;
 
     this.isPreview = true;
+    this.borrowItemForm.markAsPristine();
   }
 
   onBorrow() {

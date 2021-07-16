@@ -30,7 +30,12 @@ const routes: Routes = [
   { path: 'ask', component: AskComponent, canActivate: [AuthService] },
   { path: 'ask-detail', component: AskDetailComponent, canActivate: [AuthService] },
   { path: 'editor', component: EditorComponent },
-  { path: 'request-borrow', component: RequestBorrowComponent, canActivate: [AuthService] },
+  {
+    path: 'request-borrow',
+    component: RequestBorrowComponent,
+    canActivate: [AuthService],
+    canDeactivate: [DirtyGuard],
+  },
   { path: 'prspassword', component: ChangePasswordComponent, canActivate: [AuthService] },
   { path: 'prsadmin', component: PRSAdminComponent, canActivate: [AuthService] },
 ];
