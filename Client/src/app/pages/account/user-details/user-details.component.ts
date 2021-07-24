@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+/// <reference types="@types/googlemaps" />
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog, MAT_DIALOG_SCROLL_STRATEGY_PROVIDER_FACTORY } from '@angular/material/dialog';
@@ -7,13 +8,14 @@ import { ParentErrorStateMatcher } from 'src/app/pages/shared/validators';
 import { environment } from 'src/environments/environment';
 import { Province } from 'src/app/models/province';
 import { UserPkgDTO, UserDetailsDTO, AddressDTO } from 'src/app/models/userDetailsDTO';
+declare let google: any;
 
 @Component({
   selector: 'app-user-details',
   templateUrl: './user-details.component.html',
   styleUrls: ['./user-details.component.scss'],
 })
-export class UserDetailsComponent implements OnInit {
+export class UserDetailsComponent implements OnInit, AfterViewInit {
   loginUser: UserPkgDTO = {
     account: {
       id: '',
@@ -71,7 +73,8 @@ export class UserDetailsComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private service: SharedService
+    private service: SharedService,
+    private renderer: Renderer2
   ) {
     this.id = this.service.isLoginUser;
     if (this.service.isLoginUser) {
@@ -85,6 +88,69 @@ export class UserDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     //this.createForms();
+  }
+
+  ngAfterViewInit() {
+    this.initAutocomplete();
+  }
+
+  private initAutocomplete() {
+    const autocomplete = new google.maps.places.Autocomplete(this.renderer.selectRootElement('#addr1'), {
+      componentRestrictions: { country: 'CA' },
+      fields: ['address_components', 'geometry'],
+      types: ['address'], // 'establishment' / 'address' / 'geocode'
+    });
+    this.renderer.selectRootElement('#addr1').focus();
+    google.maps.event.addListener(autocomplete, 'place_changed', () => {
+      // Get the place details from the autocomplete object.
+      const place = autocomplete.getPlace();
+      this.fillInAddress(place);
+    });
+  }
+
+  fillInAddress(place) {
+    let address1 = '';
+
+    for (const component of place.address_components as google.maps.GeocoderAddressComponent[]) {
+      // @ts-ignore remove once typings fixed
+      const componentType = component.types[0];
+
+      switch (componentType) {
+        case 'street_number': {
+          address1 = `${component.long_name} ${address1}`;
+          break;
+        }
+
+        case 'route': {
+          address1 += component.short_name;
+          break;
+        }
+
+        case 'postal_code': {
+          this.userDetailsForm.get('postalCode').setValue(component.long_name);
+          break;
+        }
+
+        case 'locality':
+          this.userDetailsForm.get('city').setValue(component.long_name);
+          break;
+
+        case 'administrative_area_level_1': {
+          for (var i = 0; i < this.ProvinceList.length; i++) {
+            if (this.ProvinceList[i].name.localeCompare(component.long_name) == 0) {
+              this.userDetailsForm.get('province').setValue(this.ProvinceList[i].id);
+              break;
+            }
+          }
+          break;
+        }
+
+        case 'country':
+          break;
+      }
+    }
+    this.userDetailsForm.get('address1').setValue(address1);
+    this.renderer.selectRootElement('#addr2').focus();
   }
 
   getUser() {
