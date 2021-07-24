@@ -29,7 +29,8 @@ import { ReviewDialogComponent } from './pages/shared/review-dialog/review-dialo
 
 /* Account */
 import { ChangePasswordComponent } from './pages/account/change-password/change-password.component';
-import { PRSAdminComponent, PopupComponent } from './pages/account/prsadmin/prsadmin.component';
+import { PRSAdminComponent } from './pages/account/prsadmin/prsadmin.component';
+import { PRSAdminPopupComponent } from './pages/account/prsadmin-popup/prsadmin-popup.component';
 
 /* common component */
 import { AvatarComponent } from './pages/navigation/avatar/avatar.component';
@@ -110,7 +111,7 @@ import { EditDialogComponent } from './pages/shared/edit-dialog/edit-dialog.comp
     ReasonDialogComponent,
     ReviewDialogComponent,
     EditDialogComponent,
-    PopupComponent,
+    PRSAdminPopupComponent,
   ],
   imports: [
     BrowserModule,

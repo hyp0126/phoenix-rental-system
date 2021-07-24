@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatTable } from '@angular/material/table';
 import { CategoryDTO } from 'src/app/models/categoryDTO';
 import { Category } from 'src/app/models/category';
+import { PRSAdminPopupComponent } from 'src/app/pages/account/prsadmin-popup/prsadmin-popup.component';
 
 @Component({
   selector: 'app-prsadmin',
@@ -59,7 +60,7 @@ export class PRSAdminComponent implements OnInit {
   }
 
   openDialog(action: string, obj: Category) {
-    const dialogRef = this.dialog.open(PopupComponent, {
+    const dialogRef = this.dialog.open(PRSAdminPopupComponent, {
       width: '300px',
       data: { category: obj, action: action },
     });
@@ -96,32 +97,5 @@ export class PRSAdminComponent implements OnInit {
       }
       return value.categoryId != row_obj.categoryId;
     });
-  }
-}
-
-@Component({
-  selector: 'app-popup',
-  templateUrl: './prsadmin-popup.component.html',
-  styleUrls: ['./prsadmin.component.scss'],
-})
-export class PopupComponent {
-  action: string;
-  local_data: Category;
-
-  constructor(
-    public dialogRef: MatDialogRef<PopupComponent>,
-    //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { category: Category; action: string }
-  ) {
-    this.local_data = data.category;
-    this.action = data.action;
-  }
-
-  doAction() {
-    this.dialogRef.close({ event: this.action, data: this.local_data });
-  }
-
-  closeDialog() {
-    this.dialogRef.close({ event: 'Cancel' });
   }
 }
