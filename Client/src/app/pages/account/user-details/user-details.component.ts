@@ -137,6 +137,9 @@ export class UserDetailsComponent implements OnInit, AfterViewInit {
 
         case 'administrative_area_level_1': {
           for (var i = 0; i < this.ProvinceList.length; i++) {
+            if (component.long_name.localeCompare('Québec') == 0) {
+              component.long_name = 'Quebec';
+            }
             if (this.ProvinceList[i].name.localeCompare(component.long_name) == 0) {
               this.userDetailsForm.get('province').setValue(this.ProvinceList[i].id);
               break;
