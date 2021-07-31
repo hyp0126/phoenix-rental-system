@@ -62,7 +62,7 @@
     <p>
       <mat-form-field class="full-width">
         <mat-label>Address 1</mat-label>
-        <textarea
+        <input
           id="addr1"
           matInput
           formControlName="address1"
@@ -70,8 +70,7 @@
           placeholder="Ex. 100 Main St"
           autocomplete="off"
           required
-        >
-        </textarea>
+        />
         <mat-error *ngFor="let validation of validation_messages.address1">
           <mat-error
             class="error-message"
@@ -86,7 +85,7 @@
       </mat-form-field>
       <mat-form-field class="full-width">
         <mat-label>Address 2</mat-label>
-        <textarea id="addr2" matInput formControlName="address2" [(ngModel)]="loginUser.address.address2"></textarea>
+        <input id="addr2" matInput formControlName="address2" [(ngModel)]="loginUser.address.address2" />
       </mat-form-field>
     </p>
     <table class="full-width" cellspacing="0">
