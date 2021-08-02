@@ -2,11 +2,11 @@
 cloned https://github.com/energykhj/Capstone-Rental-System
 
 ## Introduction
-A website enables people to lend and share individual stuff with other people.
+The website enables people to lend and share individual stuff with other people.
 
 ## Technologies
 ### Frontend
-Angular 11 + Angular Material + Bootstrap<br/>
+Angular 11 + Angular Material + Bootstrap 4<br/>
 Karma (Jasmine)<br/>
 Google Map API (autocomplete address)<br/>
 Azure App Service (IIS)
