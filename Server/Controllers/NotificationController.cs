@@ -9,6 +9,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Server.Controllers
 {
@@ -21,13 +26,15 @@ namespace Server.Controllers
         private readonly IMapper mapper;
         private readonly NotificationBiz NB;
         private readonly UserBiz UB;
+        private readonly IConfiguration configuration;
 
-        public NotificationController(PhoenixContext _context, IMapper _mapper)
+        public NotificationController(PhoenixContext _context, IMapper _mapper, IConfiguration _configuration)
         {
             this.context = _context;
             this.mapper = _mapper;
             NB = new NotificationBiz(context);
             UB = new UserBiz(context);
+            configuration = _configuration;
         }
 
         [HttpGet("GetNotification")]
@@ -55,6 +62,7 @@ namespace Server.Controllers
         [HttpPost("InsertNotification")]
         public async Task<ActionResult<NotificationDTO>> InsertNotification(Notification dto)
         {
+            SendNotificationEmail(dto);
             return mapper.Map<NotificationDTO>(await NB.InsertNotification(dto));
         }
 
@@ -62,6 +70,34 @@ namespace Server.Controllers
         public async Task<ActionResult<NotificationDTO>> UpdateNotificationStatus(int notiId)
         {
             return mapper.Map<NotificationDTO>(await NB.UpdateReadStatusToRead(notiId));
+        }
+
+        private async void SendNotificationEmail(Notification noti)
+        {
+            var accDetails = await UB.GetUserAccDetails(noti.ToUserId);
+            string to = accDetails.Email;
+            string from = configuration["Smtp:Email"];  
+            MailMessage message = new MailMessage(from, to);
+
+            string mailbody = noti.Message;
+            message.Subject = "PRS Notification: Login PRS and Check Notification";
+            message.Body = mailbody;
+            message.BodyEncoding = Encoding.UTF8;
+            message.IsBodyHtml = true;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587); //Gmail smtp    
+            System.Net.NetworkCredential basicCredential1 = new
+            System.Net.NetworkCredential(configuration["Smtp:Email"], configuration["Smtp:Password"]);
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicCredential1;
+            try
+            {
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 
