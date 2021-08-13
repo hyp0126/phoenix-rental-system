@@ -62,8 +62,9 @@ namespace Server.Controllers
         [HttpPost("InsertNotification")]
         public async Task<ActionResult<NotificationDTO>> InsertNotification(Notification dto)
         {
+            var ret = mapper.Map<NotificationDTO>(await NB.InsertNotification(dto));
             SendNotificationEmail(dto);
-            return mapper.Map<NotificationDTO>(await NB.InsertNotification(dto));
+            return ret;
         }
 
         [HttpPut("UpdateNotificationStatus")]
@@ -72,7 +73,7 @@ namespace Server.Controllers
             return mapper.Map<NotificationDTO>(await NB.UpdateReadStatusToRead(notiId));
         }
 
-        private async void SendNotificationEmail(Notification noti)
+        private async Task<bool> SendNotificationEmail(Notification noti)
         {
             var accDetails = await UB.GetUserAccDetails(noti.ToUserId);
             string to = accDetails.Email;
@@ -98,6 +99,8 @@ namespace Server.Controllers
             {
                 throw ex;
             }
+
+            return true;
         }
     }
 
