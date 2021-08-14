@@ -1,28 +1,34 @@
 # Phoenix Rental System (Capstone Project: Entrepreneurial)
-cloned https://github.com/energykhj/Capstone-Rental-System
+For adding some new features, cloned from https://github.com/energykhj/Capstone-Rental-System
+
+* External API: Google API Autocomplete Address<br/>
+* Email Notification<br/>
+* Unsaved Changes Alert<br/>
+* Add static Help pages<br/>
+* Refactoring<br/>
 
 ## Introduction
 The website enables people to lend and share individual stuff with other people.
 
 ## Technologies
 ### Frontend
-Angular 11 + Angular Material + Bootstrap 4<br/>
-Karma (Jasmine)<br/>
-Google Map API (autocomplete address)<br/>
-Azure App Service (IIS)
+* Angular 11 + Angular Material + Bootstrap 4<br/>
+* Karma (Jasmine)<br/>
+* Google Map API (autocomplete address)<br/>
+* Azure App Service (IIS)
 ### Backend
-ASP.NET + EntityFramework + JWT<br/>
-Postman<br/>
-Azure App Service (ASP.NET)
+* ASP.NET + EntityFramework + JWT<br/>
+* Postman<br/>
+* Azure App Service (ASP.NET)
 ### Database, Files
-Azure MS SQL, Blob Storage
+* Azure MS SQL, Blob Storage
 ### Tools
-MS Visual Studio 2019<br/>
-VSCode + ESLinet + Prettier<br/>
-Microsoft SQL Server Management Studio 18<br/>
-Visual Paradigm 16.1<br/>
-HelpNDoc 7<br/>
-FileZilla
+* MS Visual Studio 2019<br/>
+* VSCode + ESLinet + Prettier<br/>
+* Microsoft SQL Server Management Studio 18<br/>
+* Visual Paradigm 16.1<br/>
+* HelpNDoc 7<br/>
+* FileZilla
 
 ## Screenshots
 ### Home
