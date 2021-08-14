@@ -1,6 +1,6 @@
 //import { MatTableDataSource } from '@angular/material/table';
 import { SharedService } from '../../../services/shared.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { FormatUtils } from 'src/app/helpers/format-utils';
@@ -14,6 +14,7 @@ import { Notification } from 'src/app/models/notification';
 import { NotificationDTO } from 'src/app/models/notificationDTO';
 import { Article } from 'src/app/models/askBoardDTO';
 import { DirtyComponent } from 'src/app/models/dirty.component';
+import { EditorComponent } from 'src/app/pages/shared/editor/editor.component';
 
 @Component({
   selector: 'app-ask-detail',
@@ -22,6 +23,8 @@ import { DirtyComponent } from 'src/app/models/dirty.component';
 })
 export class AskDetailComponent implements OnInit, DirtyComponent {
   //dataSource: MatTableDataSource<Article>;
+  @ViewChild(EditorComponent) editor: EditorComponent;
+
   panelOpenState: boolean = true;
   isDirty: boolean = false;
 
@@ -117,10 +120,13 @@ export class AskDetailComponent implements OnInit, DirtyComponent {
     this.askReplyPkg.parentId = this.rowId;
     this.askReplyPkg.title = this.title;
     this.askReplyPkg.description = this.content;
-    console.log(this.askReplyPkg);
+    //console.log(this.askReplyPkg);
     this.service.insertReply(this.askReplyPkg).subscribe(() => {
       this.sendNotification();
       this.ngOnInit();
+      this.content = '<p></p>';
+      this.editor.clearContent();
+      this.isDirty = false;
     });
   }
 
@@ -180,7 +186,7 @@ export class AskDetailComponent implements OnInit, DirtyComponent {
         this.askReplyEditPkg.title = title;
         this.askReplyEditPkg.parentId = this.rowId;
 
-        console.log(this.askReplyEditPkg);
+        //console.log(this.askReplyEditPkg);
         this.service.updateReply(this.askReplyEditPkg).subscribe(() => {
           this.service.alert('success', 'The content is changed.');
           this.ngOnInit();
@@ -198,7 +204,7 @@ export class AskDetailComponent implements OnInit, DirtyComponent {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      //console.log(`Dialog result: ${result}`);
     });
   }
 }

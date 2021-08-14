@@ -27,10 +27,16 @@ export class EditorComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     editorContent: new FormControl('', Validators.required()),
   });
+
   constructor() {}
 
   get doc(): AbstractControl {
     return this.form.get('editorContent');
+  }
+
+  clearContent(): void {
+    this.content = '<p></p>';
+    this.editordoc = this.content;
   }
 
   ngOnInit(): void {

@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from 'src/app/pages/shared/confirm-dialog/conf
 import { EditDialogComponent } from '../shared/edit-dialog/edit-dialog.component';
 import { Article } from 'src/app/models/askBoardDTO';
 import { DirtyComponent } from 'src/app/models/dirty.component';
+import { EditorComponent } from 'src/app/pages/shared/editor/editor.component';
 
 @Component({
   selector: 'app-ask',
@@ -72,6 +73,7 @@ export class AskComponent implements AfterViewInit, DirtyComponent {
     }
   }
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(EditorComponent) editor: EditorComponent;
 
   userId: string = '';
   showMore: boolean;
@@ -127,6 +129,9 @@ export class AskComponent implements AfterViewInit, DirtyComponent {
     console.log(this.askBoardPkg);
     this.service.insertArticle(this.askBoardPkg).subscribe(() => {
       this.ngOnInit();
+      this.content = '<p></p>';
+      this.editor.clearContent();
+      this.isDirty = false;
     });
   }
 
